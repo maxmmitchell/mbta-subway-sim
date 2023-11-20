@@ -1,0 +1,3050 @@
+[
+    {
+        "borough": "BK",
+        "latitude": "40.60392379760742",
+        "longitude": "-73.98035430908203",
+        "routes": "N",
+        "station_complex": "Kings Hwy (N)",
+        "station_complex_id": "D012"
+    },
+    {
+        "borough": "BX",
+        "latitude": "40.8628044128418",
+        "longitude": "-73.90103149414062",
+        "routes": "4",
+        "station_complex": "Fordham Rd (4)",
+        "station_complex_id": "R289"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.71183395385742",
+        "longitude": "-74.01219177246094",
+        "routes": "1",
+        "station_complex": "WTC Cortlandt (1)",
+        "station_complex_id": "R106"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.613502502441406",
+        "longitude": "-74.0006103515625",
+        "routes": "D",
+        "station_complex": "79 St (D)",
+        "station_complex_id": "E011"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.71456527709961",
+        "longitude": "-73.94405364990234",
+        "routes": "L",
+        "station_complex": "Graham Av (L)",
+        "station_complex_id": "H013"
+    },
+    {
+        "borough": "Q",
+        "latitude": "40.7463264465332",
+        "longitude": "-73.89640045166016",
+        "routes": "7",
+        "station_complex": "69 St (7)",
+        "station_complex_id": "R524"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.57612609863281",
+        "longitude": "-73.97593688964844",
+        "routes": "F,Q",
+        "station_complex": "West 8 St-New York Aquarium (F,Q)",
+        "station_complex_id": "G011"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.697208404541016",
+        "longitude": "-73.93565368652344",
+        "routes": "M,J,Z",
+        "station_complex": "Myrtle Av (J,M,Z)",
+        "station_complex_id": "J009"
+    },
+    {
+        "borough": "Q",
+        "latitude": "40.74378204345703",
+        "longitude": "-73.92401885986328",
+        "routes": "7",
+        "station_complex": "40 St-Lowery St (7)",
+        "station_complex_id": "R518"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.76172637939453",
+        "longitude": "-73.98384857177734",
+        "routes": "1",
+        "station_complex": "50 St (1)",
+        "station_complex_id": "R154"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.7223014831543",
+        "longitude": "-73.99713897705078",
+        "routes": "6",
+        "station_complex": "Spring St (6)",
+        "station_complex_id": "R215"
+    },
+    {
+        "borough": "BX",
+        "latitude": "40.90312576293945",
+        "longitude": "-73.85061645507812",
+        "routes": "2",
+        "station_complex": "Wakefield-241 St (2)",
+        "station_complex_id": "R336"
+    },
+    {
+        "borough": "Q",
+        "latitude": "40.60399627685547",
+        "longitude": "-73.75540161132812",
+        "routes": "A",
+        "station_complex": "Far Rockaway-Mott Av (A)",
+        "station_complex_id": "N196"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.660396575927734",
+        "longitude": "-73.99809265136719",
+        "routes": "R",
+        "station_complex": "25 St (R)",
+        "station_complex_id": "C016"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.69233703613281",
+        "longitude": "-73.9859390258789",
+        "routes": "F,C,R,A",
+        "station_complex": "Jay St-MetroTech (A,C,F,R)",
+        "station_complex_id": "N103"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.62532043457031",
+        "longitude": "-73.97612762451172",
+        "routes": "F",
+        "station_complex": "Avenue I (F)",
+        "station_complex_id": "N551"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.69746780395508",
+        "longitude": "-73.99308776855469",
+        "routes": "3,2",
+        "station_complex": "Clark St (2,3)",
+        "station_complex_id": "R600"
+    },
+    {
+        "borough": "BX",
+        "latitude": "40.80536651611328",
+        "longitude": "-73.9140396118164",
+        "routes": "6",
+        "station_complex": "Cypress Av (6)",
+        "station_complex_id": "R404"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.63996887207031",
+        "longitude": "-73.94841003417969",
+        "routes": "2,5",
+        "station_complex": "Newkirk Av (2,5)",
+        "station_complex_id": "R643"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.730953216552734",
+        "longitude": "-73.98162841796875",
+        "routes": "L",
+        "station_complex": "1 Av (L)",
+        "station_complex_id": "H007"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.79944610595703",
+        "longitude": "-73.96837615966797",
+        "routes": "1",
+        "station_complex": "103 St (1)",
+        "station_complex_id": "R170"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.79059982299805",
+        "longitude": "-73.94747924804688",
+        "routes": "6",
+        "station_complex": "103 St (6)",
+        "station_complex_id": "R252"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.79609298706055",
+        "longitude": "-73.96145629882812",
+        "routes": "C,B",
+        "station_complex": "103 St (B,C)",
+        "station_complex_id": "N037"
+    },
+    {
+        "borough": "Q",
+        "latitude": "40.7498664855957",
+        "longitude": "-73.86270141601562",
+        "routes": "7",
+        "station_complex": "103 St-Corona Plaza (7)",
+        "station_complex_id": "R529"
+    },
+    {
+        "borough": "Q",
+        "latitude": "40.68170928955078",
+        "longitude": "-73.83768463134766",
+        "routes": "A",
+        "station_complex": "104 St (A)",
+        "station_complex_id": "N137"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.795021057128906",
+        "longitude": "-73.94425201416016",
+        "routes": "6",
+        "station_complex": "110 St (6)",
+        "station_complex_id": "R254"
+    },
+    {
+        "borough": "Q",
+        "latitude": "40.751731872558594",
+        "longitude": "-73.85533142089844",
+        "routes": "7",
+        "station_complex": "111 St (7)",
+        "station_complex_id": "R530"
+    },
+    {
+        "borough": "Q",
+        "latitude": "40.684329986572266",
+        "longitude": "-73.83216094970703",
+        "routes": "A",
+        "station_complex": "111 St (A)",
+        "station_complex_id": "N139"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.80209732055664",
+        "longitude": "-73.94962310791016",
+        "routes": "3,2",
+        "station_complex": "116 St (2,3)",
+        "station_complex_id": "R302"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.79862976074219",
+        "longitude": "-73.94161987304688",
+        "routes": "6",
+        "station_complex": "116 St (6)",
+        "station_complex_id": "R256"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.805084228515625",
+        "longitude": "-73.95487976074219",
+        "routes": "C,B",
+        "station_complex": "116 St (B,C)",
+        "station_complex_id": "N030"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.80772018432617",
+        "longitude": "-73.964111328125",
+        "routes": "1",
+        "station_complex": "116 St-Columbia University (1)",
+        "station_complex_id": "R173"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.815582275390625",
+        "longitude": "-73.9583740234375",
+        "routes": "1",
+        "station_complex": "125 St (1)",
+        "station_complex_id": "R174"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.80775451660156",
+        "longitude": "-73.94549560546875",
+        "routes": "3,2",
+        "station_complex": "125 St (2,3)",
+        "station_complex_id": "R304"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.80413818359375",
+        "longitude": "-73.93759155273438",
+        "routes": "5,4,6",
+        "station_complex": "125 St (4,5,6)",
+        "station_complex_id": "R258"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.81110763549805",
+        "longitude": "-73.95234680175781",
+        "routes": "C,B,A,D",
+        "station_complex": "125 St (A,B,C,D)",
+        "station_complex_id": "N026"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.81422805786133",
+        "longitude": "-73.9407730102539",
+        "routes": "3,2",
+        "station_complex": "135 St (2,3)",
+        "station_complex_id": "R306"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.817893981933594",
+        "longitude": "-73.94764709472656",
+        "routes": "C,B",
+        "station_complex": "135 St (B,C)",
+        "station_complex_id": "N024"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.82200622558594",
+        "longitude": "-73.95367431640625",
+        "routes": "1",
+        "station_complex": "137 St-City College (1)",
+        "station_complex_id": "R176"
+    },
+    {
+        "borough": "BX",
+        "latitude": "40.81322479248047",
+        "longitude": "-73.92984771728516",
+        "routes": "5,4",
+        "station_complex": "138 St-Grand Concourse (4,5)",
+        "station_complex_id": "R259"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.74089431762695",
+        "longitude": "-74.00169372558594",
+        "routes": "C,E,,A,L",
+        "station_complex": "14 St (A,C,E)/8 Av (L)",
+        "station_complex_id": "N078"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.73822784423828",
+        "longitude": "-73.99620819091797",
+        "routes": "F,M,3,1,2,,L",
+        "station_complex": "14 St (F,M,1,2,3)/6 Av (L)",
+        "station_complex_id": "N512"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.73573684692383",
+        "longitude": "-73.98995208740234",
+        "routes": "5,N,R,Q,4,L,W,6",
+        "station_complex": "14 St-Union Sq (L,N,Q,R,W,4,5,6)",
+        "station_complex_id": "A034"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.8265495300293",
+        "longitude": "-73.95036315917969",
+        "routes": "1",
+        "station_complex": "145 St (1)",
+        "station_complex_id": "R178"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.82041931152344",
+        "longitude": "-73.93624877929688",
+        "routes": "3",
+        "station_complex": "145 St (3)",
+        "station_complex_id": "R308"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.82478332519531",
+        "longitude": "-73.9442138671875",
+        "routes": "C,B,A,D",
+        "station_complex": "145 St (A,B,C,D)",
+        "station_complex_id": "N019"
+    },
+    {
+        "borough": "BX",
+        "latitude": "40.81837463378906",
+        "longitude": "-73.92735290527344",
+        "routes": "2,5,4",
+        "station_complex": "149 St-Grand Concourse (2,4,5)",
+        "station_complex_id": "R261"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.66036605834961",
+        "longitude": "-73.9794921875",
+        "routes": "F,G",
+        "station_complex": "15 St-Prospect Park (F,G)",
+        "station_complex_id": "N542"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.830135345458984",
+        "longitude": "-73.9382095336914",
+        "routes": "B,D",
+        "station_complex": "155 St (B,D)",
+        "station_complex_id": "N202"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.83051681518555",
+        "longitude": "-73.94151306152344",
+        "routes": "C",
+        "station_complex": "155 St (C)",
+        "station_complex_id": "N017"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.834041595458984",
+        "longitude": "-73.94489288330078",
+        "routes": "1",
+        "station_complex": "157 St (1)",
+        "station_complex_id": "R180"
+    },
+    {
+        "borough": "BX",
+        "latitude": "40.82799530029297",
+        "longitude": "-73.92565155029297",
+        "routes": "4,B,D",
+        "station_complex": "161 St-Yankee Stadium (B,D,4)",
+        "station_complex_id": "N203"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.83601379394531",
+        "longitude": "-73.93989562988281",
+        "routes": "C",
+        "station_complex": "163 St-Amsterdam Av (C)",
+        "station_complex_id": "N016A"
+    },
+    {
+        "borough": "BX",
+        "latitude": "40.83553695678711",
+        "longitude": "-73.92140197753906",
+        "routes": "4",
+        "station_complex": "167 St (4)",
+        "station_complex_id": "R283"
+    },
+    {
+        "borough": "BX",
+        "latitude": "40.833770751953125",
+        "longitude": "-73.91844177246094",
+        "routes": "B,D",
+        "station_complex": "167 St (B,D)",
+        "station_complex_id": "N207"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.84071731567383",
+        "longitude": "-73.93955993652344",
+        "routes": "C,1,A",
+        "station_complex": "168 St (A,C,1)",
+        "station_complex_id": "R182"
+    },
+    {
+        "borough": "Q",
+        "latitude": "40.71046829223633",
+        "longitude": "-73.7936019897461",
+        "routes": "F",
+        "station_complex": "169 St (F)",
+        "station_complex_id": "N340A"
+    },
+    {
+        "borough": "BX",
+        "latitude": "40.8400764465332",
+        "longitude": "-73.91779327392578",
+        "routes": "4",
+        "station_complex": "170 St (4)",
+        "station_complex_id": "R284"
+    },
+    {
+        "borough": "BX",
+        "latitude": "40.83930587768555",
+        "longitude": "-73.91339874267578",
+        "routes": "B,D",
+        "station_complex": "170 St (B,D)",
+        "station_complex_id": "N209"
+    },
+    {
+        "borough": "BX",
+        "latitude": "40.83728790283203",
+        "longitude": "-73.88773345947266",
+        "routes": "2,5",
+        "station_complex": "174 St (2,5)",
+        "station_complex_id": "R322"
+    },
+    {
+        "borough": "BX",
+        "latitude": "40.84590148925781",
+        "longitude": "-73.9101333618164",
+        "routes": "B,D",
+        "station_complex": "174-175 Sts (B,D)",
+        "station_complex_id": "N210"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.847389221191406",
+        "longitude": "-73.93970489501953",
+        "routes": "A",
+        "station_complex": "175 St (A)",
+        "station_complex_id": "N010"
+    },
+    {
+        "borough": "BX",
+        "latitude": "40.848480224609375",
+        "longitude": "-73.91179656982422",
+        "routes": "4",
+        "station_complex": "176 St (4)",
+        "station_complex_id": "R286"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.60795211791992",
+        "longitude": "-74.00173950195312",
+        "routes": "D",
+        "station_complex": "18 Av (D)",
+        "station_complex_id": "E012"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.62975311279297",
+        "longitude": "-73.97697448730469",
+        "routes": "F",
+        "station_complex": "18 Av (F)",
+        "station_complex_id": "N549"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.620670318603516",
+        "longitude": "-73.99041748046875",
+        "routes": "N",
+        "station_complex": "18 Av (N)",
+        "station_complex_id": "D008"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.74103927612305",
+        "longitude": "-73.99787139892578",
+        "routes": "1",
+        "station_complex": "18 St (1)",
+        "station_complex_id": "R129"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.84950637817383",
+        "longitude": "-73.93359375",
+        "routes": "1",
+        "station_complex": "181 St (1)",
+        "station_complex_id": "R183"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.8516960144043",
+        "longitude": "-73.9379653930664",
+        "routes": "A",
+        "station_complex": "181 St (A)",
+        "station_complex_id": "N007A"
+    },
+    {
+        "borough": "BX",
+        "latitude": "40.85609436035156",
+        "longitude": "-73.90074157714844",
+        "routes": "B,D",
+        "station_complex": "182-183 Sts (B,D)",
+        "station_complex_id": "N215"
+    },
+    {
+        "borough": "BX",
+        "latitude": "40.85840606689453",
+        "longitude": "-73.90387725830078",
+        "routes": "4",
+        "station_complex": "183 St (4)",
+        "station_complex_id": "R288"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.8590202331543",
+        "longitude": "-73.9341812133789",
+        "routes": "A",
+        "station_complex": "190 St (A)",
+        "station_complex_id": "N006A"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.855224609375",
+        "longitude": "-73.92941284179688",
+        "routes": "1",
+        "station_complex": "191 St (1)",
+        "station_complex_id": "R185"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.7234001159668",
+        "longitude": "-73.98993682861328",
+        "routes": "F",
+        "station_complex": "2 Av (F)",
+        "station_complex_id": "N523"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.604557037353516",
+        "longitude": "-73.9981689453125",
+        "routes": "D",
+        "station_complex": "20 Av (D)",
+        "station_complex_id": "E013"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.617408752441406",
+        "longitude": "-73.98502349853516",
+        "routes": "N",
+        "station_complex": "20 Av (N)",
+        "station_complex_id": "D009"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.864620208740234",
+        "longitude": "-73.9188232421875",
+        "routes": "1",
+        "station_complex": "207 St (1)",
+        "station_complex_id": "R188"
+    },
+    {
+        "borough": "Q",
+        "latitude": "40.74406433105469",
+        "longitude": "-73.94972229003906",
+        "routes": "G",
+        "station_complex": "21 St (G)",
+        "station_complex_id": "N401"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.86944580078125",
+        "longitude": "-73.91527557373047",
+        "routes": "1",
+        "station_complex": "215 St (1)",
+        "station_complex_id": "R190"
+    },
+    {
+        "borough": "BX",
+        "latitude": "40.88389587402344",
+        "longitude": "-73.86263275146484",
+        "routes": "2,5",
+        "station_complex": "219 St (2,5)",
+        "station_complex_id": "R332"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.74407958984375",
+        "longitude": "-73.99565887451172",
+        "routes": "1",
+        "station_complex": "23 St (1)",
+        "station_complex_id": "R131"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.739864349365234",
+        "longitude": "-73.98660278320312",
+        "routes": "6",
+        "station_complex": "23 St (6)",
+        "station_complex_id": "R226"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.745906829833984",
+        "longitude": "-73.99803924560547",
+        "routes": "C,E",
+        "station_complex": "23 St (C,E)",
+        "station_complex_id": "N076"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.74287796020508",
+        "longitude": "-73.9928207397461",
+        "routes": "F,M",
+        "station_complex": "23 St (F,M)",
+        "station_complex_id": "N508"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.741302490234375",
+        "longitude": "-73.98934173583984",
+        "routes": "R,W",
+        "station_complex": "23 St (R,W)",
+        "station_complex_id": "A030"
+    },
+    {
+        "borough": "BX",
+        "latitude": "40.87885665893555",
+        "longitude": "-73.90483093261719",
+        "routes": "1",
+        "station_complex": "231 St (1)",
+        "station_complex_id": "R194"
+    },
+    {
+        "borough": "BX",
+        "latitude": "40.893192291259766",
+        "longitude": "-73.85747528076172",
+        "routes": "2,5",
+        "station_complex": "233 St (2,5)",
+        "station_complex_id": "R334"
+    },
+    {
+        "borough": "BX",
+        "latitude": "40.884666442871094",
+        "longitude": "-73.90087127685547",
+        "routes": "1",
+        "station_complex": "238 St (1)",
+        "station_complex_id": "R196"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.747215270996094",
+        "longitude": "-73.99336242675781",
+        "routes": "1",
+        "station_complex": "28 St (1)",
+        "station_complex_id": "R133"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.74306869506836",
+        "longitude": "-73.98426055908203",
+        "routes": "6",
+        "station_complex": "28 St (6)",
+        "station_complex_id": "R228"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.7454948425293",
+        "longitude": "-73.98869323730469",
+        "routes": "R,W",
+        "station_complex": "28 St (R,W)",
+        "station_complex_id": "A027"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.73284912109375",
+        "longitude": "-73.98612213134766",
+        "routes": "L",
+        "station_complex": "3 Av (L)",
+        "station_complex_id": "H006"
+    },
+    {
+        "borough": "BX",
+        "latitude": "40.81047439575195",
+        "longitude": "-73.92613983154297",
+        "routes": "6",
+        "station_complex": "3 Av-138 St (6)",
+        "station_complex_id": "R401"
+    },
+    {
+        "borough": "BX",
+        "latitude": "40.81610870361328",
+        "longitude": "-73.91775512695312",
+        "routes": "2,5",
+        "station_complex": "3 Av-149 St (2,5)",
+        "station_complex_id": "R310"
+    },
+    {
+        "borough": "Q",
+        "latitude": "40.766780853271484",
+        "longitude": "-73.92147827148438",
+        "routes": "N,W",
+        "station_complex": "30 Av (N,W)",
+        "station_complex_id": "R513"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.7460823059082",
+        "longitude": "-73.9820785522461",
+        "routes": "6",
+        "station_complex": "33 St (6)",
+        "station_complex_id": "R231"
+    },
+    {
+        "borough": "Q",
+        "latitude": "40.74458694458008",
+        "longitude": "-73.93099975585938",
+        "routes": "7",
+        "station_complex": "33 St-Rawson St (7)",
+        "station_complex_id": "R516"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.749717712402344",
+        "longitude": "-73.98782348632812",
+        "routes": "F,M,N,R,Q,B,W,D",
+        "station_complex": "34 St-Herald Sq (B,D,F,M,N,Q,R,W)",
+        "station_complex_id": "A022"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.755882263183594",
+        "longitude": "-74.00190734863281",
+        "routes": "7",
+        "station_complex": "34 St-Hudson Yards (7)",
+        "station_complex_id": "R550"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.75037384033203",
+        "longitude": "-73.99105834960938",
+        "routes": "3,1,2",
+        "station_complex": "34 St-Penn Station (1,2,3)",
+        "station_complex_id": "R135"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.752288818359375",
+        "longitude": "-73.99339294433594",
+        "routes": "C,E,A",
+        "station_complex": "34 St-Penn Station (A,C,E)",
+        "station_complex_id": "N070"
+    },
+    {
+        "borough": "Q",
+        "latitude": "40.756805419921875",
+        "longitude": "-73.92957305908203",
+        "routes": "N,W",
+        "station_complex": "36 Av (N,W)",
+        "station_complex_id": "R511"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.65514373779297",
+        "longitude": "-74.00354766845703",
+        "routes": "N,R,D",
+        "station_complex": "36 St (D,N,R)",
+        "station_complex_id": "C018"
+    },
+    {
+        "borough": "Q",
+        "latitude": "40.75204086303711",
+        "longitude": "-73.92877960205078",
+        "routes": "M,R",
+        "station_complex": "36 St (M,R)",
+        "station_complex_id": "N312"
+    },
+    {
+        "borough": "Q",
+        "latitude": "40.75288009643555",
+        "longitude": "-73.93275451660156",
+        "routes": "N,W",
+        "station_complex": "39 Av (N,W)",
+        "station_complex_id": "R510"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.67084884643555",
+        "longitude": "-73.9883041381836",
+        "routes": "F,R,G,",
+        "station_complex": "4 Av (F,G)/9 St (R)",
+        "station_complex_id": "C012"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.6489372253418",
+        "longitude": "-74.010009765625",
+        "routes": "R",
+        "station_complex": "45 St (R)",
+        "station_complex_id": "C019"
+    },
+    {
+        "borough": "Q",
+        "latitude": "40.75631332397461",
+        "longitude": "-73.913330078125",
+        "routes": "M,R",
+        "station_complex": "46 St (M,R)",
+        "station_complex_id": "N316"
+    },
+    {
+        "borough": "Q",
+        "latitude": "40.743133544921875",
+        "longitude": "-73.9184341430664",
+        "routes": "7",
+        "station_complex": "46 St-Bliss St (7)",
+        "station_complex_id": "R519"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.758663177490234",
+        "longitude": "-73.98133087158203",
+        "routes": "F,M,B,D",
+        "station_complex": "47-50 Sts-Rockefeller Center (B,D,F,M)",
+        "station_complex_id": "N500"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.7598991394043",
+        "longitude": "-73.98413848876953",
+        "routes": "N,R,W",
+        "station_complex": "49 St (N,R,W)",
+        "station_complex_id": "A013"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.76016616821289",
+        "longitude": "-73.97522735595703",
+        "routes": "M,E",
+        "station_complex": "5 Av-53 St (E,M)",
+        "station_complex_id": "N303"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.76481246948242",
+        "longitude": "-73.97335052490234",
+        "routes": "N,R,W",
+        "station_complex": "5 Av-59 St (N,R,W)",
+        "station_complex_id": "A006"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.762454986572266",
+        "longitude": "-73.9859848022461",
+        "routes": "C,E",
+        "station_complex": "50 St (C,E)",
+        "station_complex_id": "N056"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.636260986328125",
+        "longitude": "-73.99478912353516",
+        "routes": "D",
+        "station_complex": "50 St (D)",
+        "station_complex_id": "E004"
+    },
+    {
+        "borough": "Q",
+        "latitude": "40.74414825439453",
+        "longitude": "-73.91255187988281",
+        "routes": "7",
+        "station_complex": "52 St (7)",
+        "station_complex_id": "R521"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.64506912231445",
+        "longitude": "-74.01403045654297",
+        "routes": "R",
+        "station_complex": "53 St (R)",
+        "station_complex_id": "C020"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.76466369628906",
+        "longitude": "-73.98065948486328",
+        "routes": "N,R,Q,W",
+        "station_complex": "57 St-7 Av (N,Q,R,W)",
+        "station_complex_id": "A010"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.641361236572266",
+        "longitude": "-74.01788330078125",
+        "routes": "N,R",
+        "station_complex": "59 St (N,R)",
+        "station_complex_id": "C021"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.76829528808594",
+        "longitude": "-73.98173522949219",
+        "routes": "C,1,B,A,D",
+        "station_complex": "59 St-Columbus Circle (A,B,C,D,1)",
+        "station_complex_id": "N049"
+    },
+    {
+        "borough": "Q",
+        "latitude": "40.7298469543457",
+        "longitude": "-73.86160278320312",
+        "routes": "M,R",
+        "station_complex": "63 Dr-Rego Park (M,R)",
+        "station_complex_id": "N330B"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.773441314697266",
+        "longitude": "-73.98220825195312",
+        "routes": "1",
+        "station_complex": "66 St-Lincoln Center (1)",
+        "station_complex_id": "R160"
+    },
+    {
+        "borough": "Q",
+        "latitude": "40.726524353027344",
+        "longitude": "-73.85272216796875",
+        "routes": "M,R",
+        "station_complex": "67 Av (M,R)",
+        "station_complex_id": "N331"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.76814270019531",
+        "longitude": "-73.9638671875",
+        "routes": "6",
+        "station_complex": "68 St-Hunter College (6)",
+        "station_complex_id": "R246"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.76286315917969",
+        "longitude": "-73.98163604736328",
+        "routes": "E,B,D",
+        "station_complex": "7 Av (B,D,E)",
+        "station_complex_id": "N301"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.6662712097168",
+        "longitude": "-73.98030853271484",
+        "routes": "F,G",
+        "station_complex": "7 Av (F,G)",
+        "station_complex_id": "N539A"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.619590759277344",
+        "longitude": "-73.99886322021484",
+        "routes": "D",
+        "station_complex": "71 St (D)",
+        "station_complex_id": "E009"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.7784538269043",
+        "longitude": "-73.98197174072266",
+        "routes": "3,1,2",
+        "station_complex": "72 St (1,2,3)",
+        "station_complex_id": "R161B"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.77559280395508",
+        "longitude": "-73.97640991210938",
+        "routes": "C,B",
+        "station_complex": "72 St (B,C)",
+        "station_complex_id": "N046"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.768798828125",
+        "longitude": "-73.95842742919922",
+        "routes": "Q",
+        "station_complex": "72 St (Q)",
+        "station_complex_id": "N700"
+    },
+    {
+        "borough": "Q",
+        "latitude": "40.746849060058594",
+        "longitude": "-73.8913345336914",
+        "routes": "F,M,E,R,,7",
+        "station_complex": "74-Broadway (7)/Jackson Hts-Roosevelt Av (E,F,M,R)",
+        "station_complex_id": "R525"
+    },
+    {
+        "borough": "Q",
+        "latitude": "40.71833038330078",
+        "longitude": "-73.83732604980469",
+        "routes": "F,E",
+        "station_complex": "75 Av (E,F)",
+        "station_complex_id": "N334B"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.77362060546875",
+        "longitude": "-73.95987701416016",
+        "routes": "6",
+        "station_complex": "77 St (6)",
+        "station_complex_id": "R247"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.62974166870117",
+        "longitude": "-74.0255126953125",
+        "routes": "R",
+        "station_complex": "77 St (R)",
+        "station_complex_id": "C024"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.783935546875",
+        "longitude": "-73.97991943359375",
+        "routes": "1",
+        "station_complex": "79 St (1)",
+        "station_complex_id": "R162"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.63506317138672",
+        "longitude": "-74.01171875",
+        "routes": "N",
+        "station_complex": "8 Av (N)",
+        "station_complex_id": "D002"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.73032760620117",
+        "longitude": "-73.99263000488281",
+        "routes": "R,W",
+        "station_complex": "8 St-New York University (R,W)",
+        "station_complex_id": "A038"
+    },
+    {
+        "borough": "Q",
+        "latitude": "40.67937088012695",
+        "longitude": "-73.85899353027344",
+        "routes": "A",
+        "station_complex": "80 St (A)",
+        "station_complex_id": "N131"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.78143310546875",
+        "longitude": "-73.9721450805664",
+        "routes": "C,B",
+        "station_complex": "81 St-Museum of Natural History (B,C)",
+        "station_complex_id": "N044"
+    },
+    {
+        "borough": "Q",
+        "latitude": "40.747657775878906",
+        "longitude": "-73.88369750976562",
+        "routes": "7",
+        "station_complex": "82 St-Jackson Hts (7)",
+        "station_complex_id": "R526"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.78864288330078",
+        "longitude": "-73.9762191772461",
+        "routes": "1",
+        "station_complex": "86 St (1)",
+        "station_complex_id": "R164"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.77949142456055",
+        "longitude": "-73.9555892944336",
+        "routes": "5,4,6",
+        "station_complex": "86 St (4,5,6)",
+        "station_complex_id": "R249"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.78586959838867",
+        "longitude": "-73.96891784667969",
+        "routes": "C,B",
+        "station_complex": "86 St (B,C)",
+        "station_complex_id": "N043"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.777889251708984",
+        "longitude": "-73.95178985595703",
+        "routes": "Q",
+        "station_complex": "86 St (Q)",
+        "station_complex_id": "N701"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.62268829345703",
+        "longitude": "-74.02839660644531",
+        "routes": "R",
+        "station_complex": "86 St (R)",
+        "station_complex_id": "C025"
+    },
+    {
+        "borough": "Q",
+        "latitude": "40.67984390258789",
+        "longitude": "-73.85147094726562",
+        "routes": "A",
+        "station_complex": "88 St (A)",
+        "station_complex_id": "N133"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.64629364013672",
+        "longitude": "-73.99432373046875",
+        "routes": "D",
+        "station_complex": "9 Av (D)",
+        "station_complex_id": "E001"
+    },
+    {
+        "borough": "Q",
+        "latitude": "40.748409271240234",
+        "longitude": "-73.8766098022461",
+        "routes": "7",
+        "station_complex": "90 St-Elmhurst Av (7)",
+        "station_complex_id": "R527"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.79391860961914",
+        "longitude": "-73.97232055664062",
+        "routes": "3,1,2",
+        "station_complex": "96 St (1,2,3)",
+        "station_complex_id": "R168"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.78567123413086",
+        "longitude": "-73.9510726928711",
+        "routes": "6",
+        "station_complex": "96 St (6)",
+        "station_complex_id": "R251"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.79164123535156",
+        "longitude": "-73.9646987915039",
+        "routes": "C,B",
+        "station_complex": "96 St (B,C)",
+        "station_complex_id": "N040"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.78431701660156",
+        "longitude": "-73.94715118408203",
+        "routes": "Q",
+        "station_complex": "96 St (Q)",
+        "station_complex_id": "N702"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.6769905090332",
+        "longitude": "-73.89865112304688",
+        "routes": "J",
+        "station_complex": "Alabama Av (J)",
+        "station_complex_id": "J020"
+    },
+    {
+        "borough": "Q",
+        "latitude": "40.672096252441406",
+        "longitude": "-73.83592224121094",
+        "routes": "A",
+        "station_complex": "Aqueduct Racetrack (A)",
+        "station_complex_id": "N181A"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.73005294799805",
+        "longitude": "-73.99107360839844",
+        "routes": "6",
+        "station_complex": "Astor Place (6)",
+        "station_complex_id": "R219"
+    },
+    {
+        "borough": "Q",
+        "latitude": "40.770259857177734",
+        "longitude": "-73.9178466796875",
+        "routes": "N,W",
+        "station_complex": "Astoria Blvd (N,W)",
+        "station_complex_id": "R514"
+    },
+    {
+        "borough": "Q",
+        "latitude": "40.7750358581543",
+        "longitude": "-73.91203308105469",
+        "routes": "N,W",
+        "station_complex": "Astoria-Ditmars Blvd (N,W)",
+        "station_complex_id": "R515"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.67534637451172",
+        "longitude": "-73.9030990600586",
+        "routes": "L",
+        "station_complex": "Atlantic Av (L)",
+        "station_complex_id": "H035"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.6844596862793",
+        "longitude": "-73.97689056396484",
+        "routes": "3,2,5,N,R,Q,4,B,D",
+        "station_complex": "Atlantic Av-Barclays Ctr (B,D,N,Q,R,2,3,4,5)",
+        "station_complex_id": "R610"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.629268646240234",
+        "longitude": "-73.96163940429688",
+        "routes": "Q",
+        "station_complex": "Avenue H (Q)",
+        "station_complex_id": "B020"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.625038146972656",
+        "longitude": "-73.96080017089844",
+        "routes": "Q",
+        "station_complex": "Avenue J (Q)",
+        "station_complex_id": "B021"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.617618560791016",
+        "longitude": "-73.95939636230469",
+        "routes": "Q",
+        "station_complex": "Avenue M (Q)",
+        "station_complex_id": "B022"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.608943939208984",
+        "longitude": "-73.9730224609375",
+        "routes": "F",
+        "station_complex": "Avenue P (F)",
+        "station_complex_id": "N556"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.59606170654297",
+        "longitude": "-73.97335815429688",
+        "routes": "F",
+        "station_complex": "Avenue U (F)",
+        "station_complex_id": "N559"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.59747314453125",
+        "longitude": "-73.97913360595703",
+        "routes": "N",
+        "station_complex": "Avenue U (N)",
+        "station_complex_id": "D015"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.599300384521484",
+        "longitude": "-73.9559326171875",
+        "routes": "Q",
+        "station_complex": "Avenue U (Q)",
+        "station_complex_id": "B025"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.58961868286133",
+        "longitude": "-73.97425079345703",
+        "routes": "F",
+        "station_complex": "Avenue X (F)",
+        "station_complex_id": "N561"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.60187530517578",
+        "longitude": "-73.99372863769531",
+        "routes": "D",
+        "station_complex": "Bay Pkwy (D)",
+        "station_complex_id": "E014"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.61181640625",
+        "longitude": "-73.98184967041016",
+        "routes": "N",
+        "station_complex": "Bay Pkwy (N)",
+        "station_complex_id": "D010"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.63496780395508",
+        "longitude": "-74.02337646484375",
+        "routes": "R",
+        "station_complex": "Bay Ridge Av (R)",
+        "station_complex_id": "C023"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.61662292480469",
+        "longitude": "-74.03087615966797",
+        "routes": "R",
+        "station_complex": "Bay Ridge-95 St (R)",
+        "station_complex_id": "C027"
+    },
+    {
+        "borough": "Q",
+        "latitude": "40.600067138671875",
+        "longitude": "-73.7613525390625",
+        "routes": "A",
+        "station_complex": "Beach 25 St (A)",
+        "station_complex_id": "N195"
+    },
+    {
+        "borough": "Q",
+        "latitude": "40.59092712402344",
+        "longitude": "-73.79692077636719",
+        "routes": "A",
+        "station_complex": "Beach 67 St-Arverne By The Sea (A)",
+        "station_complex_id": "N191"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.71730422973633",
+        "longitude": "-73.95687103271484",
+        "routes": "L",
+        "station_complex": "Bedford Av (L)",
+        "station_complex_id": "H009"
+    },
+    {
+        "borough": "BX",
+        "latitude": "40.87324523925781",
+        "longitude": "-73.88713836669922",
+        "routes": "B,D",
+        "station_complex": "Bedford Park Blvd (B,D)",
+        "station_complex_id": "N222"
+    },
+    {
+        "borough": "BX",
+        "latitude": "40.8734130859375",
+        "longitude": "-73.89006042480469",
+        "routes": "4",
+        "station_complex": "Bedford Park Blvd-Lehman College (4)",
+        "station_complex_id": "R291"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.68962860107422",
+        "longitude": "-73.95352172851562",
+        "routes": "G",
+        "station_complex": "Bedford-Nostrand Avs (G)",
+        "station_complex_id": "N417"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.68082809448242",
+        "longitude": "-73.97509765625",
+        "routes": "3,2",
+        "station_complex": "Bergen St (2,3)",
+        "station_complex_id": "R617"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.6861457824707",
+        "longitude": "-73.99085998535156",
+        "routes": "F,G",
+        "station_complex": "Bergen St (F,G)",
+        "station_complex_id": "N532"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.6440315246582",
+        "longitude": "-73.96449279785156",
+        "routes": "Q",
+        "station_complex": "Beverley Rd (Q)",
+        "station_complex_id": "B017"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.64509963989258",
+        "longitude": "-73.94895935058594",
+        "routes": "2,5",
+        "station_complex": "Beverly Rd (2,5)",
+        "station_complex_id": "R641"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.720279693603516",
+        "longitude": "-73.99391174316406",
+        "routes": "J,Z",
+        "station_complex": "Bowery (J,Z)",
+        "station_complex_id": "A064"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.70481872558594",
+        "longitude": "-74.01406860351562",
+        "routes": "5,4",
+        "station_complex": "Bowling Green (4,5)",
+        "station_complex_id": "R201"
+    },
+    {
+        "borough": "Q",
+        "latitude": "40.70917892456055",
+        "longitude": "-73.82057189941406",
+        "routes": "F,E",
+        "station_complex": "Briarwood-Van Wyck Blvd (E,F)",
+        "station_complex_id": "N337"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.57762145996094",
+        "longitude": "-73.96137237548828",
+        "routes": "Q,B",
+        "station_complex": "Brighton Beach (B,Q)",
+        "station_complex_id": "B029"
+    },
+    {
+        "borough": "Q",
+        "latitude": "40.60838317871094",
+        "longitude": "-73.81592559814453",
+        "routes": "S,A",
+        "station_complex": "Broad Channel (A,S)",
+        "station_complex_id": "N183"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.70647430419922",
+        "longitude": "-74.01105499267578",
+        "routes": "J,Z",
+        "station_complex": "Broad St (J,Z)",
+        "station_complex_id": "A083"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.706092834472656",
+        "longitude": "-73.95030975341797",
+        "routes": "G",
+        "station_complex": "Broadway (G)",
+        "station_complex_id": "N412"
+    },
+    {
+        "borough": "Q",
+        "latitude": "40.76182174682617",
+        "longitude": "-73.92550659179688",
+        "routes": "N,W",
+        "station_complex": "Broadway (N,W)",
+        "station_complex_id": "R512"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.67949676513672",
+        "longitude": "-73.90451049804688",
+        "routes": "J,C,Z,A,L",
+        "station_complex": "Broadway Junction (A,C,J,L,Z)",
+        "station_complex_id": "N124"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.725914001464844",
+        "longitude": "-73.99465942382812",
+        "routes": "F,M,B,,D,6",
+        "station_complex": "Broadway-Lafayette St (B,D,F,M)/Bleecker St (6)",
+        "station_complex_id": "R217"
+    },
+    {
+        "borough": "BX",
+        "latitude": "40.84882736206055",
+        "longitude": "-73.86845397949219",
+        "routes": "2,5",
+        "station_complex": "Bronx Park East (2,5)",
+        "station_complex_id": "R326"
+    },
+    {
+        "borough": "BX",
+        "latitude": "40.80756759643555",
+        "longitude": "-73.91924285888672",
+        "routes": "6",
+        "station_complex": "Brook Av (6)",
+        "station_complex_id": "R402"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.71324157714844",
+        "longitude": "-74.00340270996094",
+        "routes": "J,5,Z,4,,6",
+        "station_complex": "Brooklyn Bridge-City Hall (4,5,6)/Chambers St (J,Z)",
+        "station_complex_id": "A069"
+    },
+    {
+        "borough": "BX",
+        "latitude": "40.87135696411133",
+        "longitude": "-73.8671646118164",
+        "routes": "2,5",
+        "station_complex": "Burke Av (2,5)",
+        "station_complex_id": "R330"
+    },
+    {
+        "borough": "BX",
+        "latitude": "40.85345458984375",
+        "longitude": "-73.90768432617188",
+        "routes": "4",
+        "station_complex": "Burnside Av (4)",
+        "station_complex_id": "R287"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.682830810546875",
+        "longitude": "-73.9052505493164",
+        "routes": "L",
+        "station_complex": "Bushwick Av-Aberdeen St (L)",
+        "station_complex_id": "H033"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.72285461425781",
+        "longitude": "-74.00627899169922",
+        "routes": "1",
+        "station_complex": "Canal St (1)",
+        "station_complex_id": "R119"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.7208251953125",
+        "longitude": "-74.0052261352539",
+        "routes": "C,E,A",
+        "station_complex": "Canal St (A,C,E)",
+        "station_complex_id": "N089"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.71952819824219",
+        "longitude": "-73.99989318847656",
+        "routes": "J,N,R,Z,Q,W,6",
+        "station_complex": "Canal St (J,N,Q,R,W,Z,6)",
+        "station_complex_id": "A043"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.64665222167969",
+        "longitude": "-73.90184783935547",
+        "routes": "L",
+        "station_complex": "Canarsie-Rockaway Pkwy (L)",
+        "station_complex_id": "H041"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.680301666259766",
+        "longitude": "-73.99504852294922",
+        "routes": "F,G",
+        "station_complex": "Carroll St (F,G)",
+        "station_complex_id": "N535"
+    },
+    {
+        "borough": "BX",
+        "latitude": "40.83425521850586",
+        "longitude": "-73.8512191772461",
+        "routes": "6",
+        "station_complex": "Castle Hill Av (6)",
+        "station_complex_id": "R418"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.8039665222168",
+        "longitude": "-73.96685028076172",
+        "routes": "1",
+        "station_complex": "Cathedral Pkwy-110 St (1)",
+        "station_complex_id": "R172"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.800601959228516",
+        "longitude": "-73.95816040039062",
+        "routes": "C,B",
+        "station_complex": "Cathedral Pkwy-110 St (B,C)",
+        "station_complex_id": "N035"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.69785690307617",
+        "longitude": "-73.92739868164062",
+        "routes": "M",
+        "station_complex": "Central Av (M)",
+        "station_complex_id": "K017"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.799076080322266",
+        "longitude": "-73.95182037353516",
+        "routes": "3,2",
+        "station_complex": "Central Park North-110 St (2,3)",
+        "station_complex_id": "R301"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.715476989746094",
+        "longitude": "-74.00926971435547",
+        "routes": "3,1,2",
+        "station_complex": "Chambers St (1,2,3)",
+        "station_complex_id": "R116"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.714111328125",
+        "longitude": "-74.00858306884766",
+        "routes": "3,C,E,2,R,,A,W",
+        "station_complex": "Chambers St (A,C)/WTC (E)/Park Pl (2,3)/Cortlandt (R,W)",
+        "station_complex_id": "N094"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.682891845703125",
+        "longitude": "-73.91045379638672",
+        "routes": "J,Z",
+        "station_complex": "Chauncey St (J,Z)",
+        "station_complex_id": "J017"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.733421325683594",
+        "longitude": "-74.0029067993164",
+        "routes": "1",
+        "station_complex": "Christopher St-Sheridan Sq (1)",
+        "station_complex_id": "R125"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.65084457397461",
+        "longitude": "-73.94957733154297",
+        "routes": "2,5",
+        "station_complex": "Church Av (2,5)",
+        "station_complex_id": "R639"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.65052795410156",
+        "longitude": "-73.96298217773438",
+        "routes": "Q,B",
+        "station_complex": "Church Av (B,Q)",
+        "station_complex_id": "B016"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.644039154052734",
+        "longitude": "-73.97967529296875",
+        "routes": "F,G",
+        "station_complex": "Church Av (F,G)",
+        "station_complex_id": "N546"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.688873291015625",
+        "longitude": "-73.96006774902344",
+        "routes": "G",
+        "station_complex": "Classon Av (G)",
+        "station_complex_id": "N419"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.67994689941406",
+        "longitude": "-73.88463592529297",
+        "routes": "J",
+        "station_complex": "Cleveland St (J)",
+        "station_complex_id": "J022"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.68326187133789",
+        "longitude": "-73.96583557128906",
+        "routes": "C",
+        "station_complex": "Clinton-Washington Avs (C)",
+        "station_complex_id": "N111"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.688087463378906",
+        "longitude": "-73.96684265136719",
+        "routes": "G",
+        "station_complex": "Clinton-Washington Avs (G)",
+        "station_complex_id": "N420B"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.577423095703125",
+        "longitude": "-73.98123168945312",
+        "routes": "F,N,Q,D",
+        "station_complex": "Coney Island-Stillwell Av (D,F,N,Q)",
+        "station_complex_id": "G009"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.640926361083984",
+        "longitude": "-73.9638900756836",
+        "routes": "Q",
+        "station_complex": "Cortelyou Rd (Q)",
+        "station_complex_id": "B018"
+    },
+    {
+        "borough": "Q",
+        "latitude": "40.74784469604492",
+        "longitude": "-73.94383239746094",
+        "routes": "M,E,G,7",
+        "station_complex": "Court Sq (E,G,M,7)",
+        "station_complex_id": "N307"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.69409942626953",
+        "longitude": "-73.98999786376953",
+        "routes": "3,2,5,R,4,",
+        "station_complex": "Court St (R)/Borough Hall (2,3,4,5)",
+        "station_complex_id": "R602"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.68319320678711",
+        "longitude": "-73.87378692626953",
+        "routes": "J,Z",
+        "station_complex": "Crescent St (J,Z)",
+        "station_complex_id": "J024"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.66889572143555",
+        "longitude": "-73.93294525146484",
+        "routes": "3,4",
+        "station_complex": "Crown Heights-Utica Av (3,4)",
+        "station_complex_id": "R626"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.690635681152344",
+        "longitude": "-73.98182678222656",
+        "routes": "R,Q,B",
+        "station_complex": "DeKalb Av (B,Q,R)",
+        "station_complex_id": "C008"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.70381164550781",
+        "longitude": "-73.91842651367188",
+        "routes": "L",
+        "station_complex": "DeKalb Av (L)",
+        "station_complex_id": "H023"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.71861267089844",
+        "longitude": "-73.98743438720703",
+        "routes": "F,M,J,Z,",
+        "station_complex": "Delancey St (F)/Essex St (J,M,Z)",
+        "station_complex_id": "N525"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.6361198425293",
+        "longitude": "-73.9781723022461",
+        "routes": "F",
+        "station_complex": "Ditmas Av (F)",
+        "station_complex_id": "N548"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.860530853271484",
+        "longitude": "-73.925537109375",
+        "routes": "1",
+        "station_complex": "Dyckman St (1)",
+        "station_complex_id": "R186"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.8654899597168",
+        "longitude": "-73.9272689819336",
+        "routes": "A",
+        "station_complex": "Dyckman St (A)",
+        "station_complex_id": "N003"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.65057373046875",
+        "longitude": "-73.89948272705078",
+        "routes": "L",
+        "station_complex": "East 105 St (L)",
+        "station_complex_id": "H040"
+    },
+    {
+        "borough": "BX",
+        "latitude": "40.808719635009766",
+        "longitude": "-73.90765380859375",
+        "routes": "6",
+        "station_complex": "East 143 St-St Mary's St (6)",
+        "station_complex_id": "R406"
+    },
+    {
+        "borough": "BX",
+        "latitude": "40.81211853027344",
+        "longitude": "-73.90409851074219",
+        "routes": "6",
+        "station_complex": "East 149 St (6)",
+        "station_complex_id": "R408"
+    },
+    {
+        "borough": "BX",
+        "latitude": "40.84189224243164",
+        "longitude": "-73.87348937988281",
+        "routes": "2,5",
+        "station_complex": "East 180 St (2,5)",
+        "station_complex_id": "R325"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.713714599609375",
+        "longitude": "-73.99017333984375",
+        "routes": "F",
+        "station_complex": "East Broadway (F)",
+        "station_complex_id": "N529"
+    },
+    {
+        "borough": "BX",
+        "latitude": "40.888301849365234",
+        "longitude": "-73.8308334350586",
+        "routes": "5",
+        "station_complex": "Eastchester-Dyre Av (5)",
+        "station_complex_id": "R730"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.6719856262207",
+        "longitude": "-73.9643783569336",
+        "routes": "3,2",
+        "station_complex": "Eastern Pkwy-Brooklyn Museum (2,3)",
+        "station_complex_id": "R621"
+    },
+    {
+        "borough": "BX",
+        "latitude": "40.828582763671875",
+        "longitude": "-73.87915802001953",
+        "routes": "6",
+        "station_complex": "Elder Av (6)",
+        "station_complex_id": "R414"
+    },
+    {
+        "borough": "Q",
+        "latitude": "40.742454528808594",
+        "longitude": "-73.88201904296875",
+        "routes": "M,R",
+        "station_complex": "Elmhurst Av (M,R)",
+        "station_complex_id": "N325A"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.675376892089844",
+        "longitude": "-73.87210845947266",
+        "routes": "C,A",
+        "station_complex": "Euclid Av (A,C)",
+        "station_complex_id": "N128"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.632835388183594",
+        "longitude": "-73.94763946533203",
+        "routes": "2,5",
+        "station_complex": "Flatbush Av-Brooklyn College (2,5)",
+        "station_complex_id": "R645"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.70037841796875",
+        "longitude": "-73.95023345947266",
+        "routes": "G",
+        "station_complex": "Flushing Av (G)",
+        "station_complex_id": "N414"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.700260162353516",
+        "longitude": "-73.94112396240234",
+        "routes": "M,J",
+        "station_complex": "Flushing Av (J,M)",
+        "station_complex_id": "J007"
+    },
+    {
+        "borough": "Q",
+        "latitude": "40.75960159301758",
+        "longitude": "-73.83003234863281",
+        "routes": "7",
+        "station_complex": "Flushing-Main St (7)",
+        "station_complex_id": "R533"
+    },
+    {
+        "borough": "BX",
+        "latitude": "40.861297607421875",
+        "longitude": "-73.89775085449219",
+        "routes": "B,D",
+        "station_complex": "Fordham Rd (B,D)",
+        "station_complex_id": "N217"
+    },
+    {
+        "borough": "Q",
+        "latitude": "40.70442199707031",
+        "longitude": "-73.903076171875",
+        "routes": "M",
+        "station_complex": "Forest Av (M)",
+        "station_complex_id": "K024"
+    },
+    {
+        "borough": "Q",
+        "latitude": "40.7216911315918",
+        "longitude": "-73.84452056884766",
+        "routes": "F,M,E,R",
+        "station_complex": "Forest Hills-71 Av (E,F,M,R)",
+        "station_complex_id": "N333A"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.65078353881836",
+        "longitude": "-73.97577667236328",
+        "routes": "F,G",
+        "station_complex": "Fort Hamilton Pkwy (F,G)",
+        "station_complex_id": "N543"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.631385803222656",
+        "longitude": "-74.0053482055664",
+        "routes": "N",
+        "station_complex": "Fort Hamilton Pkwy (N)",
+        "station_complex_id": "D003"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.67068099975586",
+        "longitude": "-73.9581298828125",
+        "routes": "3,2,5,4,,S",
+        "station_complex": "Franklin Av (2,3,4,5)/Botanic Garden (S)",
+        "station_complex_id": "R622"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.68138122558594",
+        "longitude": "-73.95684814453125",
+        "routes": "C,S",
+        "station_complex": "Franklin Av (C,S)",
+        "station_complex_id": "N114"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.71931838989258",
+        "longitude": "-74.00688934326172",
+        "routes": "1",
+        "station_complex": "Franklin St (1)",
+        "station_complex_id": "R117"
+    },
+    {
+        "borough": "BX",
+        "latitude": "40.829994201660156",
+        "longitude": "-73.8918685913086",
+        "routes": "2,5",
+        "station_complex": "Freeman St (2,5)",
+        "station_complex_id": "R320"
+    },
+    {
+        "borough": "Q",
+        "latitude": "40.70618438720703",
+        "longitude": "-73.8958740234375",
+        "routes": "M",
+        "station_complex": "Fresh Pond Rd (M)",
+        "station_complex_id": "K025"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.71037292480469",
+        "longitude": "-74.0065689086914",
+        "routes": "J,C,3,2,5,Z,4,A",
+        "station_complex": "Fulton St (A,C,J,Z,2,3,4,5)",
+        "station_complex_id": "N095"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.68711853027344",
+        "longitude": "-73.97537231445312",
+        "routes": "G",
+        "station_complex": "Fulton St (G)",
+        "station_complex_id": "N422"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.68962860107422",
+        "longitude": "-73.92227172851562",
+        "routes": "J,Z",
+        "station_complex": "Gates Av (J,Z)",
+        "station_complex_id": "J013"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.675235748291016",
+        "longitude": "-73.9710464477539",
+        "routes": "3,2",
+        "station_complex": "Grand Army Plaza (2,3)",
+        "station_complex_id": "R619"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.718265533447266",
+        "longitude": "-73.9937515258789",
+        "routes": "B,D",
+        "station_complex": "Grand St (B,D)",
+        "station_complex_id": "N520"
+    },
+    {
+        "borough": "Q",
+        "latitude": "40.73701477050781",
+        "longitude": "-73.8772201538086",
+        "routes": "M,R",
+        "station_complex": "Grand Av-Newtown (M,R)",
+        "station_complex_id": "N327"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.75177764892578",
+        "longitude": "-73.97684478759766",
+        "routes": "5,S,4,7,6",
+        "station_complex": "Grand Central-42 St (S,4,5,6,7)",
+        "station_complex_id": "R238"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.7119255065918",
+        "longitude": "-73.94066619873047",
+        "routes": "L",
+        "station_complex": "Grand St (L)",
+        "station_complex_id": "H015"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.67704391479492",
+        "longitude": "-73.86505126953125",
+        "routes": "A",
+        "station_complex": "Grant Av (A)",
+        "station_complex_id": "N129"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.731353759765625",
+        "longitude": "-73.95445251464844",
+        "routes": "G",
+        "station_complex": "Greenpoint Av (G)",
+        "station_complex_id": "N405"
+    },
+    {
+        "borough": "BX",
+        "latitude": "40.87784957885742",
+        "longitude": "-73.86625671386719",
+        "routes": "2,5",
+        "station_complex": "Gun Hill Rd (2,5)",
+        "station_complex_id": "R331"
+    },
+    {
+        "borough": "BX",
+        "latitude": "40.86952590942383",
+        "longitude": "-73.84638214111328",
+        "routes": "5",
+        "station_complex": "Gun Hill Rd (5)",
+        "station_complex_id": "R728"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.686370849609375",
+        "longitude": "-73.91655731201172",
+        "routes": "J",
+        "station_complex": "Halsey St (J)",
+        "station_complex_id": "J016"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.69560241699219",
+        "longitude": "-73.90408325195312",
+        "routes": "L",
+        "station_complex": "Halsey St (L)",
+        "station_complex_id": "H028"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.82387924194336",
+        "longitude": "-73.93647003173828",
+        "routes": "3",
+        "station_complex": "Harlem-148 St (3)",
+        "station_complex_id": "R309"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.706871032714844",
+        "longitude": "-73.95343017578125",
+        "routes": "M,J",
+        "station_complex": "Hewes St (J,M)",
+        "station_complex_id": "J003"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.699337005615234",
+        "longitude": "-73.99053192138672",
+        "routes": "C,A",
+        "station_complex": "High St (A,C)",
+        "station_complex_id": "N100"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.72825241088867",
+        "longitude": "-74.00536346435547",
+        "routes": "1",
+        "station_complex": "Houston St (1)",
+        "station_complex_id": "R123"
+    },
+    {
+        "borough": "Q",
+        "latitude": "40.66047668457031",
+        "longitude": "-73.8302993774414",
+        "routes": "A",
+        "station_complex": "Howard Beach-JFK Airport (A)",
+        "station_complex_id": "N182"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.69054412841797",
+        "longitude": "-73.98506164550781",
+        "routes": "3,2",
+        "station_complex": "Hoyt St (2,3)",
+        "station_complex_id": "R606"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.68848419189453",
+        "longitude": "-73.98500061035156",
+        "routes": "C,G,A",
+        "station_complex": "Hoyt-Schermerhorn Sts (A,C,G)",
+        "station_complex_id": "N108"
+    },
+    {
+        "borough": "Q",
+        "latitude": "40.74221420288086",
+        "longitude": "-73.94891357421875",
+        "routes": "7",
+        "station_complex": "Hunters Point Av (7)",
+        "station_complex_id": "R507"
+    },
+    {
+        "borough": "BX",
+        "latitude": "40.82094955444336",
+        "longitude": "-73.89054870605469",
+        "routes": "6",
+        "station_complex": "Hunts Point Av (6)",
+        "station_complex_id": "R412"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.868072509765625",
+        "longitude": "-73.9198989868164",
+        "routes": "A",
+        "station_complex": "Inwood-207 St (A)",
+        "station_complex_id": "N002A"
+    },
+    {
+        "borough": "BX",
+        "latitude": "40.816490173339844",
+        "longitude": "-73.90780639648438",
+        "routes": "2,5",
+        "station_complex": "Jackson Av (2,5)",
+        "station_complex_id": "R312"
+    },
+    {
+        "borough": "Q",
+        "latitude": "40.7021484375",
+        "longitude": "-73.80110931396484",
+        "routes": "J,E,Z",
+        "station_complex": "Jamaica Center-Parsons-Archer (E,J,Z)",
+        "station_complex_id": "N606"
+    },
+    {
+        "borough": "Q",
+        "latitude": "40.712646484375",
+        "longitude": "-73.7838134765625",
+        "routes": "F",
+        "station_complex": "Jamaica-179 St (F)",
+        "station_complex_id": "N343"
+    },
+    {
+        "borough": "Q",
+        "latitude": "40.70256423950195",
+        "longitude": "-73.81685638427734",
+        "routes": "E",
+        "station_complex": "Jamaica-Van Wyck (E)",
+        "station_complex_id": "N604"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.706607818603516",
+        "longitude": "-73.92291259765625",
+        "routes": "L",
+        "station_complex": "Jefferson St (L)",
+        "station_complex_id": "H022"
+    },
+    {
+        "borough": "Q",
+        "latitude": "40.7491455078125",
+        "longitude": "-73.8695297241211",
+        "routes": "7",
+        "station_complex": "Junction Blvd (7)",
+        "station_complex_id": "R528"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.66351318359375",
+        "longitude": "-73.90245056152344",
+        "routes": "3",
+        "station_complex": "Junius St (3)",
+        "station_complex_id": "R630"
+    },
+    {
+        "borough": "Q",
+        "latitude": "40.714439392089844",
+        "longitude": "-73.83100891113281",
+        "routes": "F,E",
+        "station_complex": "Kew Gardens-Union Turnpike (E,F)",
+        "station_complex_id": "N336"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.60866928100586",
+        "longitude": "-73.95773315429688",
+        "routes": "Q,B",
+        "station_complex": "Kings Hwy (B,Q)",
+        "station_complex_id": "B024"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.60321807861328",
+        "longitude": "-73.97235870361328",
+        "routes": "F",
+        "station_complex": "Kings Hwy (F)",
+        "station_complex_id": "N557"
+    },
+    {
+        "borough": "BX",
+        "latitude": "40.867759704589844",
+        "longitude": "-73.89717102050781",
+        "routes": "4",
+        "station_complex": "Kingsbridge Rd (4)",
+        "station_complex_id": "R290"
+    },
+    {
+        "borough": "BX",
+        "latitude": "40.86697769165039",
+        "longitude": "-73.89350891113281",
+        "routes": "B,D",
+        "station_complex": "Kingsbridge Rd (B,D)",
+        "station_complex_id": "N221"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.66939926147461",
+        "longitude": "-73.9421615600586",
+        "routes": "3",
+        "station_complex": "Kingston Av (3)",
+        "station_complex_id": "R624"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.6799201965332",
+        "longitude": "-73.94085693359375",
+        "routes": "C",
+        "station_complex": "Kingston-Throop Avs (C)",
+        "station_complex_id": "N119"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.698665618896484",
+        "longitude": "-73.91970825195312",
+        "routes": "M",
+        "station_complex": "Knickerbocker Av (M)",
+        "station_complex_id": "K019"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.69334030151367",
+        "longitude": "-73.92881774902344",
+        "routes": "J",
+        "station_complex": "Kosciuszko St (J)",
+        "station_complex_id": "J012"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.68611145019531",
+        "longitude": "-73.97394561767578",
+        "routes": "C",
+        "station_complex": "Lafayette Av (C)",
+        "station_complex_id": "N110"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.76266098022461",
+        "longitude": "-73.96725463867188",
+        "routes": "5,N,R,4,,W,6",
+        "station_complex": "Lexington Av (N,R,W)/59 St (4,5,6)",
+        "station_complex_id": "A002"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.75755310058594",
+        "longitude": "-73.96905517578125",
+        "routes": "M,E,,6",
+        "station_complex": "Lexington Av-53 St (E,M)/51 St (6)",
+        "station_complex_id": "N305"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.76462936401367",
+        "longitude": "-73.96611022949219",
+        "routes": "F,Q",
+        "station_complex": "Lexington Av-63 St (F,Q)",
+        "station_complex_id": "N601"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.664039611816406",
+        "longitude": "-73.90057373046875",
+        "routes": "L",
+        "station_complex": "Livonia Av (L)",
+        "station_complex_id": "H038"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.7038688659668",
+        "longitude": "-73.9474105834961",
+        "routes": "M,J",
+        "station_complex": "Lorimer St (J,M)",
+        "station_complex_id": "J005"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.71406173706055",
+        "longitude": "-73.95027160644531",
+        "routes": "G,,L",
+        "station_complex": "Lorimer St (L)/Metropolitan Av (G)",
+        "station_complex_id": "H012"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.87456130981445",
+        "longitude": "-73.90982818603516",
+        "routes": "1",
+        "station_complex": "Marble Hill-225 St (1)",
+        "station_complex_id": "R192"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.70835876464844",
+        "longitude": "-73.95775604248047",
+        "routes": "M,J,Z",
+        "station_complex": "Marcy Av (J,M,Z)",
+        "station_complex_id": "J001"
+    },
+    {
+        "borough": "Q",
+        "latitude": "40.75462341308594",
+        "longitude": "-73.84562683105469",
+        "routes": "7",
+        "station_complex": "Mets-Willets Point (7)",
+        "station_complex_id": "R532"
+    },
+    {
+        "borough": "Q",
+        "latitude": "40.711395263671875",
+        "longitude": "-73.88960266113281",
+        "routes": "M",
+        "station_complex": "Middle Village-Metropolitan Av (M)",
+        "station_complex_id": "K026"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.707740783691406",
+        "longitude": "-73.93984985351562",
+        "routes": "L",
+        "station_complex": "Montrose Av (L)",
+        "station_complex_id": "H017"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.706153869628906",
+        "longitude": "-73.93314361572266",
+        "routes": "L",
+        "station_complex": "Morgan Av (L)",
+        "station_complex_id": "H019"
+    },
+    {
+        "borough": "BX",
+        "latitude": "40.82952117919922",
+        "longitude": "-73.87451934814453",
+        "routes": "6",
+        "station_complex": "Morrison Av-Soundview (6)",
+        "station_complex_id": "R415"
+    },
+    {
+        "borough": "BX",
+        "latitude": "40.8797492980957",
+        "longitude": "-73.88465881347656",
+        "routes": "4",
+        "station_complex": "Mosholu Pkwy (4)",
+        "station_complex_id": "R293"
+    },
+    {
+        "borough": "BX",
+        "latitude": "40.84443283081055",
+        "longitude": "-73.91468811035156",
+        "routes": "4",
+        "station_complex": "Mt Eden Av (4)",
+        "station_complex_id": "R285"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.6945686340332",
+        "longitude": "-73.94904327392578",
+        "routes": "G",
+        "station_complex": "Myrtle-Willoughby Avs (G)",
+        "station_complex_id": "N415"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.69981384277344",
+        "longitude": "-73.91158294677734",
+        "routes": "M,L",
+        "station_complex": "Myrtle-Wyckoff Avs (L,M)",
+        "station_complex_id": "H026"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.72463607788086",
+        "longitude": "-73.95127868652344",
+        "routes": "G",
+        "station_complex": "Nassau Av (G)",
+        "station_complex_id": "N408A"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.595245361328125",
+        "longitude": "-73.95516204833984",
+        "routes": "Q",
+        "station_complex": "Neck Rd (Q)",
+        "station_complex_id": "B026"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.68824768066406",
+        "longitude": "-73.9804916381836",
+        "routes": "3,2,5,4",
+        "station_complex": "Nevins St (2,3,4,5)",
+        "station_complex_id": "R608"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.666236877441406",
+        "longitude": "-73.88407897949219",
+        "routes": "3",
+        "station_complex": "New Lots Av (3)",
+        "station_complex_id": "R634"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.65873336791992",
+        "longitude": "-73.89923095703125",
+        "routes": "L",
+        "station_complex": "New Lots Av (L)",
+        "station_complex_id": "H039"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.62647247314453",
+        "longitude": "-73.99635314941406",
+        "routes": "N,,D",
+        "station_complex": "New Utrecht Av (N)/62 St (D)",
+        "station_complex_id": "E006"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.63508224487305",
+        "longitude": "-73.9627914428711",
+        "routes": "Q,B",
+        "station_complex": "Newkirk Plaza (B,Q)",
+        "station_complex_id": "B019"
+    },
+    {
+        "borough": "Q",
+        "latitude": "40.75288391113281",
+        "longitude": "-73.906005859375",
+        "routes": "M,R",
+        "station_complex": "Northern Blvd (M,R)",
+        "station_complex_id": "N318"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.68141174316406",
+        "longitude": "-73.88003540039062",
+        "routes": "J,Z",
+        "station_complex": "Norwood Av (J,Z)",
+        "station_complex_id": "J023"
+    },
+    {
+        "borough": "BX",
+        "latitude": "40.87480926513672",
+        "longitude": "-73.87885284423828",
+        "routes": "D",
+        "station_complex": "Norwood-205 St (D)",
+        "station_complex_id": "N224"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.66984558105469",
+        "longitude": "-73.9504623413086",
+        "routes": "3",
+        "station_complex": "Nostrand Av (3)",
+        "station_complex_id": "R623"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.68043899536133",
+        "longitude": "-73.95042419433594",
+        "routes": "C,A",
+        "station_complex": "Nostrand Av (A,C)",
+        "station_complex_id": "N116"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.57631301879883",
+        "longitude": "-73.96849822998047",
+        "routes": "Q",
+        "station_complex": "Ocean Pkwy (Q)",
+        "station_complex_id": "B032"
+    },
+    {
+        "borough": "Q",
+        "latitude": "40.685951232910156",
+        "longitude": "-73.82579803466797",
+        "routes": "A",
+        "station_complex": "Ozone Park-Lefferts Blvd (A)",
+        "station_complex_id": "N141"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.67477035522461",
+        "longitude": "-73.95762634277344",
+        "routes": "S",
+        "station_complex": "Park Pl (S)",
+        "station_complex_id": "B009"
+    },
+    {
+        "borough": "BX",
+        "latitude": "40.83322525024414",
+        "longitude": "-73.8608169555664",
+        "routes": "6",
+        "station_complex": "Parkchester (6)",
+        "station_complex_id": "R417"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.65529251098633",
+        "longitude": "-73.96149444580078",
+        "routes": "Q",
+        "station_complex": "Parkside Av (Q)",
+        "station_complex_id": "B014"
+    },
+    {
+        "borough": "Q",
+        "latitude": "40.70756530761719",
+        "longitude": "-73.80332946777344",
+        "routes": "F",
+        "station_complex": "Parsons Blvd (F)",
+        "station_complex_id": "N339A"
+    },
+    {
+        "borough": "BX",
+        "latitude": "40.85246276855469",
+        "longitude": "-73.82811737060547",
+        "routes": "6",
+        "station_complex": "Pelham Bay Park (6)",
+        "station_complex_id": "R423"
+    },
+    {
+        "borough": "BX",
+        "latitude": "40.85719299316406",
+        "longitude": "-73.86761474609375",
+        "routes": "2,5",
+        "station_complex": "Pelham Pkwy (2,5)",
+        "station_complex_id": "R328"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.664634704589844",
+        "longitude": "-73.8948974609375",
+        "routes": "3",
+        "station_complex": "Pennsylvania Av (3)",
+        "station_complex_id": "R632"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.667884826660156",
+        "longitude": "-73.95068359375",
+        "routes": "2,5",
+        "station_complex": "President St (2,5)",
+        "station_complex_id": "R635"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.72433090209961",
+        "longitude": "-73.9977035522461",
+        "routes": "R,W",
+        "station_complex": "Prince St (R,W)",
+        "station_complex_id": "A041"
+    },
+    {
+        "borough": "BX",
+        "latitude": "40.819583892822266",
+        "longitude": "-73.90177154541016",
+        "routes": "2,5",
+        "station_complex": "Prospect Av (2,5)",
+        "station_complex_id": "R314"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.66541290283203",
+        "longitude": "-73.99287414550781",
+        "routes": "R",
+        "station_complex": "Prospect Av (R)",
+        "station_complex_id": "C014"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.66161346435547",
+        "longitude": "-73.96224975585938",
+        "routes": "Q,S,B",
+        "station_complex": "Prospect Park (B,Q,S)",
+        "station_complex_id": "B013"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.6788215637207",
+        "longitude": "-73.92078399658203",
+        "routes": "C",
+        "station_complex": "Ralph Av (C)",
+        "station_complex_id": "N121B"
+    },
+    {
+        "borough": "Q",
+        "latitude": "40.74897384643555",
+        "longitude": "-73.93724060058594",
+        "routes": "M,E,R",
+        "station_complex": "Queens Plaza (E,M,R)",
+        "station_complex_id": "N309A"
+    },
+    {
+        "borough": "Q",
+        "latitude": "40.75058364868164",
+        "longitude": "-73.94020080566406",
+        "routes": "N,W,7",
+        "station_complex": "Queensboro Plaza (N,W,7)",
+        "station_complex_id": "R509"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.70751190185547",
+        "longitude": "-74.01378631591797",
+        "routes": "1",
+        "station_complex": "Rector St (1)",
+        "station_complex_id": "R103"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.678340911865234",
+        "longitude": "-73.91194915771484",
+        "routes": "C",
+        "station_complex": "Rockaway Av (C)",
+        "station_complex_id": "N122"
+    },
+    {
+        "borough": "Q",
+        "latitude": "40.68042755126953",
+        "longitude": "-73.84385681152344",
+        "routes": "A",
+        "station_complex": "Rockaway Blvd (A)",
+        "station_complex_id": "N134"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.66145324707031",
+        "longitude": "-73.91632843017578",
+        "routes": "3",
+        "station_complex": "Saratoga Av (3)",
+        "station_complex_id": "R628"
+    },
+    {
+        "borough": "Q",
+        "latitude": "40.702762603759766",
+        "longitude": "-73.9077377319336",
+        "routes": "M",
+        "station_complex": "Seneca Av (M)",
+        "station_complex_id": "K022"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.58689498901367",
+        "longitude": "-73.95415496826172",
+        "routes": "Q,B",
+        "station_complex": "Sheepshead Bay (B,Q)",
+        "station_complex_id": "B027"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.674129486083984",
+        "longitude": "-73.88075256347656",
+        "routes": "C",
+        "station_complex": "Shepherd Av (C)",
+        "station_complex_id": "N127"
+    },
+    {
+        "borough": "BX",
+        "latitude": "40.824073791503906",
+        "longitude": "-73.89306640625",
+        "routes": "2,5",
+        "station_complex": "Simpson St (2,5)",
+        "station_complex_id": "R318"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.673580169677734",
+        "longitude": "-73.99595642089844",
+        "routes": "F,G",
+        "station_complex": "Smith-9 Sts (F,G)",
+        "station_complex_id": "N536"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.703086853027344",
+        "longitude": "-74.01299285888672",
+        "routes": "1,R,,W",
+        "station_complex": "South Ferry (1)/Whitehall St (R,W)",
+        "station_complex_id": "R101"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.726226806640625",
+        "longitude": "-74.00373840332031",
+        "routes": "C,E",
+        "station_complex": "Spring St (C,E)",
+        "station_complex_id": "N086"
+    },
+    {
+        "borough": "SI",
+        "latitude": "40.643748",
+        "longitude": "-74.073643",
+        "routes": "SIR",
+        "station_complex": "St George",
+        "station_complex_id": "S101"
+    },
+    {
+        "borough": "BX",
+        "latitude": "40.83150863647461",
+        "longitude": "-73.86761474609375",
+        "routes": "6",
+        "station_complex": "St Lawrence Av (6)",
+        "station_complex_id": "R416"
+    },
+    {
+        "borough": "Q",
+        "latitude": "40.75687789916992",
+        "longitude": "-73.92073822021484",
+        "routes": "M,R",
+        "station_complex": "Steinway St (M,R)",
+        "station_complex_id": "N315"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.662742614746094",
+        "longitude": "-73.95085144042969",
+        "routes": "2,5",
+        "station_complex": "Sterling St (2,5)",
+        "station_complex_id": "R636"
+    },
+    {
+        "borough": "Q",
+        "latitude": "40.70545959472656",
+        "longitude": "-73.81070709228516",
+        "routes": "F",
+        "station_complex": "Sutphin Blvd (F)",
+        "station_complex_id": "N338B"
+    },
+    {
+        "borough": "Q",
+        "latitude": "40.70048522949219",
+        "longitude": "-73.80796813964844",
+        "routes": "J,E,Z",
+        "station_complex": "Sutphin Blvd-Archer Av-JFK Airport (E,J,Z)",
+        "station_complex_id": "N605"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.669368743896484",
+        "longitude": "-73.9019775390625",
+        "routes": "L",
+        "station_complex": "Sutter Av (L)",
+        "station_complex_id": "H037"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.66471862792969",
+        "longitude": "-73.922607421875",
+        "routes": "3",
+        "station_complex": "Sutter Av-Rutland Rd (3)",
+        "station_complex_id": "R627"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.75730895996094",
+        "longitude": "-73.98196411132812",
+        "routes": "3,C,1,2,S,7,F,M,E,N,R,Q,,B,W,A,D",
+        "station_complex": "Times Sq-42 St (N,Q,R,W,S,1,2,3,7)/42 St (A,C,E)/Bryant Pk (B,D,F,M)/5 Av (7)",
+        "station_complex_id": "N060"
+    },
+    {
+        "borough": "SI",
+        "latitude": "40.636949",
+        "longitude": "-74.074835",
+        "routes": "SIR",
+        "station_complex": "Tompkinsville",
+        "station_complex_id": "S102"
+    },
+    {
+        "borough": "BX",
+        "latitude": "40.85041046142578",
+        "longitude": "-73.90522766113281",
+        "routes": "B,D",
+        "station_complex": "Tremont Av (B,D)",
+        "station_complex_id": "N213"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.67731475830078",
+        "longitude": "-73.98310852050781",
+        "routes": "R",
+        "station_complex": "Union St (R)",
+        "station_complex_id": "C010"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.67936325073242",
+        "longitude": "-73.93073272705078",
+        "routes": "C,A",
+        "station_complex": "Utica Av (A,C)",
+        "station_complex_id": "N120"
+    },
+    {
+        "borough": "BX",
+        "latitude": "40.88924789428711",
+        "longitude": "-73.8985824584961",
+        "routes": "1",
+        "station_complex": "Van Cortlandt Park-242 St (1)",
+        "station_complex_id": "R197"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.66544723510742",
+        "longitude": "-73.88939666748047",
+        "routes": "3",
+        "station_complex": "Van Siclen Av (3)",
+        "station_complex_id": "R633"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.67271041870117",
+        "longitude": "-73.8903579711914",
+        "routes": "C",
+        "station_complex": "Van Siclen Av (C)",
+        "station_complex_id": "N126"
+    },
+    {
+        "borough": "Q",
+        "latitude": "40.74262619018555",
+        "longitude": "-73.95358276367188",
+        "routes": "7",
+        "station_complex": "Vernon Blvd-Jackson Av (7)",
+        "station_complex_id": "R504"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.70682144165039",
+        "longitude": "-74.00910186767578",
+        "routes": "3,2",
+        "station_complex": "Wall St (2,3)",
+        "station_complex_id": "R111"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.707557678222656",
+        "longitude": "-74.0118637084961",
+        "routes": "5,4",
+        "station_complex": "Wall St (4,5)",
+        "station_complex_id": "R203"
+    },
+    {
+        "borough": "M",
+        "latitude": "40.732337951660156",
+        "longitude": "-74.00049591064453",
+        "routes": "F,M,C,E,B,A,D",
+        "station_complex": "West 4 St-Washington Sq (A,B,C,D,E,F,M)",
+        "station_complex_id": "N080"
+    },
+    {
+        "borough": "BX",
+        "latitude": "40.840293884277344",
+        "longitude": "-73.88005065917969",
+        "routes": "2,5",
+        "station_complex": "West Farms Sq-East Tremont Av (2,5)",
+        "station_complex_id": "R323"
+    },
+    {
+        "borough": "BX",
+        "latitude": "40.83989334106445",
+        "longitude": "-73.84294891357422",
+        "routes": "6",
+        "station_complex": "Westchester Sq-East Tremont Av (6)",
+        "station_complex_id": "R420"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.68876266479492",
+        "longitude": "-73.90404510498047",
+        "routes": "L",
+        "station_complex": "Wilson Av (L)",
+        "station_complex_id": "H032"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.65665054321289",
+        "longitude": "-73.95020294189453",
+        "routes": "2,5",
+        "station_complex": "Winthrop St (2,5)",
+        "station_complex_id": "R637"
+    },
+    {
+        "borough": "Q",
+        "latitude": "40.73310470581055",
+        "longitude": "-73.86923217773438",
+        "routes": "M,R",
+        "station_complex": "Woodhaven Blvd (M,R)",
+        "station_complex_id": "N329"
+    },
+    {
+        "borough": "BX",
+        "latitude": "40.88603591918945",
+        "longitude": "-73.87875366210938",
+        "routes": "4",
+        "station_complex": "Woodlawn (4)",
+        "station_complex_id": "R294"
+    },
+    {
+        "borough": "Q",
+        "latitude": "40.745628356933594",
+        "longitude": "-73.90298461914062",
+        "routes": "7",
+        "station_complex": "Woodside-61 St (7)",
+        "station_complex_id": "R523"
+    },
+    {
+        "borough": "BK",
+        "latitude": "40.70139694213867",
+        "longitude": "-73.98674774169922",
+        "routes": "F",
+        "station_complex": "York St (F)",
+        "station_complex_id": "N530"
+    },
+    {
+        "borough": "BX",
+        "latitude": "40.83648681640625",
+        "longitude": "-73.84703826904297",
+        "routes": "6",
+        "station_complex": "Zerega Av (6)",
+        "station_complex_id": "R419"
+    }
+]

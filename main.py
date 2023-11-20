@@ -25,16 +25,16 @@ import json
 #       -> ability to compare multiple
 
 # command control, take user input, station and time range
-f = open("stations-codes.json")
+f = open("station-data.json")
 stations_codes = json.load(f)
 user_station = ''
 outages = [] # list, extensible to having multiple TODO enable that feature
 
 def validate_station(s, outages):
-    for name in stations_codes:
-        if s.lower() in name.lower():
-            if input("Did you mean '" + name + "' ? (y/n)    ") == "y":
-                outages.append([name, stations_codes[name]])
+    for station in stations_codes:
+        if s.lower() in station["station_complex"].lower():
+            if input("Did you mean '" + station["station_complex"] + "' ? (y/n)    ") == "y":
+                outages.append([station["station_complex"], station["station_complex_id"]])
                 return True
     print("Could not find '" + s + "' in 'stations-codes.json'.")
     return False
@@ -73,8 +73,9 @@ print("$")
 print("$ $ $ $ $ $ $ $ $ $ $ $ $ $ $ $ $ $ $ $ $ $ $ $ $ $ $ $ $ $ $ $ $ $ $ $ $ $ $\n")
 
 # alternate station generator
-# TODO draw circle around station coords (certain distance to represent 15ish min walk)
-# TODO find all stations within circle -> alt stations
+# TODO find all stations within certain distance of station -> alt stations
+# get location of outage station
+code = outages[-1][1]
 # TODO calculate alt station substitutability -> true vs. partial subs
 # TODO distribute riders across range to alt stations -- how do we distribute? 
 

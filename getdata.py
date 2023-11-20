@@ -16,7 +16,7 @@ def jprint(obj):
     print(text)
 
 p = {   
-        "$select": "station_complex, station_complex_id where transit_timestamp = '2023-10-01T00:00:00.000' and payment_method = 'omny' limit 140000" # should be roughly 7 days worth
+        "$select": "station_complex_id, station_complex, latitude, longitude, borough, routes where transit_timestamp = '2023-10-01T00:00:00.000' and payment_method = 'omny' limit 140000" # should be roughly 7 days worth
     }
 response = requests.get("https://data.ny.gov/resource/wujg-7c2s.json", params = p)
 # print(response.status_code) # for debugging
