@@ -32,21 +32,24 @@ times = [
 
 df = pd.read_csv('MBTA_stops.csv')
 
-class Genotype:
-    # Initialize a random, fresh genotype
-    def __init__(self):
+class Ride:
+    # Initialize a random ride
+    # modality should be either 'rail' or 'bus'
+    def __init__(self, modality):
         # select random start/end station
+        # TODO weight based on ridership proportions, std deviation
+        
         # select random start time
+        # TODO weight similarly
         # get route/timing info
         p = {
             "mode":"transit", 
+            "transit_mode":modality,
             "origins":,
             "destinations":,
             "key":"AIzaSyCJ3bMTL8NA1UmL3D-ZyWH-0rx98q71vqQ" 
         }
         response = requests.get("https://maps.googleapis.com/maps/api/distancematrix/json", params = p)
-        # determine if fastest modality is train, if not, pick a new route -- unlikely for people
-        # to ride train if much faster to take bus
         # determine if we're more likely to arrive @ same start time, or in next time slot
         self.dict = {
             "start_point":,
@@ -55,3 +58,8 @@ class Genotype:
             "end_time":,
             "route":,
         }
+
+class Genotype:
+    def __init__(self):
+        # ~671000 rides on rail each day
+        # ~77300 rides on bus each day
