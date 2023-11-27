@@ -1,0 +1,22 @@
+Didn't find: Mission Park Green Line MBTA $ Mission Park Station
+Didn't find: Northeastern University Green Line MBTA $ Northeastern Station
+Didn't find: Riverside Green Line MBTA $ Riverside Station
+Didn't find: South Street Green Line MBTA $ South Street Station
+Didn't find: Broadway Red Line MBTA
+Didn't find: Porter Red Line MBTA $ Porter Station
+
+BUS
+
+Didn't find: DORCHESTER ST @ OLD COLONY AV 10 MBTA
+Didn't find: DORCHESTER ST @ E BROADWAY 10 MBTA
+Didn't find: SAINT JAMES AVE @ DARTMOUTH S 10 MBTA
+Didn't find: P ST @ E BROADWAY 10 MBTA
+Didn't find: DORCHESTER ST @ BROADWAY 10 MBTA
+Didn't find: 88 E NEWTON ST 10 MBTA
+Didn't find: FELLSWAY W @ ELM ST 100 MBTA
+Didn't find: MAIN ST @ HICKS AVE 101 MBTA
+Didn't find: MAIN ST @ HARVARD ST 101 MBTA
+Didn't find: BROADWAY @ MCGRATH HWY 101 MBTA
+Didn't find: GEORGE ST @ WINTHROP ST 101 MBTA
+Didn't find: 475 WINTHROP ST @ TEMPLE SHAL 101 MBTA
+Didn't find: BROADWAY @ INDIANA AVE 101 MBTA
