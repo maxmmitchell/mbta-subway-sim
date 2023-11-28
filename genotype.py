@@ -39,16 +39,30 @@ df_bus_ridership = pd.read_csv('MBTA_Bus_Ridership_by_Time_Period.csv')
 df_bus_stops = pd.read_csv('MBTA_Bus_Stops.csv')
 
 class Ride:
+    def pick_station(time, modality, dir):
+        df = df_rail_ridership if modality == 'rail' else df_bus_ridership
+        selected = df.sample(1)
+        seed = random.random()
+        odds = 0
+        for index, row in df[['time_period_name' == time]]:
+            odds += row['odds_on' if dir == 'on' else 'odds_off']
+            if seed <= odds:
+                selected = row
+        return selected
     # Initialize a random ride
     # modality should be either 'rail' or 'bus'
     def __init__(self, modality):
         # select pseudo-random start time, weighted based on ridership proportions
         selected_time = times[0]
+        time_seed = random.random()
+        time_odds = 0
         for t in times:
-            if random.random() <= (t.odds_rail if modality == 'rail' else t.odds_bus):
+            time_odds += t.odds_rail if modality == 'rail' else t.odds_bus
+            if time_seed <= time_odds:
                 selected_time = t
         # select random start/end station, weighted based on ridership proportions
-
+        selected_start = pick_station(selected_time.text, modality, 'on')
+        selected_end = pick_station(selected_time.text, modality, 'off')
         # get route/timing info
         p = {
             "mode":"transit", 

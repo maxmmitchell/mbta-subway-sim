@@ -12,6 +12,8 @@ import requests
 
 df_rail = pd.read_csv('MBTA_Rail_Ridership_by_Time_Period.csv')
 df_bus = pd.read_csv('MBTA_Bus_Ridership_by_Time_Period.csv')
+df_rail_stops = pd.read_csv('MBTA_Rail_Stops.csv')
+df_bus_stops = pd.read_csv('MBTA_Bus_Stops.csv')
 
 # df_bus = df_bus[['stop_name', 'stop_lat', 'stop_lon', 'Routes']]
 # df_rail = df_rail[['stop_name', 'stop_lat', 'stop_lon', 'Routes']]
@@ -20,26 +22,33 @@ df_bus = pd.read_csv('MBTA_Bus_Ridership_by_Time_Period.csv')
 
 sum_ons_bus = 0
 sums = {
-"very_early_morning_ons" : 0,
-"early_am_ons" : 0,
-"am_peak_ons" : 0,
-"midday_base_ons" : 0,
-"midday_school_ons" : 0,
-"pm_peak_ons" : 0,
-"evening_ons" : 0,
-"late_evening_ons" : 0,
-"night_ons" : 0,
+"VERY_EARLY_MORNING" : 0,
+"EARLY_AM" : 0,
+"AM_PEAK" : 0,
+"MIDDAY_BASE" : 0,
+"MIDDAY_SCHOOL" : 0,
+"PM_PEAK" : 0,
+"EVENING" : 0,
+"LATE_EVENING" : 0,
+"NIGHT" : 0,
 }
-for index, row in df_rail[['average_ons', 'time_period_name']].iterrows():
-    sums[row['time_period_name'].lower() + '_ons'] += row['average_ons']
+for index, row in df_bus[['average_ons', 'average_offs', 'time_period_name']].iterrows():
+    sums[row['time_period_name']] += row['average_ons']
 
 list_odds = []
-for index, row in df_rail[['stop_name', 'average_ons','time_period_name']].iterrows():
-    list_odds.append(row['average_ons'] / sums[row['time_period_name'].lower() + '_ons'])
+list_odds_offs = []
+for index, row in df_bus[['stop_name', 'average_ons', 'average_offs', 'time_period_name']].iterrows():
+    list_odds.append(row['average_ons'] / sums[row['time_period_name']])
+    list_odds_offs.append(row['average_offs'] / sums[row['time_period_name']])
     print(row['stop_name'] + ', ' + row['time_period_name'] + ', ' + str(list_odds[-1]))
+    print(row['stop_name'] + ', ' + row['time_period_name'] + ', ' + str(list_odds_offs[-1]))
 
-df_rail[['odds_station_time_on']] = list_odds
-df_rail.to_csv('test.csv',index=False)
+# print(list_odds)
+# print(len(list_odds))
+# print(len(df_rail[['stop_name']]))
+df_bus['odds_on'] = list_odds
+df_bus['odds_off'] = list_odds_offs
+df_bus.to_csv('test.csv',index=False)
 
 # for key in sums:
 #     if 'ons' in key:
