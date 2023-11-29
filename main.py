@@ -7,6 +7,9 @@
 #
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 import csv
-import genotype.py
+import genotype as g
+
+individual = g.Genotype()
+individual.json_print()
 
 
