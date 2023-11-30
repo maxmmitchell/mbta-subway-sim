@@ -101,7 +101,10 @@ class Ride:
         response = requests.get("https://maps.googleapis.com/maps/api/distancematrix/json", params = p)
         # determine if we're more likely to arrive @ same start time, or in next time slot
         # TODO add a catch here so we don't key error if this request fails
+        #try:
         trip_length = response.json()['rows'][0]['elements'][0]['duration']['value'] / 60 # minutes
+        #except:
+
         odds_next_time = trip_length / selected_time.duration 
         end_time = selected_time
         # given even distro. of start across operating mins within block, odds the trip ends in the same block
@@ -142,6 +145,21 @@ class Genotype:
             bus_rides.append(Ride('bus'))
         self.rail_rides = rail_rides
         self.bus_rides = bus_rides
+    
+    # calculates fitness of an individual
+    def fitness(self):
+        # TODO
+        # generate dataset of same form as existing ridership dataset based on these rides
+        # count how many individuals are short/over averages
+        # check how many std deviations we are from averages in data
+
+    # returns fresh Genotype instance mutated off self
+    def mutation(self):
+        # TODO
+
+    # returns fresh Genotype instance crossing over self and other
+    def crossover(self, other):
+        # TODO
 
     # outputs a string in json format
     def json_print(self):
