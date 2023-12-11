@@ -74,8 +74,8 @@ class Ride:
         while selected_end['stop_id'] == selected_start['stop_id']:
             selected_end = self.pick_station(selected_time.text, modality, 'off')
         # get coordinates
-        print(selected_start['stop_name'] + ', ' + str(selected_start['stop_id']))
-        print(selected_end['stop_name'] + ', ' + str(selected_end['stop_id']))
+        #print(selected_start['stop_name'] + ', ' + str(selected_start['stop_id']))
+        #print(selected_end['stop_name'] + ', ' + str(selected_end['stop_id']))
         df = df_rail_stops if modality == 'rail' else df_bus_stops
         o_lat = ""
         o_lon = ""
@@ -88,8 +88,8 @@ class Ride:
             if str(selected_end['stop_id']) == str(row['stop_id']):
                 d_lat = str(row['stop_lat'])
                 d_lon = str(row['stop_lon'])
-        print(o_lat + ', ' + o_lon)
-        print(d_lat + ', ' + d_lon)
+        #print(o_lat + ', ' + o_lon)
+        #print(d_lat + ', ' + d_lon)
         # get timing info
         p = {
             "mode":"transit", 
@@ -125,8 +125,8 @@ class Ride:
             "start_point":o_lat + ', ' + o_lon,
             "end_station":selected_end['stop_name'],
             "end_point":d_lat + ', ' + d_lon,
-            "start_time":selected_time,
-            "end_time":end_time,
+            "start_time":selected_time.text,
+            "end_time":end_time.text,
             # for now, not recording the "route", but "directions" api from Google Maps could do this
             # (if it would be useful)
         }
@@ -140,38 +140,38 @@ class Genotype:
         # ~77300 rides on bus each day
         rail_rides = []
         bus_rides = []
-        for i in range(10):
+        for i in range(5):
             rail_rides.append(Ride('rail'))
             bus_rides.append(Ride('bus'))
         self.rail_rides = rail_rides
         self.bus_rides = bus_rides
     
     # calculates fitness of an individual
-    def fitness(self):
+    #def fitness(self):
         # TODO
         # generate dataset of same form as existing ridership dataset based on these rides
         # count how many individuals are short/over averages
         # check how many std deviations we are from averages in data
 
     # returns fresh Genotype instance mutated off self
-    def mutation(self):
+    #def mutation(self):
         # TODO
 
     # returns fresh Genotype instance crossing over self and other
-    def crossover(self, other):
+    #def crossover(self, other):
         # TODO
 
     # outputs a string in json format
     def json_print(self):
         j = '{rail_rides:['
-        for ride in rail_rides:
-            j += json.dumps(self.rail_rides)
+        for ride in self.rail_rides:
+            j += json.dumps(ride.dict)
             j += ','
         # trailing comma
         j[-1] = ']'
         j += 'bus_rides:'
-        for bus in bus_rides:
-            j += json.dumps(self.bus_rides)
+        for bus in self.bus_rides:
+            j += json.dumps(bus.dict)
             j += ','
         j[-1] = ']'
         j += '}'

@@ -10,6 +10,6 @@ import csv
 import genotype as g
 
 individual = g.Genotype()
-individual.json_print()
+print(individual.json_print())
 
 
