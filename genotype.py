@@ -52,7 +52,10 @@ class Ride:
         return selected
     # Initialize a random ride
     # modality should be either 'rail' or 'bus'
-    def __init__(self, modality):
+    # modality of none implies an empty ride
+    def __init__(self, modality='none'):
+        if modality == 'none':
+            return
         # select pseudo-random start time, weighted based on ridership proportions
         selected_time = times[0]
         time_seed = random.random()
@@ -169,9 +172,30 @@ class Genotype:
                 self.bus_stats.add_ride(bus_rides[-1].dict['end_id'], bus_rides[-1].dict['end_time'], False) 
             self.rail_rides = rail_rides
             self.bus_rides = bus_rides
+        else:
+            self.rail_rides = []
+            self.bus_rides = []
+            self.rail_stats = GenoStats()
+            self.bus_stats = GenoStats()
     
     # other ways to initialize a Genotype
-    #def from_file(self, fname):
+    def from_file(self, fname):
+        with open(fname, 'r') as f:
+            j = json.load(f)
+            for ride in j['rail_rides']:
+                r = Ride()
+                r.dict = ride
+                self.rail_rides.append(r)
+                self.rail_stats.add_ride(ride['start_id'], ride['start_time'], True) 
+                self.rail_stats.add_ride(ride['end_id'], ride['end_time'], False) 
+            for ride in j['bus_rides']:
+                r = Ride()
+                r.dict = ride
+                self.bus_rides.append(r)
+                self.bus_stats.add_ride(ride['start_id'], ride['start_time'], True) 
+                self.bus_stats.add_ride(ride['end_id'], ride['end_time'], False) 
+            f.close()
+
         # TODO read in from file and initialize
 
     # calculates fitness of an individual
@@ -199,11 +223,11 @@ class Genotype:
 
     # outputs a string in json format
     def json_print(self, indentation=4):
-        j = '{rail_rides:['
+        j = '{\n"rail_rides": ['
         for ride in self.rail_rides:
             j += json.dumps(ride.dict, indent=indentation)
             j += '],' if ride is self.rail_rides[-1] else ','
-        j += '\nbus_rides:['
+        j += '\n"bus_rides": ['
         for bus in self.bus_rides:
             j += json.dumps(bus.dict, indent=indentation)
             j += ']' if bus is self.bus_rides[-1] else ','
