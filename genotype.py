@@ -36,7 +36,7 @@ times = [
 df_rail_ridership = pd.read_csv('MBTA_Rail_Ridership_by_Time_Period.csv')
 df_rail_stops = pd.read_csv('MBTA_Rail_Stops.csv')
 df_bus_ridership = pd.read_csv('MBTA_Bus_Ridership_by_Time_Period.csv')
-df_bus_stops = pd.read_csv('MBTA_Bus_Stops.csv')
+df_bus_stops = pd.read_csv('stops-20190808-modified.csv')
 
 class Ride:
     def pick_station(self, time, modality, dir):
@@ -137,16 +137,16 @@ class GenoStats:
     def __init__(self):
         self.dict = {}
 
-    def add_ride(self, stop_id, time, is_on):
+    def add_ride(self, stop_id, stop_time, is_on):
         if stop_id not in self.dict:
             self.dict[stop_id] = {}
             for time in times:
                 self.dict[stop_id][time.text] = [0, 0] # at this stop at this time, 0 ons and 0 offs
         # add ride
-        self.dict[stop_id][time][0 if is_on else 1] += 1
+        self.dict[stop_id][stop_time][0 if is_on else 1] += 1
 
-    def get_stats(self, stop_id, time, is_on):
-        return self.dict[stop_id][time][0 if is_on else 1]
+    def get_stats(self, stop_id, stop_time, is_on):
+        return self.dict[stop_id][stop_time][0 if is_on else 1]
 
 class Genotype:
     def __init__(self, random=True):
@@ -160,7 +160,7 @@ class Genotype:
             bus_rides = []
             self.rail_stats = GenoStats()
             self.bus_stats = GenoStats()
-            for i in range(5):
+            for i in range(3):
                 rail_rides.append(Ride('rail'))
                 self.rail_stats.add_ride(rail_rides[-1].dict['start_id'], rail_rides[-1].dict['start_time'], True) 
                 self.rail_stats.add_ride(rail_rides[-1].dict['end_id'], rail_rides[-1].dict['end_time'], False) 
@@ -173,23 +173,29 @@ class Genotype:
     # other ways to initialize a Genotype
     #def from_file(self, fname):
         # TODO read in from file and initialize
-        
-    #def copy(self, other):
-        # TODO copy another genotype. useful base for mutation/crossover
 
     # calculates fitness of an individual
-    def fitness(self):
+    #def fitness(self):
         # TODO
         # count how many rides are short/over averages
         # check how many std deviations we are from averages in data
 
     # returns fresh Genotype instance mutated off self
-    #def mutation(self):
-        # TODO
+    def mutation(self):
+        # randomly modify rides
+        # TODO tweak odds accordingly as use continues
+        new_genotype = Genotype()
+        new_genotype.rail_rides = [rr if random.random() < 0.5 else Ride('rail') for rr in self.rail_rides]
+        new_genotype.bus_rides = [br if random.random() < 0.5 else Ride('bus') for br in self.bus_rides]
+        return new_genotype
 
     # returns fresh Genotype instance crossing over self and other
-    #def crossover(self, other):
-        # TODO
+    def crossover(self, other):
+        new_genotype = Genotype()
+        # TODO: if we ever have variable ride counts, this will need fixing or we'll get a bounds error
+        new_genotype.rail_rides = [self.rail_rides[i] if random.random() < 0.5 else other.rail_rides[i] for i in range(len(self.rail_rides))]
+        new_genotype.bus_rides = [self.bus_rides[i] if random.random() < 0.5 else other.bus_rides[i] for i in range(len(self.bus_rides))]
+        return new_genotype
 
     # outputs a string in json format
     def json_print(self, indentation=4):
