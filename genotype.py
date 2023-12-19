@@ -123,34 +123,64 @@ class Ride:
             # it gets a little wonky...
             "start_station":selected_start['stop_name'],
             "start_point":o_lat + ', ' + o_lon,
+            "start_id":selected_start['stop_id'],
             "end_station":selected_end['stop_name'],
             "end_point":d_lat + ', ' + d_lon,
+            "end_id":selected_end['stop_id'],
             "start_time":selected_time.text,
             "end_time":end_time.text,
             # for now, not recording the "route", but "directions" api from Google Maps could do this
             # (if it would be useful)
         }
 
-class Genotype:
+class GenoStats:
     def __init__(self):
+        self.dict = {}
+
+    def add_ride(self, stop_id, time, is_on):
+        if stop_id not in self.dict:
+            self.dict[stop_id] = {}
+            for time in times:
+                self.dict[stop_id][time.text] = [0, 0] # at this stop at this time, 0 ons and 0 offs
+        # add ride
+        self.dict[stop_id][time][0 if is_on else 1] += 1
+
+    def get_stats(self, stop_id, time, is_on):
+        return self.dict[stop_id][time][0 if is_on else 1]
+
+class Genotype:
+    def __init__(self, random=True):
         # TODO ramp up
         # TODO get standard distribution of quantities -- should have some
         # range and flexibility around this rough average
         # ~671000 rides on rail each day
         # ~77300 rides on bus each day
-        rail_rides = []
-        bus_rides = []
-        for i in range(5):
-            rail_rides.append(Ride('rail'))
-            bus_rides.append(Ride('bus'))
-        self.rail_rides = rail_rides
-        self.bus_rides = bus_rides
+        if random:
+            rail_rides = []
+            bus_rides = []
+            self.rail_stats = GenoStats()
+            self.bus_stats = GenoStats()
+            for i in range(5):
+                rail_rides.append(Ride('rail'))
+                self.rail_stats.add_ride(rail_rides[-1].dict['start_id'], rail_rides[-1].dict['start_time'], True) 
+                self.rail_stats.add_ride(rail_rides[-1].dict['end_id'], rail_rides[-1].dict['end_time'], False) 
+                bus_rides.append(Ride('bus'))
+                self.bus_stats.add_ride(bus_rides[-1].dict['start_id'], bus_rides[-1].dict['start_time'], True) 
+                self.bus_stats.add_ride(bus_rides[-1].dict['end_id'], bus_rides[-1].dict['end_time'], False) 
+            self.rail_rides = rail_rides
+            self.bus_rides = bus_rides
     
+    # other ways to initialize a Genotype
+    #def from_file(self, fname):
+        # TODO read in from file and initialize
+        
+    #def copy(self, other):
+        # TODO copy another genotype. useful base for mutation/crossover
+
     # calculates fitness of an individual
-    #def fitness(self):
+    def fitness(self):
         # TODO
-        # generate dataset of same form as existing ridership dataset based on these rides
-        # count how many individuals are short/over averages
+        # count how many rides are short/over averages
         # check how many std deviations we are from averages in data
 
     # returns fresh Genotype instance mutated off self
@@ -162,17 +192,14 @@ class Genotype:
         # TODO
 
     # outputs a string in json format
-    def json_print(self):
+    def json_print(self, indentation=4):
         j = '{rail_rides:['
         for ride in self.rail_rides:
-            j += json.dumps(ride.dict)
-            j += ','
-        # trailing comma
-        j[-1] = ']'
-        j += 'bus_rides:'
+            j += json.dumps(ride.dict, indent=indentation)
+            j += '],' if ride is self.rail_rides[-1] else ','
+        j += '\nbus_rides:['
         for bus in self.bus_rides:
-            j += json.dumps(bus.dict)
-            j += ','
-        j[-1] = ']'
+            j += json.dumps(bus.dict, indent=indentation)
+            j += ']' if bus is self.bus_rides[-1] else ','
         j += '}'
         return j

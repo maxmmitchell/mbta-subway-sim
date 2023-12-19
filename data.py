@@ -17,7 +17,7 @@ df_bus_stops = pd.read_csv('MBTA_Bus_Stops.csv')
 df_stops = pd.read_csv('stops-20191203.txt')
 
 d = {}
-for index, rrow in df_bus.iterrows():
+for index, rrow in df_rail.iterrows():
     found = False
     # only need to look at each one once
     if rrow['time_period_name'] == "EARLY_AM":
