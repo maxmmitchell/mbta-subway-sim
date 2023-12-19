@@ -68,6 +68,7 @@ class Ride:
         # select random start/end station, weighted based on ridership proportions
         selected_start = self.pick_station(selected_time.text, modality, 'on')
         # TODO incorporate direction here???? the odds of the start at this time
+        # TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO
         # is associated with a direction (0 or 1), and that should be used to limit the possible
         # end stations, for further accuracy/consistency with the data! Do we need each station to
         # know all possible reachable stations given its current direction? an option, which could hasten
@@ -127,6 +128,7 @@ class Ride:
             "start_station":selected_start['stop_name'],
             "start_point":o_lat + ', ' + o_lon,
             "start_id":selected_start['stop_id'],
+            "direction":selected_start['direction_id'],
             "end_station":selected_end['stop_name'],
             "end_point":d_lat + ', ' + d_lon,
             "end_id":selected_end['stop_id'],
@@ -140,22 +142,23 @@ class GenoStats:
     def __init__(self):
         self.dict = {}
 
-    def add_ride(self, stop_id, stop_time, is_on):
+    def add_ride(self, stop_id, stop_time, direction, is_on):
         if stop_id not in self.dict:
             self.dict[stop_id] = {}
             for time in times:
-                self.dict[stop_id][time.text] = [0, 0] # at this stop at this time, 0 ons and 0 offs
+                self.dict[stop_id][time.text] = [[0, 0], [0, 0]] # at this stop at this time, 0 ons and 0 offs
         # add ride
-        self.dict[stop_id][stop_time][0 if is_on else 1] += 1
+        self.dict[stop_id][stop_time][direction][0 if is_on else 1] += 1
 
-    def get_stats(self, stop_id, stop_time, is_on):
-        return self.dict[stop_id][stop_time][0 if is_on else 1]
+    def get_stats(self, stop_id, stop_time, direction, is_on):
+        return self.dict[stop_id][stop_time][direction][0 if is_on else 1]
 
 class Genotype:
     def __init__(self, random=True):
         # TODO ramp up
         # TODO get standard distribution of quantities -- should have some
-        # range and flexibility around this rough average
+        # range and flexibility around this rough average -- this will require changing
+        # crossover function! (or get bounds error)
         # ~671000 rides on rail each day
         # ~77300 rides on bus each day
         if random:
@@ -165,11 +168,11 @@ class Genotype:
             self.bus_stats = GenoStats()
             for i in range(3):
                 rail_rides.append(Ride('rail'))
-                self.rail_stats.add_ride(rail_rides[-1].dict['start_id'], rail_rides[-1].dict['start_time'], True) 
-                self.rail_stats.add_ride(rail_rides[-1].dict['end_id'], rail_rides[-1].dict['end_time'], False) 
+                self.rail_stats.add_ride(rail_rides[-1].dict['start_id'], rail_rides[-1].dict['start_time'], rail_rides[-1].dict['direction'], True) 
+                self.rail_stats.add_ride(rail_rides[-1].dict['end_id'], rail_rides[-1].dict['end_time'], rail_rides[-1].dict['direction'], False) 
                 bus_rides.append(Ride('bus'))
-                self.bus_stats.add_ride(bus_rides[-1].dict['start_id'], bus_rides[-1].dict['start_time'], True) 
-                self.bus_stats.add_ride(bus_rides[-1].dict['end_id'], bus_rides[-1].dict['end_time'], False) 
+                self.bus_stats.add_ride(bus_rides[-1].dict['start_id'], bus_rides[-1].dict['start_time'], bus_rides[-1].dict['direction'], True) 
+                self.bus_stats.add_ride(bus_rides[-1].dict['end_id'], bus_rides[-1].dict['end_time'], bus_rides[-1].dict['direction'], False) 
             self.rail_rides = rail_rides
             self.bus_rides = bus_rides
         else:
@@ -186,28 +189,41 @@ class Genotype:
                 r = Ride()
                 r.dict = ride
                 self.rail_rides.append(r)
-                self.rail_stats.add_ride(ride['start_id'], ride['start_time'], True) 
-                self.rail_stats.add_ride(ride['end_id'], ride['end_time'], False) 
+                self.rail_stats.add_ride(ride['start_id'], ride['start_time'], ride['direction'], True) 
+                self.rail_stats.add_ride(ride['end_id'], ride['end_time'], ride['direction'], False) 
             for ride in j['bus_rides']:
                 r = Ride()
                 r.dict = ride
                 self.bus_rides.append(r)
-                self.bus_stats.add_ride(ride['start_id'], ride['start_time'], True) 
-                self.bus_stats.add_ride(ride['end_id'], ride['end_time'], False) 
+                self.bus_stats.add_ride(ride['start_id'], ride['start_time'], ride['direction'], True) 
+                self.bus_stats.add_ride(ride['end_id'], ride['end_time'], ride['direction'], False) 
             f.close()
 
-        # TODO read in from file and initialize
+    def fitness_rideset(self, modality):
+        df = df_rail_ridership if modality == 'rail' else df_bus_ridership
+        stats = self.rail_stats if modality == 'rail' else self.bus_stats
+        fitness = 0 # lower fitness is better -- 0 = "perfect match", so-to-speak
+        for index, row in df.iterrows():
+            # check difference between known stats and our stats
+            known_ons = row['average_ons']
+            known_offs = row['average_offs']
+            our_ons = stats[row['stop_id']][row['time_period_name']][int(row['direction_id'])][0]
+            our_offs = stats[row['stop_id']][row['time_period_name']][int(row['direction_id'])][1]
+
 
     # calculates fitness of an individual
-    #def fitness(self):
+    def fitness(self):
         # TODO
         # count how many rides are short/over averages
         # check how many std deviations we are from averages in data
+        return self.fitness_rideset('rail') + self.fitness_rideset('bus')
 
     # returns fresh Genotype instance mutated off self
     def mutation(self):
         # randomly modify rides
         # TODO tweak odds accordingly as use continues
+        # right now just randomly generates a new ride, but could also consider more granular randomness,
+        # as this still uses whatever odds exist in our original ride generation process
         new_genotype = Genotype()
         new_genotype.rail_rides = [rr if random.random() < 0.5 else Ride('rail') for rr in self.rail_rides]
         new_genotype.bus_rides = [br if random.random() < 0.5 else Ride('bus') for br in self.bus_rides]

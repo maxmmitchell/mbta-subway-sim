@@ -9,11 +9,11 @@
 import csv
 import genotype as g
 
-# geno = g.Genotype()
-# print(geno.json_print())
-genoFromFile = g.Genotype(False)
-genoFromFile.from_file('primitive_demo.json')
-print(genoFromFile.json_print())
+geno = g.Genotype()
+print(geno.json_print())
+# genoFromFile = g.Genotype(False)
+# genoFromFile.from_file('primitive_demo.json')
+# print(genoFromFile.json_print())
 
 # geno1 = g.Genotype()
 # geno2 = g.Genotype()
