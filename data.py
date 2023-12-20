@@ -14,21 +14,22 @@ df_rail = pd.read_csv('MBTA_Rail_Ridership_by_Time_Period.csv')
 df_bus = pd.read_csv('MBTA_Bus_Ridership_by_Time_Period.csv')
 df_rail_stops = pd.read_csv('MBTA_Rail_Stops.csv')
 df_bus_stops = pd.read_csv('MBTA_Bus_Stops.csv')
-df_stops = pd.read_csv('stops-20191203.txt')
-
+df_stops = pd.read_csv('stops-20190808-modified.csv')
 d = {}
 for index, rrow in df_rail.iterrows():
     found = False
     # only need to look at each one once
     if rrow['time_period_name'] == "EARLY_AM":
-        for index, srow in df_stops.iterrows():
-            if str(rrow['stop_id']) == str(srow['stop_id']):
-                print("Found " + str(rrow['stop_id']))
-                found = True
-                break
-        if not found:
-            #print("Didn't find " + str(rrow['stop_id']))
+        if '\'' + str(rrow['stop_id']) + '\'' in df_stops['stop_id'].tolist():
             d[str(rrow['stop_id'])] = str(rrow['stop_name'])
+        # for index, srow in df_stops.iterrows():
+        #     if str(rrow['stop_id']) == str(srow['stop_id']):
+        #         #print("Found " + str(rrow['stop_id']))
+        #         found = True
+        #         break
+        # if not found:
+        #     #print("Didn't find " + str(rrow['stop_id']))
+        #     d[str(rrow['stop_id'])] = str(rrow['stop_name'])
 for key in d:
     print('Couldn\'t find: ' + key + ', ' + d[key])
 # df_bus = df_bus[['stop_name', 'stop_lat', 'stop_lon', 'Routes']]
