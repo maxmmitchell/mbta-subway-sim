@@ -10,6 +10,7 @@ import json
 import requests
 import random
 import pandas as pd
+import statistics as stats
 
 class Time:
     def __init__(self, text, text_range, start, duration, odds_rail, odds_bus):
@@ -34,8 +35,12 @@ times = [
 ]
 
 df_rail_ridership = pd.read_csv('MBTA_Rail_Ridership_by_Time_Period.csv')
+rail_ons_stdev = stats.stdev(df_rail_ridership['average_ons'].tolist())
+rail_offs_stdev = stats.stdev(df_rail_ridership['average_offs'].tolist())
 df_rail_stops = pd.read_csv('MBTA_Rail_Stops.csv')
 df_bus_ridership = pd.read_csv('MBTA_Bus_Ridership_by_Time_Period.csv')
+bus_ons_stdev = stats.stdev(df_bus_ridership['average_ons'].tolist())
+bus_offs_stdev = stats.stdev(df_bus_ridership['average_offs'].tolist())
 df_bus_stops = pd.read_csv('stops-20190808-modified.csv')
 
 class Ride:
@@ -166,13 +171,14 @@ class Genotype:
             bus_rides = []
             self.rail_stats = GenoStats()
             self.bus_stats = GenoStats()
-            for i in range(3):
+            for i in range(671000):
                 rail_rides.append(Ride('rail'))
                 self.rail_stats.add_ride(rail_rides[-1].dict['start_id'], rail_rides[-1].dict['start_time'], rail_rides[-1].dict['direction'], True) 
                 self.rail_stats.add_ride(rail_rides[-1].dict['end_id'], rail_rides[-1].dict['end_time'], rail_rides[-1].dict['direction'], False) 
-                bus_rides.append(Ride('bus'))
-                self.bus_stats.add_ride(bus_rides[-1].dict['start_id'], bus_rides[-1].dict['start_time'], bus_rides[-1].dict['direction'], True) 
-                self.bus_stats.add_ride(bus_rides[-1].dict['end_id'], bus_rides[-1].dict['end_time'], bus_rides[-1].dict['direction'], False) 
+                if i < 77300:
+                    bus_rides.append(Ride('bus'))
+                    self.bus_stats.add_ride(bus_rides[-1].dict['start_id'], bus_rides[-1].dict['start_time'], bus_rides[-1].dict['direction'], True) 
+                    self.bus_stats.add_ride(bus_rides[-1].dict['end_id'], bus_rides[-1].dict['end_time'], bus_rides[-1].dict['direction'], False) 
             self.rail_rides = rail_rides
             self.bus_rides = bus_rides
         else:
@@ -202,21 +208,35 @@ class Genotype:
     def fitness_rideset(self, modality):
         df = df_rail_ridership if modality == 'rail' else df_bus_ridership
         stats = self.rail_stats if modality == 'rail' else self.bus_stats
-        fitness = 0 # lower fitness is better -- 0 = "perfect match", so-to-speak
+        stdev_on = rail_ons_stdev if modality == 'rail' else bus_ons_stdev
+        stdev_off = rail_offs_stdev if modality == 'rail' else bus_offs_stdev
+
+        difference = 0 
+        deviation = 0
         for index, row in df.iterrows():
             # check difference between known stats and our stats
             known_ons = row['average_ons']
             known_offs = row['average_offs']
-            our_ons = stats[row['stop_id']][row['time_period_name']][int(row['direction_id'])][0]
-            our_offs = stats[row['stop_id']][row['time_period_name']][int(row['direction_id'])][1]
-
+            our_ons = 0
+            our_offs = 0
+            if row['stop_id'] in stats.dict:
+                our_ons = stats.dict[row['stop_id']][row['time_period_name']][int(row['direction_id'])][0]
+                our_offs = stats.dict[row['stop_id']][row['time_period_name']][int(row['direction_id'])][1] 
+            # normal distribution has 68.4% at 1 std deviation below/above
+            difference += abs(known_ons - our_ons) + abs(known_offs - our_offs)
+            # mean = 𝜇
+            # stdev = 𝜎
+            # data point = 𝑥
+            # x is |𝑥−𝜇|/𝜎 std deviations from mean
+            deviation += (abs(our_ons - known_ons) / stdev_on) + (abs(our_offs - known_offs) / stdev_off)
+        return difference, deviation
 
     # calculates fitness of an individual
     def fitness(self):
         # TODO
         # count how many rides are short/over averages
         # check how many std deviations we are from averages in data
-        return self.fitness_rideset('rail') + self.fitness_rideset('bus')
+        return self.fitness_rideset('rail')[1] + self.fitness_rideset('bus')[1]
 
     # returns fresh Genotype instance mutated off self
     def mutation(self):
