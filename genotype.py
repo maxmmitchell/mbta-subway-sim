@@ -11,6 +11,7 @@ import requests
 import random
 import pandas as pd
 import statistics as stats
+import sys
 
 class Time:
     def __init__(self, text, text_range, start, duration, odds_rail, odds_bus):
@@ -59,6 +60,7 @@ class Ride:
     # modality should be either 'rail' or 'bus'
     # modality of none implies an empty ride
     def __init__(self, modality='none'):
+        self.dict = {}
         if modality == 'none':
             return
         # select pseudo-random start time, weighted based on ridership proportions
@@ -80,7 +82,7 @@ class Ride:
         # the station selection process and give us what we want here...
         selected_end = self.pick_station(selected_time.text, modality, 'off')
         # ensure end is different from start
-        while selected_end['stop_id'] == selected_start['stop_id']:
+        while str(selected_end['stop_id']) == str(selected_start['stop_id']):
             selected_end = self.pick_station(selected_time.text, modality, 'off')
         # get coordinates
         #print(selected_start['stop_name'] + ', ' + str(selected_start['stop_id']))
@@ -109,10 +111,15 @@ class Ride:
         }
         response = requests.get("https://maps.googleapis.com/maps/api/distancematrix/json", params = p)
         # determine if we're more likely to arrive @ same start time, or in next time slot
-        # TODO add a catch here so we don't key error if this request fails
-        #try:
-        trip_length = response.json()['rows'][0]['elements'][0]['duration']['value'] / 60 # minutes
-        #except:
+        try:
+            trip_length = response.json()['rows'][0]['elements'][0]['duration']['value'] / 60 # minutes
+        except:
+            print('Failed querying:', file=sys.stderr)
+            print(json.dumps(p, indent=4), file=sys.stderr)
+            print('Partial response:', file=sys.stderr)
+            print(json.dumps(response.json(), indent=4), file=sys.stderr)
+            self.dict = Ride(modality).dict
+            return
 
         odds_next_time = trip_length / selected_time.duration 
         end_time = selected_time
@@ -160,7 +167,6 @@ class GenoStats:
 
 class Genotype:
     def __init__(self, random=True):
-        # TODO ramp up
         # TODO get standard distribution of quantities -- should have some
         # range and flexibility around this rough average -- this will require changing
         # crossover function! (or get bounds error)
