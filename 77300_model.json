@@ -1,0 +1,93 @@
+{
+"rail_rides": [{
+    "start_station": "Broadway",
+    "start_point": "42.342622, -71.056967",
+    "start_id": "place-brdwy",
+    "direction": 1,
+    "end_station": "Maverick",
+    "end_point": "42.369119, -71.03953",
+    "end_id": "place-mvbcl",
+    "start_time": "PM_PEAK",
+    "end_time": "PM_PEAK"
+},{
+    "start_station": "Downtown Crossing",
+    "start_point": "42.355518, -71.060225",
+    "start_id": "place-dwnxg",
+    "direction": 1,
+    "end_station": "Haymarket",
+    "end_point": "42.363021, -71.05829",
+    "end_id": "place-haecl",
+    "start_time": "EVENING",
+    "end_time": "EVENING"
+},{
+    "start_station": "Science Park",
+    "start_point": "42.366664, -71.067666",
+    "start_id": "place-spmnl",
+    "direction": 0,
+    "end_station": "Maverick",
+    "end_point": "42.369119, -71.03953",
+    "end_id": "place-mvbcl",
+    "start_time": "MIDDAY_SCHOOL",
+    "end_time": "MIDDAY_SCHOOL"
+},{
+    "start_station": "Kenmore",
+    "start_point": "42.348949, -71.095169",
+    "start_id": "place-kencl",
+    "direction": 0,
+    "end_station": "State Street",
+    "end_point": "42.358978, -71.057598",
+    "end_id": "place-state",
+    "start_time": "LATE_EVENING",
+    "end_time": "LATE_EVENING"
+},{
+    "start_station": "Downtown Crossing",
+    "start_point": "42.355518, -71.060225",
+    "start_id": "place-dwnxg",
+    "direction": 1,
+    "end_station": "Davis",
+    "end_point": "42.39674, -71.121815",
+    "end_id": "place-davis",
+    "start_time": "PM_PEAK",
+    "end_time": "PM_PEAK"
+},{
+    "start_station": "Prudential",
+    "start_point": "42.34557, -71.081696",
+    "start_id": "place-prmnl",
+    "direction": 1,
+    "end_station": "Massachusetts Ave.",
+    "end_point": "42.341512, -71.083423",
+    "end_id": "place-masta",
+    "start_time": "MIDDAY_SCHOOL",
+    "end_time": "MIDDAY_SCHOOL"
+},{
+    "start_station": "Back Bay",
+    "start_point": "42.34735, -71.075727",
+    "start_id": "place-bbsta",
+    "direction": 1,
+    "end_station": "Summit Ave.",
+    "end_point": "42.34111, -71.12561",
+    "end_id": "place-sumav",
+    "start_time": "PM_PEAK",
+    "end_time": "PM_PEAK"
+},{
+    "start_station": "Park Street",
+    "start_point": "42.356395, -71.062424",
+    "start_id": "place-pktrm",
+    "direction": 1,
+    "end_station": "Kenmore",
+    "end_point": "42.348949, -71.095169",
+    "end_id": "place-kencl",
+    "start_time": "PM_PEAK",
+    "end_time": "EVENING"
+}],
+"bus_rides": [{
+    "start_station": "MALDEN CENTER EAST BUSWAY 2",
+    "start_point": "42.426507, -71.073919",
+    "start_id": 5327,
+    "direction": 1,
+    "end_station": "MASSACHUSETTS AVE @ HUNTINGTO",
+    "end_point": "42.342478, -71.084701",
+    "end_id": 82,
+    "start_time": "PM_PEAK",
+    "end_time": "PM_PEAK"
+}]}

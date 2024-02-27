@@ -1,0 +1,13 @@
+stop_id,inbound_neighbor,inbound_time,outbound_neighbor,outbound_time
+place-aport,place-mvbcl,5.5,place-wimnl,5.5
+place-aqucl,place-state,5.5,place-mvbcl,5.5
+place-bmmnl,place-sdmnl,5.5,place-rbmnl,5.5
+place-bomnl,place-xxxxx,-1,place-gover,5.5
+place-gover,place-bomnl,5.5,place-state,5.5
+place-mvbcl,place-aqucl,5.5,place-aport,5.5
+place-orhte,place-wimnl,5.5,place-sdmnl,5.5
+place-rbmnl,place-bmmnl,5.5,place-wondl,5.5
+place-sdmnl,place-orhte,5.5,place-bmmnl,5.5
+place-state,place-gover,5.5,place-aqucl,5.5
+place-wimnl,place-aport,5.5,place-orhte,5.5
+place-wondl,place-rbmnl,5.5,place-xxxxx,-1

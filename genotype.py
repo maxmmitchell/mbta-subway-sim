@@ -114,10 +114,10 @@ class Ride:
         try:
             trip_length = response.json()['rows'][0]['elements'][0]['duration']['value'] / 60 # minutes
         except:
-            print('Failed querying:', file=sys.stderr)
-            print(json.dumps(p, indent=4), file=sys.stderr)
-            print('Partial response:', file=sys.stderr)
-            print(json.dumps(response.json(), indent=4), file=sys.stderr)
+            print('Failed querying:', sys.stderr)
+            print(json.dumps(p, indent=4), sys.stderr)
+            print('Partial response:', sys.stderr)
+            print(json.dumps(response.json(), indent=4), sys.stderr)
             self.dict = Ride(modality).dict
             return
 
@@ -177,11 +177,11 @@ class Genotype:
             bus_rides = []
             self.rail_stats = GenoStats()
             self.bus_stats = GenoStats()
-            for i in range(671000):
+            for i in range(int(671000 / 77300)):
                 rail_rides.append(Ride('rail'))
                 self.rail_stats.add_ride(rail_rides[-1].dict['start_id'], rail_rides[-1].dict['start_time'], rail_rides[-1].dict['direction'], True) 
                 self.rail_stats.add_ride(rail_rides[-1].dict['end_id'], rail_rides[-1].dict['end_time'], rail_rides[-1].dict['direction'], False) 
-                if i < 77300:
+                if i < int(77300 / 77300):
                     bus_rides.append(Ride('bus'))
                     self.bus_stats.add_ride(bus_rides[-1].dict['start_id'], bus_rides[-1].dict['start_time'], bus_rides[-1].dict['direction'], True) 
                     self.bus_stats.add_ride(bus_rides[-1].dict['end_id'], bus_rides[-1].dict['end_time'], bus_rides[-1].dict['direction'], False) 
@@ -234,6 +234,10 @@ class Genotype:
             # stdev = 𝜎
             # data point = 𝑥
             # x is |𝑥−𝜇|/𝜎 std deviations from mean
+            # WHEN BETTER DATA ARRIVES:
+            # calculate sample std deviation, across entire dataset, use that fixed for all of these
+            # OR calculate different sample std deviation for each stop, have each stop have different deviations
+            # estimate std deviation without any data -- more complicated
             deviation += (abs(our_ons - known_ons) / stdev_on) + (abs(our_offs - known_offs) / stdev_off)
         return difference, deviation
 
@@ -242,7 +246,9 @@ class Genotype:
         # TODO
         # count how many rides are short/over averages
         # check how many std deviations we are from averages in data
-        return self.fitness_rideset('rail')[1] + self.fitness_rideset('bus')[1]
+        # I think std deviation calcs I'm doing right now are all wack...for
+        # now, return difference
+        return self.fitness_rideset('rail')[0] + self.fitness_rideset('bus')[0]
 
     # returns fresh Genotype instance mutated off self
     def mutation(self):
