@@ -182,10 +182,13 @@ class Genotype:
             #bus_rides = []
             self.rail_stats = GenoStats()
             #self.bus_stats = GenoStats()
-            for i in range(int(671000 / 60)):
+            for i in range(int(671000)):
                 rail_rides.append(Ride('rail'))
-                self.rail_stats.add_ride(rail_rides[-1].dict['start_id'], rail_rides[-1].dict['start_time'], rail_rides[-1].dict['direction'], True) 
-                self.rail_stats.add_ride(rail_rides[-1].dict['end_id'], rail_rides[-1].dict['end_time'], rail_rides[-1].dict['direction'], False) 
+                try:
+                    self.rail_stats.add_ride(rail_rides[-1].dict['start_id'], rail_rides[-1].dict['start_time'], rail_rides[-1].dict['direction'], True) 
+                    self.rail_stats.add_ride(rail_rides[-1].dict['end_id'], rail_rides[-1].dict['end_time'], rail_rides[-1].dict['direction'], False) 
+                except:
+                    print("Failed adding stats for:", rail_rides[-1])
             #     if i < int(77300 / 77300):
             #         bus_rides.append(Ride('bus'))
             #         self.bus_stats.add_ride(bus_rides[-1].dict['start_id'], bus_rides[-1].dict['start_time'], bus_rides[-1].dict['direction'], True) 
