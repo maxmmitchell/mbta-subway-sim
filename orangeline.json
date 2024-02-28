@@ -91,10 +91,10 @@
         "transfer":"green-e"
     },
     "place-ogmnl": {
-        "inbound_neighbor":"",
-        "inbound_time":"",
-        "outbound_neighbor":"",
-        "outbound_time":"",
+        "inbound_neighbor":"place-mlmnl",
+        "inbound_time":"1",
+        "outbound_neighbor":"place-xxxxx",
+        "outbound_time":"-1",
         "transfer":"none"
     },
     "place-rcmnl": {

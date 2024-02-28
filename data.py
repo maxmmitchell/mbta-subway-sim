@@ -22,10 +22,10 @@ df_stops = pd.read_csv('stops-20190808-modified.csv')
 # Travel Matrix on T
 # # # # # # # # # # # # # # #
 # 1. Getting Stops from certain lines
-for index, rrow in df_rail.iterrows():
-    if(rrow['time_period_name'] == 'VERY_EARLY_MORNING' and rrow['direction_id'] == 1 and rrow['day_type_name'] == 'weekday'):
-        if (rrow['route_id'] == 'Green'):
-            print(rrow['stop_id'])
+# for index, rrow in df_rail.iterrows():
+#     if(rrow['time_period_name'] == 'VERY_EARLY_MORNING' and rrow['direction_id'] == 1 and rrow['day_type_name'] == 'weekday'):
+#         if (rrow['route_id'] == 'Green'):
+#             print(rrow['stop_id'])
             #print(rrow['stop_name'])
             #print()
 # 2. Generating matrix from each stop to each stop
@@ -51,25 +51,26 @@ dict_dict = {
 
 dict_graph = json.load(open('graph.json'))
 # dict_graph = {}
-all_stops = ['place-alsgr','place-armnl','place-babck','place-bckhl','place-bcnfd','place-bcnwa','place-bland','place-bndhl','place-boyls','place-brico','place-brkhl','place-brmnl','place-bucen','place-buest','place-buwst','place-bvmnl','place-chhil','place-chill','place-chswk','place-clmnl','place-coecl','place-cool','place-denrd','place-eliot','place-engav','place-fbkst','place-fenwd','place-fenwy','place-gover','place-grigg','place-haecl','place-harvd','place-hsmnl','place-hwsst','place-hymnl','place-kencl','place-kntst','place-lake','place-lech','place-lngmd','place-longw','place-mfa','place-mispk','place-newtn','place-newto','place-north','place-nuniv','place-pktrm','place-plsgr','place-prmnl','place-river','place-rsmnl','place-rvrwy','place-smary','place-sougr','place-spmnl','place-sthld','place-stplb','place-stpul','place-sumav','place-symcl','place-tapst','place-waban','place-wascm','place-woodl','place-wrnst','place-aport','place-aqucl','place-bmmnl','place-bomnl','place-gover','place-mvbcl','place-orhte','place-rbmnl','place-sdmnl','place-state','place-wimnl','place-wondl','place-mlmnl','place-north','place-ogmnl','place-rcmnl','place-rugg','place-sbmnl','place-state','place-sull','place-tumnl','place-welln','place-astao','place-bbsta','place-ccmnl','place-chncl','place-dwnxg','place-forhl','place-grnst','place-haecl','place-jaksn','place-masta','place-alfcl','place-andrw','place-asmnl','place-brdwy','place-brntn','place-chmnl','place-cntsq','place-davis','place-dwnxg','place-fldcr','place-harsq','place-jfk','place-knncl','place-nqncy','place-pktrm','place-portr','place-qamnl','place-qnctr','place-shmnl','place-smmnl','place-sstat','place-wlsta']
+#all_stops = ['place-alsgr','place-armnl','place-babck','place-bckhl','place-bcnfd','place-bcnwa','place-bland','place-bndhl','place-boyls','place-brico','place-brkhl','place-brmnl','place-bucen','place-buest','place-buwst','place-bvmnl','place-chhil','place-chill','place-chswk','place-clmnl','place-coecl','place-cool','place-denrd','place-eliot','place-engav','place-fbkst','place-fenwd','place-fenwy','place-gover','place-grigg','place-haecl','place-harvd','place-hsmnl','place-hwsst','place-hymnl','place-kencl','place-kntst','place-lake','place-lech','place-lngmd','place-longw','place-mfa','place-mispk','place-newtn','place-newto','place-north','place-nuniv','place-pktrm','place-plsgr','place-prmnl','place-river','place-rsmnl','place-rvrwy','place-smary','place-sougr','place-spmnl','place-sthld','place-stplb','place-stpul','place-sumav','place-symcl','place-tapst','place-waban','place-wascm','place-woodl','place-wrnst','place-aport','place-aqucl','place-bmmnl','place-bomnl','place-gover','place-mvbcl','place-orhte','place-rbmnl','place-sdmnl','place-state','place-wimnl','place-wondl','place-mlmnl','place-north','place-ogmnl','place-rcmnl','place-rugg','place-sbmnl','place-state','place-sull','place-tumnl','place-welln','place-astao','place-bbsta','place-ccmnl','place-chncl','place-dwnxg','place-forhl','place-grnst','place-haecl','place-jaksn','place-masta','place-alfcl','place-andrw','place-asmnl','place-brdwy','place-brntn','place-chmnl','place-cntsq','place-davis','place-dwnxg','place-fldcr','place-harsq','place-jfk','place-knncl','place-nqncy','place-pktrm','place-portr','place-qamnl','place-qnctr','place-shmnl','place-smmnl','place-sstat','place-wlsta']
 
-def distance(line, origin, line_stops, stop, sofar, dir, prev_line='none'):
+def distance(line, origin, line_stops, stop, sofar, dir, curr_line, visited_lines):
     if stop == 'place-xxxxx':
         return
     neighbor = 'inbound_neighbor' if dir == 'i' else 'outbound_neighbor'
     time = 'inbound_time' if dir == 'i' else 'outbound_time'
     dict_graph[line][origin][stop] = sofar
-    distance(line, origin, line_stops, line_stops[stop][neighbor], sofar + line_stops[stop][time])
+    distance(line, origin, line_stops, line_stops[stop][neighbor], sofar + float(line_stops[stop][time]), dir, curr_line, visited_lines)
     pot_trans = line_stops[stop]['transfer']
-    if pot_trans != 'none' and pot_trans != prev_line:
-        distance(pot_trans, origin, dict_dict[pot_trans], stop, sofar, 'i', line)
-        distance(pot_trans, origin, dict_dict[pot_trans], stop, sofar, 'o', line)
+    if pot_trans != 'none' and not pot_trans in visited_lines:
+        visited_lines.append(pot_trans)
+        distance(line, origin, dict_dict[pot_trans], stop, sofar, 'i', pot_trans, visited_lines)
+        distance(line, origin, dict_dict[pot_trans], stop, sofar, 'o', pot_trans, visited_lines)
 
 for line in dict_graph:
     line_stops = dict_dict[line]
-    for stop in line:
-        distance(line, stop, line_stops, stop, 0, 'i')
-        distance(line, stop, line_stops, stop, 0, 'o')
+    for stop in dict_graph[line]:
+        distance(line, stop, line_stops, stop, 0, 'i', line, [line])
+        distance(line, stop, line_stops, stop, 0, 'o', line, [line])
 
 print(json.dumps(dict_graph,indent=4))
 

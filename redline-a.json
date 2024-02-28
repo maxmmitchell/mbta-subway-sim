@@ -102,7 +102,7 @@
         "inbound_time":"2",
         "outbound_neighbor":"place-chmnl",
         "outbound_time":"4",
-        "transfer":"green"
+        "transfer":"green-e"
     },
     "place-portr":{
         "inbound_neighbor":"place-harsq",
@@ -135,7 +135,7 @@
     "place-smmnl":{
         "inbound_neighbor":"place-asmnl",
         "inbound_time":"3",
-        "outbound_neighbor":"place-fldcl",
+        "outbound_neighbor":"place-fldcr",
         "outbound_time":"2",
         "transfer":"none"
     },
