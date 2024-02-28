@@ -43,6 +43,7 @@ df_bus_ridership = pd.read_csv('MBTA_Bus_Ridership_by_Time_Period.csv')
 bus_ons_stdev = stats.stdev(df_bus_ridership['average_ons'].tolist())
 bus_offs_stdev = stats.stdev(df_bus_ridership['average_offs'].tolist())
 df_bus_stops = pd.read_csv('stops-20190808-modified.csv')
+rail_map = json.load(open('map.json'))
 
 class Ride:
     def pick_station(self, time, modality, dir):
@@ -102,24 +103,30 @@ class Ride:
         #print(o_lat + ', ' + o_lon)
         #print(d_lat + ', ' + d_lon)
         # get timing info
-        p = {
-            "mode":"transit", 
-            "transit_mode":modality,
-            "origins":o_lat + ', ' + o_lon,
-            "destinations":d_lat + ', ' + d_lon,
-            "key":"AIzaSyCJ3bMTL8NA1UmL3D-ZyWH-0rx98q71vqQ" 
-        }
-        response = requests.get("https://maps.googleapis.com/maps/api/distancematrix/json", params = p)
-        # determine if we're more likely to arrive @ same start time, or in next time slot
         try:
-            trip_length = response.json()['rows'][0]['elements'][0]['duration']['value'] / 60 # minutes
+            trip_length = rail_map[selected_start['stop_id']][selected_end['stop_id']]
         except:
-            print('Failed querying:', sys.stderr)
-            print(json.dumps(p, indent=4), sys.stderr)
-            print('Partial response:', sys.stderr)
-            print(json.dumps(response.json(), indent=4), sys.stderr)
-            self.dict = Ride(modality).dict
+            print("Failed querying:", selected_start['stop_id'], selected_end['stop_id'])
             return
+
+        # p = {
+        #     "mode":"transit", 
+        #     "transit_mode":modality,
+        #     "origins":o_lat + ', ' + o_lon,
+        #     "destinations":d_lat + ', ' + d_lon,
+        #     "key":"AIzaSyCJ3bMTL8NA1UmL3D-ZyWH-0rx98q71vqQ" 
+        # }
+        # response = requests.get("https://maps.googleapis.com/maps/api/distancematrix/json", params = p)
+        # # determine if we're more likely to arrive @ same start time, or in next time slot
+        # try:
+        #     trip_length = response.json()['rows'][0]['elements'][0]['duration']['value'] / 60 # minutes
+        # except:
+        #     print('Failed querying:', sys.stderr)
+        #     print(json.dumps(p, indent=4), sys.stderr)
+        #     print('Partial response:', sys.stderr)
+        #     print(json.dumps(response.json(), indent=4), sys.stderr)
+        #     self.dict = Ride(modality).dict
+        #     return
 
         odds_next_time = trip_length / selected_time.duration 
         end_time = selected_time
@@ -146,8 +153,6 @@ class Ride:
             "end_id":selected_end['stop_id'],
             "start_time":selected_time.text,
             "end_time":end_time.text,
-            # for now, not recording the "route", but "directions" api from Google Maps could do this
-            # (if it would be useful)
         }
 
 class GenoStats:
@@ -174,24 +179,24 @@ class Genotype:
         # ~77300 rides on bus each day
         if random:
             rail_rides = []
-            bus_rides = []
+            #bus_rides = []
             self.rail_stats = GenoStats()
-            self.bus_stats = GenoStats()
-            for i in range(int(671000 / 77300)):
+            #self.bus_stats = GenoStats()
+            for i in range(int(671000 / 60)):
                 rail_rides.append(Ride('rail'))
                 self.rail_stats.add_ride(rail_rides[-1].dict['start_id'], rail_rides[-1].dict['start_time'], rail_rides[-1].dict['direction'], True) 
                 self.rail_stats.add_ride(rail_rides[-1].dict['end_id'], rail_rides[-1].dict['end_time'], rail_rides[-1].dict['direction'], False) 
-                if i < int(77300 / 77300):
-                    bus_rides.append(Ride('bus'))
-                    self.bus_stats.add_ride(bus_rides[-1].dict['start_id'], bus_rides[-1].dict['start_time'], bus_rides[-1].dict['direction'], True) 
-                    self.bus_stats.add_ride(bus_rides[-1].dict['end_id'], bus_rides[-1].dict['end_time'], bus_rides[-1].dict['direction'], False) 
+            #     if i < int(77300 / 77300):
+            #         bus_rides.append(Ride('bus'))
+            #         self.bus_stats.add_ride(bus_rides[-1].dict['start_id'], bus_rides[-1].dict['start_time'], bus_rides[-1].dict['direction'], True) 
+            #         self.bus_stats.add_ride(bus_rides[-1].dict['end_id'], bus_rides[-1].dict['end_time'], bus_rides[-1].dict['direction'], False) 
             self.rail_rides = rail_rides
-            self.bus_rides = bus_rides
+            #self.bus_rides = bus_rides
         else:
             self.rail_rides = []
-            self.bus_rides = []
+            #self.bus_rides = []
             self.rail_stats = GenoStats()
-            self.bus_stats = GenoStats()
+            #self.bus_stats = GenoStats()
     
     # other ways to initialize a Genotype
     def from_file(self, fname):
@@ -203,12 +208,12 @@ class Genotype:
                 self.rail_rides.append(r)
                 self.rail_stats.add_ride(ride['start_id'], ride['start_time'], ride['direction'], True) 
                 self.rail_stats.add_ride(ride['end_id'], ride['end_time'], ride['direction'], False) 
-            for ride in j['bus_rides']:
-                r = Ride()
-                r.dict = ride
-                self.bus_rides.append(r)
-                self.bus_stats.add_ride(ride['start_id'], ride['start_time'], ride['direction'], True) 
-                self.bus_stats.add_ride(ride['end_id'], ride['end_time'], ride['direction'], False) 
+            # for ride in j['bus_rides']:
+            #     r = Ride()
+            #     r.dict = ride
+            #     self.bus_rides.append(r)
+            #     self.bus_stats.add_ride(ride['start_id'], ride['start_time'], ride['direction'], True) 
+            #     self.bus_stats.add_ride(ride['end_id'], ride['end_time'], ride['direction'], False) 
             f.close()
 
     def fitness_rideset(self, modality):
@@ -248,7 +253,8 @@ class Genotype:
         # check how many std deviations we are from averages in data
         # I think std deviation calcs I'm doing right now are all wack...for
         # now, return difference
-        return self.fitness_rideset('rail')[0] + self.fitness_rideset('bus')[0]
+        return self.fitness_rideset('rail')[0] 
+        #+ self.fitness_rideset('bus')[0]
 
     # returns fresh Genotype instance mutated off self
     def mutation(self):
@@ -258,7 +264,7 @@ class Genotype:
         # as this still uses whatever odds exist in our original ride generation process
         new_genotype = Genotype()
         new_genotype.rail_rides = [rr if random.random() < 0.5 else Ride('rail') for rr in self.rail_rides]
-        new_genotype.bus_rides = [br if random.random() < 0.5 else Ride('bus') for br in self.bus_rides]
+        #new_genotype.bus_rides = [br if random.random() < 0.5 else Ride('bus') for br in self.bus_rides]
         return new_genotype
 
     # returns fresh Genotype instance crossing over self and other
@@ -266,7 +272,7 @@ class Genotype:
         new_genotype = Genotype()
         # TODO: if we ever have variable ride counts, this will need fixing or we'll get a bounds error
         new_genotype.rail_rides = [self.rail_rides[i] if random.random() < 0.5 else other.rail_rides[i] for i in range(len(self.rail_rides))]
-        new_genotype.bus_rides = [self.bus_rides[i] if random.random() < 0.5 else other.bus_rides[i] for i in range(len(self.bus_rides))]
+        #new_genotype.bus_rides = [self.bus_rides[i] if random.random() < 0.5 else other.bus_rides[i] for i in range(len(self.bus_rides))]
         return new_genotype
 
     # outputs a string in json format
@@ -274,10 +280,10 @@ class Genotype:
         j = '{\n"rail_rides": ['
         for ride in self.rail_rides:
             j += json.dumps(ride.dict, indent=indentation)
-            j += '],' if ride is self.rail_rides[-1] else ','
-        j += '\n"bus_rides": ['
-        for bus in self.bus_rides:
-            j += json.dumps(bus.dict, indent=indentation)
-            j += ']' if bus is self.bus_rides[-1] else ','
+            j += ']' if ride is self.rail_rides[-1] else ','
+        # j += '\n"bus_rides": ['
+        # for bus in self.bus_rides:
+        #     j += json.dumps(bus.dict, indent=indentation)
+        #     j += ']' if bus is self.bus_rides[-1] else ','
         j += '}'
         return j
