@@ -26,42 +26,125 @@ for index, rrow in df_rail.iterrows():
     if(rrow['time_period_name'] == 'VERY_EARLY_MORNING' and rrow['direction_id'] == 1 and rrow['day_type_name'] == 'weekday'):
         if (rrow['route_id'] == 'Green'):
             print(rrow['stop_id'])
-            print(rrow['stop_name'])
-            print()
+            #print(rrow['stop_name'])
+            #print()
 # 2. Generating matrix from each stop to each stop
-# dict_blue = json.load(open('blueline.json'))
-# dict_red_a = json.load(open('redline-a.json'))
-# dict_red_b = json.load(open('redline-b.json'))
-# dict_orange = json.load(open('orangeline.json'))
-# dict_green_e = json.load(open('greenline-e.json'))
-# dict_green_d = json.load(open('greenline-d.json'))
-# dict_green_c = json.load(open('greenline-c.json'))
-# dict_green_b = json.load(open('greenline-b.json'))
+dict_blue = json.load(open('blueline.json'))['stops']
+dict_red_a = json.load(open('redline-a.json'))['stops']
+dict_red_b = json.load(open('redline-b.json'))['stops']
+dict_orange = json.load(open('orangeline.json'))['stops']
+dict_green_e = json.load(open('greenline-e.json'))['stops']
+dict_green_d = json.load(open('greenline-d.json'))['stops']
+dict_green_c = json.load(open('greenline-c.json'))['stops']
+dict_green_b = json.load(open('greenline-b.json'))['stops']
 
-# dict_graph = json.load(open('graph.json'))
-#dict_graph = {}
-#all_stops = ['place-alsgr','place-armnl','place-babck','place-bckhl','place-bcnfd','place-bcnwa','place-bland','place-bndhl','place-boyls','place-brico','place-brkhl','place-brmnl','place-bucen','place-buest','place-buwst','place-bvmnl','place-chhil','place-chill','place-chswk','place-clmnl','place-coecl','place-cool','place-denrd','place-eliot','place-engav','place-fbkst','place-fenwd','place-fenwy','place-gover','place-grigg','place-haecl','place-harvd','place-hsmnl','place-hwsst','place-hymnl','place-kencl','place-kntst','place-lake','place-lech','place-lngmd','place-longw','place-mfa','place-mispk','place-newtn','place-newto','place-north','place-nuniv','place-pktrm','place-plsgr','place-prmnl','place-river','place-rsmnl','place-rvrwy','place-smary','place-sougr','place-spmnl','place-sthld','place-stplb','place-stpul','place-sumav','place-symcl','place-tapst','place-waban','place-wascm','place-woodl','place-wrnst','place-aport','place-aqucl','place-bmmnl','place-bomnl','place-gover','place-mvbcl','place-orhte','place-rbmnl','place-sdmnl','place-state','place-wimnl','place-wondl','place-mlmnl','place-north','place-ogmnl','place-rcmnl','place-rugg','place-sbmnl','place-state','place-sull','place-tumnl','place-welln','place-astao','place-bbsta','place-ccmnl','place-chncl','place-dwnxg','place-forhl','place-grnst','place-haecl','place-jaksn','place-masta','place-alfcl','place-andrw','place-asmnl','place-brdwy','place-brntn','place-chmnl','place-cntsq','place-davis','place-dwnxg','place-fldcr','place-harsq','place-jfk','place-knncl','place-nqncy','place-pktrm','place-portr','place-qamnl','place-qnctr','place-shmnl','place-smmnl','place-sstat','place-wlsta']
+dict_dict = {
+    "blue":dict_blue,
+    "red-a":dict_red_a,
+    "red-b":dict_red_b,
+    "orange":dict_orange,
+    "green-e":dict_green_e,
+    "green-d":dict_green_d,
+    "green-c":dict_green_c,
+    "green-b":dict_green_b
+}
 
-# graph_stops = dict_graph['blue']
+dict_graph = json.load(open('graph.json'))
+# dict_graph = {}
+all_stops = ['place-alsgr','place-armnl','place-babck','place-bckhl','place-bcnfd','place-bcnwa','place-bland','place-bndhl','place-boyls','place-brico','place-brkhl','place-brmnl','place-bucen','place-buest','place-buwst','place-bvmnl','place-chhil','place-chill','place-chswk','place-clmnl','place-coecl','place-cool','place-denrd','place-eliot','place-engav','place-fbkst','place-fenwd','place-fenwy','place-gover','place-grigg','place-haecl','place-harvd','place-hsmnl','place-hwsst','place-hymnl','place-kencl','place-kntst','place-lake','place-lech','place-lngmd','place-longw','place-mfa','place-mispk','place-newtn','place-newto','place-north','place-nuniv','place-pktrm','place-plsgr','place-prmnl','place-river','place-rsmnl','place-rvrwy','place-smary','place-sougr','place-spmnl','place-sthld','place-stplb','place-stpul','place-sumav','place-symcl','place-tapst','place-waban','place-wascm','place-woodl','place-wrnst','place-aport','place-aqucl','place-bmmnl','place-bomnl','place-gover','place-mvbcl','place-orhte','place-rbmnl','place-sdmnl','place-state','place-wimnl','place-wondl','place-mlmnl','place-north','place-ogmnl','place-rcmnl','place-rugg','place-sbmnl','place-state','place-sull','place-tumnl','place-welln','place-astao','place-bbsta','place-ccmnl','place-chncl','place-dwnxg','place-forhl','place-grnst','place-haecl','place-jaksn','place-masta','place-alfcl','place-andrw','place-asmnl','place-brdwy','place-brntn','place-chmnl','place-cntsq','place-davis','place-dwnxg','place-fldcr','place-harsq','place-jfk','place-knncl','place-nqncy','place-pktrm','place-portr','place-qamnl','place-qnctr','place-shmnl','place-smmnl','place-sstat','place-wlsta']
+
+def distance(line, origin, line_stops, stop, sofar, dir, prev_line='none'):
+    if stop == 'place-xxxxx':
+        return
+    neighbor = 'inbound_neighbor' if dir == 'i' else 'outbound_neighbor'
+    time = 'inbound_time' if dir == 'i' else 'outbound_time'
+    dict_graph[line][origin][stop] = sofar
+    distance(line, origin, line_stops, line_stops[stop][neighbor], sofar + line_stops[stop][time])
+    pot_trans = line_stops[stop]['transfer']
+    if pot_trans != 'none' and pot_trans != prev_line:
+        distance(pot_trans, origin, dict_dict[pot_trans], stop, sofar, 'i', line)
+        distance(pot_trans, origin, dict_dict[pot_trans], stop, sofar, 'o', line)
+
+for line in dict_graph:
+    line_stops = dict_dict[line]
+    for stop in line:
+        distance(line, stop, line_stops, stop, 0, 'i')
+        distance(line, stop, line_stops, stop, 0, 'o')
+
+print(json.dumps(dict_graph,indent=4))
+
+# def calc_dist_with_origin(line, origin, start, dir, trans_from='none'):
+#     data = dict_graph[line][origin]
+#     line_stops = dict_dict[line]
+#     next_stop = origin
+#     sofar = 0
+#     neighbor = 'inbound_neighbor' if dir == 'i' else 'outbound_neighbor'
+#     time = 'inbound_time' if dir == 'i' else 'outbound_time'
+
+#     while next_stop != 'place-xxxxx':
+#         # check for pot transfers and prevent going back to prev transfer
+#         if line_stops[next_stop]['transfer'] != 'none' and line_stops[next_stop]['transfer'] != trans_from:
+#             transfer_line = dict_dict[line_stops[next_stop]['transfer']]
+#             calc_dist_with_origin(transfer_line, next_stop, 'i', line)
+#             calc_dist_with_origin(transfer_line, next_stop, 'o', line)
+#             # now we assume that with next_stop knows all its distances
+#             for t_stop in 
+
+#         data[next_stop] = sofar
+#         sofar += float(line_stops[next_stop][time])
+#         next_stop = line_stops[next_stop][neighbor]
+
 # blue_stops = dict_blue['stops']
-# for origin in graph_stops:
-#     data = graph_stops[origin]
-#     next_ib = blue_stops[origin]['inbound_neighbor']
-#     ib_sofar = 0
-#     next_ob = blue_stops[origin]['outbound_neighbor']
-#     ob_sofar = 0
+# for line in dict_graph:
+#     line_stops = dict_dict[line]
+#     for origin in dict_graph[line]:
+#         data = dict_graph[line][origin]
+#         next_ib = origin
+#         ib_sofar = 0
+#         next_ob = origin
+#         ob_sofar = 0
 
-#     while next_ib != 'place-xxxxx':
-#         ib_sofar += float(blue_stops[next_ib]['inbound_time'])
-#         data[next_ib] = ib_sofar
-#         next_ib = blue_stops[next_ib]['inbound_neighbor']
+#         while next_ib != 'place-xxxxx':
+#             if line_stops[next_ib]['transfer'] != 'none':
+#                 transfer_line = dict_dict[line_stops[next_ib]['transfer']]
+#                 # now we do it again...not using recursion cause im lazy rn
+#                 trans_ib = next_ib
+#                 trans_ib_so_far = ib_sofar
+#                 trans_ob = next_ib
+#                 trans_ob_so_far = ib_sofar
+#                 while trans_ib != 'place-xxxxx':
 
-#     while next_ob != 'place-xxxxx':
-#         ob_sofar += float(blue_stops[next_ob]['outbound_time'])
-#         data[next_ob] = ob_sofar
-#         next_ob = blue_stops[next_ob]['outbound_neighbor']
+#             data[next_ib] = ib_sofar
+#             ib_sofar += float(line_stops[next_ib]['inbound_time'])
+#             next_ib = line_stops[next_ib]['inbound_neighbor']
 
-# print(json.dumps(dict_graph,indent=4))
+#         while next_ob != 'place-xxxxx':
+
+#             data[next_ob] = ob_sofar
+#             ob_sofar += float(line_stops[next_ob]['outbound_time'])
+#             next_ob = line_stops[next_ob]['outbound_neighbor']
+
+# def find_times(line_stops, graph):
+#     for origin in all_stops:
+#         next_ib = origin
+#         ib_sofar = 0
+#         next_ob = origin
+#         ob_sofar = 0
+
+#         while next_ib != 'place-xxxxx':
+#             if line_stops[next_ib]['transfer'] != 'none':
+
+#             graph[origin][next_ib] = ib_sofar
+#             ib_sofar += float(line_stops[next_ib]['inbound_time'])
+#             next_ib = line_stops[next_ib]['inbound_neighbor']
+
+#         while next_ob != 'place-xxxxx':
+#             graph[origin][next_ob] = ob_sofar
+#             ob_sofar += float(line_stops[next_ob]['outbound_time'])
+#             next_ob = line_stops[next_ob]['outbound_neighbor']
+
+#     print(json.dumps(graph,indent=4))    
+#     return graph
 
 # Testing Google Maps' Limits
 # origins = ""
