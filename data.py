@@ -10,12 +10,74 @@ import csv
 import pandas as pd
 import requests
 import json
+import math
 
 df_rail = pd.read_csv('MBTA_Rail_Ridership_by_Time_Period.csv')
 df_bus = pd.read_csv('MBTA_Bus_Ridership_by_Time_Period.csv')
 df_rail_stops = pd.read_csv('MBTA_Rail_Stops.csv')
 df_bus_stops = pd.read_csv('MBTA_Bus_Stops.csv')
 df_stops = pd.read_csv('stops-20190808-modified.csv')
+df_rail_all = pd.read_csv('MBTA_Rail_Ridership_All.csv')
+
+# # # # # # # # # # # # # # #
+# Calculating Std. Deviation
+# For All Stops At All Times
+# # # # # # # # # # # # # # #
+
+list_std_dev_ons = []
+list_mean_ons = []
+list_std_dev_offs = []
+list_mean_offs = []
+
+for index, rrow in df_rail.iterrows():
+    sum_ons = 0
+    num_vals_ons = 0
+    vals_ons = []
+    sum_offs = 0
+    num_vals_offs = 0
+    vals_offs = []
+    # 1. Find the mean across the years
+    for andex, arow in df_rail_all.iterrows():
+        if (arow['stop_id'] == rrow['stop_id'] and arow['direction_id'] == rrow['direction_id'] and arow['time_period_name'] == rrow['time_period_name']):
+            sum_ons += arow['average_ons']
+            num_vals_ons += 1
+            vals_ons.append(arow['average_ons'])
+            sum_offs += arow['average_offs']
+            num_vals_offs += 1
+            vals_offs.append(arow['average_offs'])
+
+    mean_ons = sum_ons / num_vals_ons
+    list_mean_ons.append(mean_ons)
+    dev_ons = []
+    mean_offs = sum_offs / num_vals_offs
+    list_mean_offs.append(mean_offs)
+    dev_offs = []
+    # 2. Find each values deviation from mean
+    for val in vals_ons:
+        dev_ons.append(val - mean_ons)
+    for val in vals_offs:
+        dev_offs.append(val - mean_offs)
+
+    sq_sum_ons = 0
+    sq_sum_offs = 0
+    # 3. Square each deviation, and sum
+    for dev in dev_ons:
+        sq_sum_ons += dev ** 2
+    for dev in dev_offs:
+        sq_sum_offs += dev ** 2
+    # 4. Divide the sum by n - 1, where n is # values in sample (variance)
+    var_ons = sq_sum_ons / (num_vals_ons - 1)
+    var_offs = sq_sum_offs / (num_vals_offs - 1)
+    # 5. Square root variance -- this is std dev
+    list_std_dev_ons.append(math.sqrt(var_ons))
+    list_std_dev_offs.append(math.sqrt(var_offs))
+
+df_rail['std_dev_ons'] = list_std_dev_ons
+df_rail['mean_ons'] = list_mean_ons
+df_rail['std_dev_offs'] = list_std_dev_offs
+df_rail['mean_offs'] = list_mean_offs
+
+df_rail.to_csv('test_all2.csv',index=False)
 
 # # # # # # # # # # # # # # #
 # Data Gen Pipeline for
@@ -29,50 +91,50 @@ df_stops = pd.read_csv('stops-20190808-modified.csv')
             #print(rrow['stop_name'])
             #print()
 # 2. Generating matrix from each stop to each stop
-dict_blue = json.load(open('blueline.json'))['stops']
-dict_red_a = json.load(open('redline-a.json'))['stops']
-dict_red_b = json.load(open('redline-b.json'))['stops']
-dict_orange = json.load(open('orangeline.json'))['stops']
-dict_green_e = json.load(open('greenline-e.json'))['stops']
-dict_green_d = json.load(open('greenline-d.json'))['stops']
-dict_green_c = json.load(open('greenline-c.json'))['stops']
-dict_green_b = json.load(open('greenline-b.json'))['stops']
+# dict_blue = json.load(open('blueline.json'))['stops']
+# dict_red_a = json.load(open('redline-a.json'))['stops']
+# dict_red_b = json.load(open('redline-b.json'))['stops']
+# dict_orange = json.load(open('orangeline.json'))['stops']
+# dict_green_e = json.load(open('greenline-e.json'))['stops']
+# dict_green_d = json.load(open('greenline-d.json'))['stops']
+# dict_green_c = json.load(open('greenline-c.json'))['stops']
+# dict_green_b = json.load(open('greenline-b.json'))['stops']
 
-dict_dict = {
-    "blue":dict_blue,
-    "red-a":dict_red_a,
-    "red-b":dict_red_b,
-    "orange":dict_orange,
-    "green-e":dict_green_e,
-    "green-d":dict_green_d,
-    "green-c":dict_green_c,
-    "green-b":dict_green_b
-}
+# dict_dict = {
+#     "blue":dict_blue,
+#     "red-a":dict_red_a,
+#     "red-b":dict_red_b,
+#     "orange":dict_orange,
+#     "green-e":dict_green_e,
+#     "green-d":dict_green_d,
+#     "green-c":dict_green_c,
+#     "green-b":dict_green_b
+# }
 
-dict_graph = json.load(open('graph.json'))
+# dict_graph = json.load(open('graph.json'))
 # dict_graph = {}
 #all_stops = ['place-alsgr','place-armnl','place-babck','place-bckhl','place-bcnfd','place-bcnwa','place-bland','place-bndhl','place-boyls','place-brico','place-brkhl','place-brmnl','place-bucen','place-buest','place-buwst','place-bvmnl','place-chhil','place-chill','place-chswk','place-clmnl','place-coecl','place-cool','place-denrd','place-eliot','place-engav','place-fbkst','place-fenwd','place-fenwy','place-gover','place-grigg','place-haecl','place-harvd','place-hsmnl','place-hwsst','place-hymnl','place-kencl','place-kntst','place-lake','place-lech','place-lngmd','place-longw','place-mfa','place-mispk','place-newtn','place-newto','place-north','place-nuniv','place-pktrm','place-plsgr','place-prmnl','place-river','place-rsmnl','place-rvrwy','place-smary','place-sougr','place-spmnl','place-sthld','place-stplb','place-stpul','place-sumav','place-symcl','place-tapst','place-waban','place-wascm','place-woodl','place-wrnst','place-aport','place-aqucl','place-bmmnl','place-bomnl','place-gover','place-mvbcl','place-orhte','place-rbmnl','place-sdmnl','place-state','place-wimnl','place-wondl','place-mlmnl','place-north','place-ogmnl','place-rcmnl','place-rugg','place-sbmnl','place-state','place-sull','place-tumnl','place-welln','place-astao','place-bbsta','place-ccmnl','place-chncl','place-dwnxg','place-forhl','place-grnst','place-haecl','place-jaksn','place-masta','place-alfcl','place-andrw','place-asmnl','place-brdwy','place-brntn','place-chmnl','place-cntsq','place-davis','place-dwnxg','place-fldcr','place-harsq','place-jfk','place-knncl','place-nqncy','place-pktrm','place-portr','place-qamnl','place-qnctr','place-shmnl','place-smmnl','place-sstat','place-wlsta']
 
-def distance(line, origin, line_stops, stop, sofar, dir, curr_line, visited_lines):
-    if stop == 'place-xxxxx':
-        return
-    neighbor = 'inbound_neighbor' if dir == 'i' else 'outbound_neighbor'
-    time = 'inbound_time' if dir == 'i' else 'outbound_time'
-    dict_graph[line][origin][stop] = sofar
-    distance(line, origin, line_stops, line_stops[stop][neighbor], sofar + float(line_stops[stop][time]), dir, curr_line, visited_lines)
-    pot_trans = line_stops[stop]['transfer']
-    if pot_trans != 'none' and not pot_trans in visited_lines:
-        visited_lines.append(pot_trans)
-        distance(line, origin, dict_dict[pot_trans], stop, sofar, 'i', pot_trans, visited_lines)
-        distance(line, origin, dict_dict[pot_trans], stop, sofar, 'o', pot_trans, visited_lines)
+# def distance(line, origin, line_stops, stop, sofar, dir, curr_line, visited_lines):
+#     if stop == 'place-xxxxx':
+#         return
+#     neighbor = 'inbound_neighbor' if dir == 'i' else 'outbound_neighbor'
+#     time = 'inbound_time' if dir == 'i' else 'outbound_time'
+#     dict_graph[line][origin][stop] = sofar
+#     distance(line, origin, line_stops, line_stops[stop][neighbor], sofar + float(line_stops[stop][time]), dir, curr_line, visited_lines)
+#     pot_trans = line_stops[stop]['transfer']
+#     if pot_trans != 'none' and not pot_trans in visited_lines:
+#         visited_lines.append(pot_trans)
+#         distance(line, origin, dict_dict[pot_trans], stop, sofar, 'i', pot_trans, visited_lines)
+#         distance(line, origin, dict_dict[pot_trans], stop, sofar, 'o', pot_trans, visited_lines)
 
-for line in dict_graph:
-    line_stops = dict_dict[line]
-    for stop in dict_graph[line]:
-        distance(line, stop, line_stops, stop, 0, 'i', line, [line])
-        distance(line, stop, line_stops, stop, 0, 'o', line, [line])
+# for line in dict_graph:
+#     line_stops = dict_dict[line]
+#     for stop in dict_graph[line]:
+#         distance(line, stop, line_stops, stop, 0, 'i', line, [line])
+#         distance(line, stop, line_stops, stop, 0, 'o', line, [line])
 
-print(json.dumps(dict_graph,indent=4))
+# print(json.dumps(dict_graph,indent=4))
 
 # def calc_dist_with_origin(line, origin, start, dir, trans_from='none'):
 #     data = dict_graph[line][origin]

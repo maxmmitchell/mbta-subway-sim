@@ -7,10 +7,16 @@
 #
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
-# Consider a ride starting at X, call the other stop Y. Assign more granular locations beyond X and Y. Select a random location (pair of coordinates) such that the location:
+model = json.load(open('model.json')) # TODO replace name with correct files
+
+# TODO take user input
+
+# Consider a ride starting at stop X, call the other stop Y. Assign more granular locations beyond X and Y. Select a random location (pair of coordinates) such that the location:
 #   - is at most a twenty minute walk from the respective stop, and at least a five minute walk.
 #   - is not nearer any other stop A than it is to X, assuming A and X both service Y (and vice-versa, for Y).
-# Call these coordinates CX and CY.
+# Call these coordinate pairs CX and CY.
+def granulate_station(stop_id):
+
 
 # Stop Subtraction:
 # 1. User selects a valid stop to remove from the MBTA. Call this stop X. Generate granular locations for all rides involving X.

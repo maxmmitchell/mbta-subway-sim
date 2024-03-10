@@ -36,12 +36,8 @@ times = [
 ]
 
 df_rail_ridership = pd.read_csv('MBTA_Rail_Ridership_by_Time_Period.csv')
-rail_ons_stdev = stats.stdev(df_rail_ridership['average_ons'].tolist())
-rail_offs_stdev = stats.stdev(df_rail_ridership['average_offs'].tolist())
 df_rail_stops = pd.read_csv('MBTA_Rail_Stops.csv')
 df_bus_ridership = pd.read_csv('MBTA_Bus_Ridership_by_Time_Period.csv')
-bus_ons_stdev = stats.stdev(df_bus_ridership['average_ons'].tolist())
-bus_offs_stdev = stats.stdev(df_bus_ridership['average_offs'].tolist())
 df_bus_stops = pd.read_csv('stops-20190808-modified.csv')
 rail_map = json.load(open('map.json'))
 
@@ -222,10 +218,8 @@ class Genotype:
     def fitness_rideset(self, modality):
         df = df_rail_ridership if modality == 'rail' else df_bus_ridership
         stats = self.rail_stats if modality == 'rail' else self.bus_stats
-        stdev_on = rail_ons_stdev if modality == 'rail' else bus_ons_stdev
-        stdev_off = rail_offs_stdev if modality == 'rail' else bus_offs_stdev
 
-        difference = 0 
+        count = 0 
         deviation = 0
         for index, row in df.iterrows():
             # check difference between known stats and our stats
@@ -234,20 +228,16 @@ class Genotype:
             our_ons = 0
             our_offs = 0
             if row['stop_id'] in stats.dict:
-                our_ons = stats.dict[row['stop_id']][row['time_period_name']][int(row['direction_id'])][0]
-                our_offs = stats.dict[row['stop_id']][row['time_period_name']][int(row['direction_id'])][1] 
-            # normal distribution has 68.4% at 1 std deviation below/above
-            difference += abs(known_ons - our_ons) + abs(known_offs - our_offs)
+                 our_ons = stats.dict[row['stop_id']][row['time_period_name']][int(row['direction_id'])][0]
+                 our_offs = stats.dict[row['stop_id']][row['time_period_name']][int(row['direction_id'])][1] 
+            # difference += abs(known_ons - our_ons) + abs(known_offs - our_offs)
             # mean = 𝜇
             # stdev = 𝜎
             # data point = 𝑥
             # x is |𝑥−𝜇|/𝜎 std deviations from mean
-            # WHEN BETTER DATA ARRIVES:
-            # calculate sample std deviation, across entire dataset, use that fixed for all of these
-            # OR calculate different sample std deviation for each stop, have each stop have different deviations
-            # estimate std deviation without any data -- more complicated
-            deviation += (abs(our_ons - known_ons) / stdev_on) + (abs(our_offs - known_offs) / stdev_off)
-        return difference, deviation
+            count += 1
+            deviation += (abs(our_ons - row['mean_ons']) / row['std_dev_ons']) + (abs(our_offs - row['mean_offs']) / row['std_dev_offs'])
+        return deviation / count
 
     # calculates fitness of an individual
     def fitness(self):

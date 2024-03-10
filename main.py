@@ -9,6 +9,15 @@
 import csv
 import genotype as g
 
+# # # # # # # # # # # # # #
+# Breeding Generations
+# of Models
+# # # # # # # # # # # # # #
+# 1. Read in Models for Current Generation
+# 2. Calculate Fitness -- Report
+# 3. Mutate, Crossover, and Replace from Pool
+# 4. Repeat
+
 geno = g.Genotype()
 print(geno.json_print())
 # genoFromFile = g.Genotype(False)
