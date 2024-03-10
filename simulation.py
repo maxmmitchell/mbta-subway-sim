@@ -6,8 +6,9 @@
 #    Max Mitchell
 #
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+import genotype as g
 
-model = json.load(open('model.json')) # TODO replace name with correct files
+model = g.from_file(model.json) # TODO
 
 # TODO take user input
 

@@ -202,11 +202,14 @@ class Genotype:
         with open(fname, 'r') as f:
             j = json.load(f)
             for ride in j['rail_rides']:
-                r = Ride()
-                r.dict = ride
-                self.rail_rides.append(r)
-                self.rail_stats.add_ride(ride['start_id'], ride['start_time'], ride['direction'], True) 
-                self.rail_stats.add_ride(ride['end_id'], ride['end_time'], ride['direction'], False) 
+                try: 
+                    r = Ride()
+                    r.dict = ride
+                    self.rail_rides.append(r)
+                    self.rail_stats.add_ride(ride['start_id'], ride['start_time'], ride['direction'], True) 
+                    self.rail_stats.add_ride(ride['end_id'], ride['end_time'], ride['direction'], False)
+                except:
+                    continue 
             # for ride in j['bus_rides']:
             #     r = Ride()
             #     r.dict = ride
@@ -236,7 +239,7 @@ class Genotype:
             # data point = 𝑥
             # x is |𝑥−𝜇|/𝜎 std deviations from mean
             count += 1
-            deviation += (abs(our_ons - row['mean_ons']) / row['std_dev_ons']) + (abs(our_offs - row['mean_offs']) / row['std_dev_offs'])
+            deviation += (abs(our_ons - row['mean_ons']) / (row['std_dev_ons'] if row['std_dev_ons'] != 0 else 0.00000000001)) + (abs(our_offs - row['mean_offs']) / (row['std_dev_offs'] if row['std_dev_offs'] != 0 else 0.00000000001))
         return deviation / count
 
     # calculates fitness of an individual
