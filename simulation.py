@@ -34,17 +34,21 @@ dict_dict = {
     "green-b":dict_green_b
 }
 dict_speed = { # served in kilometers/second (for consistent units), based on historical averages
-    "blue":0.00916432,
-    "red-a":0.009477248,
-    "red-b":0.009477248,
-    "orange":0.00804672,
-    "green-e":0.005632704, # I mean, I know it's slow, but goodness gravy
-    "green-d":0.005632704, # seeing it as a number really helps you appreciate
-    "green-c":0.005632704, # just how abysmally slow the grean line truly is,
-    "green-b":0.005632704  # even when compared to the other "slow" lines...
+    "blue":0.007465568,
+    "red-a":0.005990336,
+    "red-b":0.005990336,
+    "orange":0.00648208,
+    "green-e":0.004649216, # I mean, I know it's slow, but goodness gravy
+    "green-d":0.004649216, # seeing it as a number really helps you appreciate
+    "green-c":0.004649216, # just how abysmally slow the grean line truly is,
+    "green-b":0.004649216  # even when compared to the other "slow" lines...
 }
 
 #model = g.from_file(model.json) # TODO
+
+# NOTE: DO NOT CHANGE THIS! SOME THINGS IN THIS FILE HAVE BEEN MANUALLY CALCULATED
+# WITH THIS VALUE WHICH I KNOW IS BAD AND SHOULD BE FIXED; THEY'RE DOCUMENTED AND I
+# HOPE I GET TO IT BUT FUTURE MAX DON'T CHANGE THIS PLEASE I BEG OF YOU
 walk_speed = 0.00142 # kilometers/second
 
 # TODO take user input
@@ -54,6 +58,10 @@ walk_speed = 0.00142 # kilometers/second
 #      strange input coordinates far from the line.
 #   b. If removing, provide a valid stop_id for the station to be removed. TODO TBD: Have the option to only
 #      remove from *one* line for stations which are transfers? (e.g., make North Station green line exclusive?)
+
+# TODO both of these overarching functions should compute some stats as they modify:
+# Which stops are being rerouted? Who's being poached? If ride times are changing, who's affected? Do things get faster or
+# slower and for whom?
 
 # Consider a ride starting at stop X, call the other stop Y. Assign more granular locations beyond X and Y. Select a random location (pair of coordinates) such that the location:
 #   - is at most a twenty minute walk from the respective stop, and at least a five minute walk.
@@ -169,45 +177,34 @@ def recalculate_map():
 # 4. Then, from this set of rides, find all poachable riders, Ri  such that for each:
 #   A. Using N is more efficient
 #       i. Calculate walk time to N and walk time to Pi
-#       ii. Calculate transit time for both. 
-#           a. If N is between two existing stops:
-#
-#               1 -- N -- 2 -- O
-#	
-#               - Calculate the transit ride time from 1 to O (or vice versa depending on ride)
-#               - Calculate the transit ride time from 2 to O (or vice versa)
-#               - Compute the difference. Add to the transit ride time from 2 to O a fraction of the difference based on how close N is to 2 vs. 1.
-#           b. If N is expanding a line:
-#
-#               N -- 2 -- O
-#
-#               - Calculate the transit ride time from 2 to O (or vice versa)
-#               - Add based on the distance from N to 2
-#               Note: For both of these, depending on line, will need to look at how long the 
-#                     subway generally takes to travel such distance. This can probably be a 
-#                     precalculated constant for each line just as a MPH or something.
+#       ii. Calculate transit time for both. Use historical averages of line speeds and distance to neighbors to estimate
+#           how N will integrate to the map, and recalulate the map.
 #       iii. Sum walk and transit time. Walk time should be weighted somewhat to favor less walking in the overall route.
 # 5. For all Ri, replace Pi with N.
 #
 # At this point, ridership metrics can be recalculated. 
-# For now, we assume no impact of a new stop on the rest of the route, e.g.:
-#
-#     1 -- 2 -------- O     ->     1 -- 2 -       - O
-#                                           \   /
-#                                            | |
-#                                             N
-# Is not a concern.
 def stop_addition(coords, line, neighbor_1, neighbor_2='place-xxxxx'):
     # TODO based on neighbors we could deduce line, but for right now, 
     # assume user has knowledge of our mapping system and knows where their new stop belongs
     dict_line = dict_dict[line]
     speed_line = dict_speed[line]
 
-    # determine transit times for new stop to/from its neighbors TODO
+    # find coordinates for neighbors
+    neighbor_1_coords = (0,0)
+    neighbor_2_coords = (0,0)
+    for i, r in df_rail_stops.iterrows():
+        if r['stop_id'] == neighbor_1:
+            neighbor_1_coords = (r['stop_lat'], r['stop_lon'])
+        if r['stop_id'] == neighbor_2:
+            neighbor_2_coords = (r['stop_lat'], r['stop_lon'])
+
+    # determine transit times for new stop to/from its neighbors
     # assume straight line travel underground, nevermind the fact that this would require
     # crazy expensive overhauls to the existing tunnels -- that stuff is 'boring' ;)
-    time_to_1 = 0
-    time_to_2 = 0
+    # this is a decent way to estimate; it's not exactly the same as how we calulated for the extant
+    # stops, but I've compared a few anecdotally and it seems ok for our purposes right now.
+    time_to_1 = (distance.distance(coords, neighbor_1_coords) / speed_line) / 60 # convert to minutes from seconds
+    time_to_2 = (distance.distance(coords, neighbor_2_coords) / speed_line) / 60 if neighbor_2 != 'place-xxxxx' else -1 # end of line times should keep with the standard set
 
     # insert new stop (N) into line on mapping
     outbound_from_1 = neighbor_1['outbound_neighbor'] == neighbor_2
@@ -225,8 +222,33 @@ def stop_addition(coords, line, neighbor_1, neighbor_2='place-xxxxx'):
         dict_line[neighbor_2]['inbound_time' if outbound_from_1 else 'outbound_time'] = time_to_2
 
     # recalculate EVERYTHING distance-wise
-    recalculate_map()
+    new_rail_map = recalculate_map() # TODO this function needs some tweaks I think
 
-    # find poachable stops TODO
-    # for each ride including a poachable stop: TODO
-    #   determine if N is more efficient TODO
+    # find poachable stops 
+    poachable_stops = []
+    # N is less than a 40 minute walk -- 2400 seconds -> 3.408 km
+    # Ergo, N is in theory a reasonable walking distance from the ride’s granular location.
+    for i, r in df_rail_stops.iterrows():
+        distance = distance.distance(coords, (r['stop_lat'], r['stop_lon']))
+        if distance < 3.408:
+            poachable_stops.append(r['stop_id'])
+        
+    # for each ride including a poachable stop: 
+    for (ride in model['rail_rides']):
+        # TODO: What does it mean if both the start and finish are "poachable?"
+        # You shouldn't poach both, but how do we decide which to poach?
+        if (ride['start_id'] in poachable_stops or ride['end_id'] in poachable_stops):
+            poach_point = 'start' if ride['start_id'] in poachable_stops else 'end'
+            destination_point = 'end' if ride['start_id'] in poachable_stops else 'start'
+            poach_granulated = granulate_station(ride[poach_point + '_id'])
+            # determine if N is more efficient 
+            walk_time_N = distance.distance(coords, poach_granulated) / walk_speed / 60 # convert seconds to minutes
+            walk_time_poach = distance.distance(ride[poach_point + '_coords'], poach_granulated) / walk_speed / 60 
+            rail_time_N = new_rail_map['place-usern'][ride[destination_point + '_id']]
+            rail_time_poach = new_rail_map[ride[poach_point + '_id']][ride[destination_point + '_id']]
+            if walk_time_N + rail_time_N < walk_time_poach + rail_time_poach:
+                # N is more efficient, replace poach_point
+                ride[poach_point + '_id'] = 'place-usern'
+                ride[poach_point + '_point'] = str(coords)
+                ride[poach_point + '_station'] = 'User Stop N'
+
