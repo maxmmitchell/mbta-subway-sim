@@ -12,8 +12,38 @@ import math
 import pandas as pd
 from geopy import distance
 
-rail_map = json.load(open('map.json'))
 df_rail_stops = pd.read_csv('MBTA_Rail_Stops.csv')
+
+rail_map = json.load(open('map.json'))
+dict_blue = json.load(open('blueline.json'))['stops']
+dict_red_a = json.load(open('redline-a.json'))['stops']
+dict_red_b = json.load(open('redline-b.json'))['stops']
+dict_orange = json.load(open('orangeline.json'))['stops']
+dict_green_e = json.load(open('greenline-e.json'))['stops']
+dict_green_d = json.load(open('greenline-d.json'))['stops']
+dict_green_c = json.load(open('greenline-c.json'))['stops']
+dict_green_b = json.load(open('greenline-b.json'))['stops']
+dict_dict = {
+    "blue":dict_blue,
+    "red-a":dict_red_a,
+    "red-b":dict_red_b,
+    "orange":dict_orange,
+    "green-e":dict_green_e,
+    "green-d":dict_green_d,
+    "green-c":dict_green_c,
+    "green-b":dict_green_b
+}
+dict_speed = { # served in kilometers/second (for consistent units), based on historical averages
+    "blue":0.00916432,
+    "red-a":0.009477248,
+    "red-b":0.009477248,
+    "orange":0.00804672,
+    "green-e":0.005632704, # I mean, I know it's slow, but goodness gravy
+    "green-d":0.005632704, # seeing it as a number really helps you appreciate
+    "green-c":0.005632704, # just how abysmally slow the grean line truly is,
+    "green-b":0.005632704  # even when compared to the other "slow" lines...
+}
+
 #model = g.from_file(model.json) # TODO
 walk_speed = 0.00142 # kilometers/second
 
@@ -70,6 +100,7 @@ def granulate_station(stop_id, tolerance = 0):
 # Stop Subtraction:
 # 1. User selects a valid stop to remove from the MBTA. Call this stop X. Generate granular locations for all rides involving X.
 # 2. All rides which include X must be re-routed. Find stop Z, which is connected to Y and is nearest to CX.
+# Note: this mutates the model we've imported (intentionally). An original version still exists on file.
 def stop_subtraction(stop_id):
     for (ride in model['rail_rides']):
         # reroute if this ride contains removed stop
@@ -103,14 +134,40 @@ def stop_subtraction(stop_id):
             ride[failure_point + '_point'] = str(z_stop_row['stop_lat']) + ', ' + str(z_stop_row['stop_lon'])
             ride[failure_point + '_station'] = z_stop_row['stop_name']
 
+# assumes local variables of the various maps have been modified
+# returns new value for distance matrix
+# TODO the line index is probably gonna fuck this all up
+def recalculate_map():
+    dict_graph = {}
+
+    def distance(line, origin, line_stops, stop, sofar, dir, curr_line, visited_lines):
+        if stop == 'place-xxxxx':
+            return
+        neighbor = 'inbound_neighbor' if dir == 'i' else 'outbound_neighbor'
+        time = 'inbound_time' if dir == 'i' else 'outbound_time'
+        dict_graph[line][origin][stop] = sofar
+        distance(line, origin, line_stops, line_stops[stop][neighbor], sofar + float(line_stops[stop][time]), dir, curr_line, visited_lines)
+        pot_trans = line_stops[stop]['transfer']
+        if pot_trans != 'none' and not pot_trans in visited_lines:
+            visited_lines.append(pot_trans)
+            distance(line, origin, dict_dict[pot_trans], stop, sofar, 'i', pot_trans, visited_lines)
+            distance(line, origin, dict_dict[pot_trans], stop, sofar, 'o', pot_trans, visited_lines)
+
+    for line in dict_graph:
+        line_stops = dict_dict[line]
+        for stop in dict_graph[line]:
+            distance(line, stop, line_stops, stop, 0, 'i', line, [line])
+            distance(line, stop, line_stops, stop, 0, 'o', line, [line])
+    
+    return dict_graph
+
 # Stop Addition:
 # 1. User inputs coordinates and a valid line(s) to add the stop to. Call this stop N. 
 # 2. Find the nearest stops to N (which N may poach riders from). Call these stops Pi such that for all Pi:
 #   A. N is less than a 40 minute walk away. Ergo, N is a reasonable walking distance from the ride’s granular location.
 # 3. For all Pi find all rides that include at least one Pi. Generate granular locations for them. 
 # 4. Then, from this set of rides, find all poachable riders, Ri  such that for each:
-#   A. The other end of their route, O, is serviceable by N 
-#   B. Using N is more efficient
+#   A. Using N is more efficient
 #       i. Calculate walk time to N and walk time to Pi
 #       ii. Calculate transit time for both. 
 #           a. If N is between two existing stops:
@@ -141,3 +198,35 @@ def stop_subtraction(stop_id):
 #                                             N
 # Is not a concern.
 def stop_addition(coords, line, neighbor_1, neighbor_2='place-xxxxx'):
+    # TODO based on neighbors we could deduce line, but for right now, 
+    # assume user has knowledge of our mapping system and knows where their new stop belongs
+    dict_line = dict_dict[line]
+    speed_line = dict_speed[line]
+
+    # determine transit times for new stop to/from its neighbors TODO
+    # assume straight line travel underground, nevermind the fact that this would require
+    # crazy expensive overhauls to the existing tunnels -- that stuff is 'boring' ;)
+    time_to_1 = 0
+    time_to_2 = 0
+
+    # insert new stop (N) into line on mapping
+    outbound_from_1 = neighbor_1['outbound_neighbor'] == neighbor_2
+    dict_line['place-usern']['outbound_neighbor'] = neighbor_1 if outbound_from_1 else neighbor_2
+    dict_line['place-usern']['outbound_time'] = time_to_1 if outbound_from_1 else time_to_2
+    dict_line['place-usern']['inbound_neighbor'] = neighbor_2 if outbound_from_1 else neighbor_1
+    dict_line['place-usern']['inbound_time'] = time_to_2 if outbound_from_1 else time_to_1
+    dict_line['place-usern']['transfer'] = 'none'
+
+    # modify neighbors
+    dict_line[neighbor_1]['outbound_neighbor' if outbound_from_1 else 'inbound_neighbor'] = 'place-usern'
+    dict_line[neighbor_1]['outbound_time' if outbound_from_1 else 'inbound_time'] = time_to_1
+    if (neighbor_2 != 'place-xxxxx'):
+        dict_line[neighbor_2]['inbound_neighbor' if outbound_from_1 else 'outbound_neighbor'] = 'place-usern'
+        dict_line[neighbor_2]['inbound_time' if outbound_from_1 else 'outbound_time'] = time_to_2
+
+    # recalculate EVERYTHING distance-wise
+    recalculate_map()
+
+    # find poachable stops TODO
+    # for each ride including a poachable stop: TODO
+    #   determine if N is more efficient TODO
