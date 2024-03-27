@@ -1,4 +1,7 @@
-for i in $(seq 1 $1);
+for gen in $(seq 4 $1);
 do
-    python3.9 main.py > model-20240307-$i.json
+for i in $(seq 1 $2);
+do
+    python3.9 main.py > model-gen$gen-$i.json
+done
 done

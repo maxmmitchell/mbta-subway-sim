@@ -102,7 +102,7 @@ class Ride:
         try:
             trip_length = rail_map[selected_start['stop_id']][selected_end['stop_id']]
         except:
-            print("Failed querying:", selected_start['stop_id'], selected_end['stop_id'])
+            #print("Failed querying:", selected_start['stop_id'], selected_end['stop_id'])
             return
 
         # p = {
@@ -184,7 +184,8 @@ class Genotype:
                     self.rail_stats.add_ride(rail_rides[-1].dict['start_id'], rail_rides[-1].dict['start_time'], rail_rides[-1].dict['direction'], True) 
                     self.rail_stats.add_ride(rail_rides[-1].dict['end_id'], rail_rides[-1].dict['end_time'], rail_rides[-1].dict['direction'], False) 
                 except:
-                    print("Failed adding stats for:", rail_rides[-1])
+                    #print("Failed adding stats for:", rail_rides[-1])
+                    continue
             #     if i < int(77300 / 77300):
             #         bus_rides.append(Ride('bus'))
             #         self.bus_stats.add_ride(bus_rides[-1].dict['start_id'], bus_rides[-1].dict['start_time'], bus_rides[-1].dict['direction'], True) 
