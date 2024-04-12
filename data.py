@@ -24,60 +24,60 @@ df_rail_all = pd.read_csv('MBTA_Rail_Ridership_All.csv')
 # For All Stops At All Times
 # # # # # # # # # # # # # # #
 
-list_std_dev_ons = []
-list_mean_ons = []
-list_std_dev_offs = []
-list_mean_offs = []
+# list_std_dev_ons = []
+# list_mean_ons = []
+# list_std_dev_offs = []
+# list_mean_offs = []
 
-for index, rrow in df_rail.iterrows():
-    sum_ons = 0
-    num_vals_ons = 0
-    vals_ons = []
-    sum_offs = 0
-    num_vals_offs = 0
-    vals_offs = []
-    # 1. Find the mean across the years
-    for andex, arow in df_rail_all.iterrows():
-        if (arow['stop_id'] == rrow['stop_id'] and arow['direction_id'] == rrow['direction_id'] and arow['time_period_name'] == rrow['time_period_name']):
-            sum_ons += arow['average_ons']
-            num_vals_ons += 1
-            vals_ons.append(arow['average_ons'])
-            sum_offs += arow['average_offs']
-            num_vals_offs += 1
-            vals_offs.append(arow['average_offs'])
+# for index, rrow in df_rail.iterrows():
+#     sum_ons = 0
+#     num_vals_ons = 0
+#     vals_ons = []
+#     sum_offs = 0
+#     num_vals_offs = 0
+#     vals_offs = []
+#     # 1. Find the mean across the years
+#     for andex, arow in df_rail_all.iterrows():
+#         if (arow['stop_id'] == rrow['stop_id'] and arow['direction_id'] == rrow['direction_id'] and arow['time_period_name'] == rrow['time_period_name']):
+#             sum_ons += arow['average_ons']
+#             num_vals_ons += 1
+#             vals_ons.append(arow['average_ons'])
+#             sum_offs += arow['average_offs']
+#             num_vals_offs += 1
+#             vals_offs.append(arow['average_offs'])
 
-    mean_ons = sum_ons / num_vals_ons
-    list_mean_ons.append(mean_ons)
-    dev_ons = []
-    mean_offs = sum_offs / num_vals_offs
-    list_mean_offs.append(mean_offs)
-    dev_offs = []
-    # 2. Find each values deviation from mean
-    for val in vals_ons:
-        dev_ons.append(val - mean_ons)
-    for val in vals_offs:
-        dev_offs.append(val - mean_offs)
+#     mean_ons = sum_ons / num_vals_ons
+#     list_mean_ons.append(mean_ons)
+#     dev_ons = []
+#     mean_offs = sum_offs / num_vals_offs
+#     list_mean_offs.append(mean_offs)
+#     dev_offs = []
+#     # 2. Find each values deviation from mean
+#     for val in vals_ons:
+#         dev_ons.append(val - mean_ons)
+#     for val in vals_offs:
+#         dev_offs.append(val - mean_offs)
 
-    sq_sum_ons = 0
-    sq_sum_offs = 0
-    # 3. Square each deviation, and sum
-    for dev in dev_ons:
-        sq_sum_ons += dev ** 2
-    for dev in dev_offs:
-        sq_sum_offs += dev ** 2
-    # 4. Divide the sum by n - 1, where n is # values in sample (variance)
-    var_ons = sq_sum_ons / (num_vals_ons - 1)
-    var_offs = sq_sum_offs / (num_vals_offs - 1)
-    # 5. Square root variance -- this is std dev
-    list_std_dev_ons.append(math.sqrt(var_ons))
-    list_std_dev_offs.append(math.sqrt(var_offs))
+#     sq_sum_ons = 0
+#     sq_sum_offs = 0
+#     # 3. Square each deviation, and sum
+#     for dev in dev_ons:
+#         sq_sum_ons += dev ** 2
+#     for dev in dev_offs:
+#         sq_sum_offs += dev ** 2
+#     # 4. Divide the sum by n - 1, where n is # values in sample (variance)
+#     var_ons = sq_sum_ons / (num_vals_ons - 1)
+#     var_offs = sq_sum_offs / (num_vals_offs - 1)
+#     # 5. Square root variance -- this is std dev
+#     list_std_dev_ons.append(math.sqrt(var_ons))
+#     list_std_dev_offs.append(math.sqrt(var_offs))
 
-df_rail['std_dev_ons'] = list_std_dev_ons
-df_rail['mean_ons'] = list_mean_ons
-df_rail['std_dev_offs'] = list_std_dev_offs
-df_rail['mean_offs'] = list_mean_offs
+# df_rail['std_dev_ons'] = list_std_dev_ons
+# df_rail['mean_ons'] = list_mean_ons
+# df_rail['std_dev_offs'] = list_std_dev_offs
+# df_rail['mean_offs'] = list_mean_offs
 
-df_rail.to_csv('test_all2.csv',index=False)
+# df_rail.to_csv('test_all2.csv',index=False)
 
 # # # # # # # # # # # # # # #
 # Data Gen Pipeline for

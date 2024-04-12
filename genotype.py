@@ -105,25 +105,6 @@ class Ride:
             #print("Failed querying:", selected_start['stop_id'], selected_end['stop_id'])
             return
 
-        # p = {
-        #     "mode":"transit", 
-        #     "transit_mode":modality,
-        #     "origins":o_lat + ', ' + o_lon,
-        #     "destinations":d_lat + ', ' + d_lon,
-        #     "key":"AIzaSyCJ3bMTL8NA1UmL3D-ZyWH-0rx98q71vqQ" 
-        # }
-        # response = requests.get("https://maps.googleapis.com/maps/api/distancematrix/json", params = p)
-        # # determine if we're more likely to arrive @ same start time, or in next time slot
-        # try:
-        #     trip_length = response.json()['rows'][0]['elements'][0]['duration']['value'] / 60 # minutes
-        # except:
-        #     print('Failed querying:', sys.stderr)
-        #     print(json.dumps(p, indent=4), sys.stderr)
-        #     print('Partial response:', sys.stderr)
-        #     print(json.dumps(response.json(), indent=4), sys.stderr)
-        #     self.dict = Ride(modality).dict
-        #     return
-
         odds_next_time = trip_length / selected_time.duration 
         end_time = selected_time
         # given even distro. of start across operating mins within block, odds the trip ends in the same block
@@ -168,7 +149,6 @@ class GenoStats:
 
 class Genotype:
     def __init__(self, random=True):
-        # TODO get standard distribution of quantities -- should have some
         # range and flexibility around this rough average -- this will require changing
         # crossover function! (or get bounds error)
         # ~671000 rides on rail each day
@@ -245,13 +225,7 @@ class Genotype:
 
     # calculates fitness of an individual
     def fitness(self):
-        # TODO
-        # count how many rides are short/over averages
-        # check how many std deviations we are from averages in data
-        # I think std deviation calcs I'm doing right now are all wack...for
-        # now, return difference
         return self.fitness_rideset('rail')[0] 
-        #+ self.fitness_rideset('bus')[0]
 
     # returns fresh Genotype instance mutated off self
     def mutation(self):
@@ -259,17 +233,16 @@ class Genotype:
         # TODO tweak odds accordingly as use continues
         # right now just randomly generates a new ride, but could also consider more granular randomness,
         # as this still uses whatever odds exist in our original ride generation process
-        new_genotype = Genotype()
-        new_genotype.rail_rides = [rr if random.random() < 0.5 else Ride('rail') for rr in self.rail_rides]
-        #new_genotype.bus_rides = [br if random.random() < 0.5 else Ride('bus') for br in self.bus_rides]
+        new_genotype = Genotype(random=False)
+        new_genotype.rail_rides = [rr if random.random() < 0.01 else Ride('rail') for rr in self.rail_rides]
         return new_genotype
 
     # returns fresh Genotype instance crossing over self and other
     def crossover(self, other):
-        new_genotype = Genotype()
-        # TODO: if we ever have variable ride counts, this will need fixing or we'll get a bounds error
-        new_genotype.rail_rides = [self.rail_rides[i] if random.random() < 0.5 else other.rail_rides[i] for i in range(len(self.rail_rides))]
-        #new_genotype.bus_rides = [self.bus_rides[i] if random.random() < 0.5 else other.bus_rides[i] for i in range(len(self.bus_rides))]
+        new_genotype = Genotype(random=False)
+        # accomodate variable number of rides
+        short_genotype = self if len(self.rail_rides) < len(other.rail_rides) else other
+        new_genotype.rail_rides = [self.rail_rides[i] if random.random() < 0.5 else other.rail_rides[i] for i in range(len(short_genotype.rail_rides))]
         return new_genotype
 
     # outputs a string in json format
@@ -278,9 +251,5 @@ class Genotype:
         for ride in self.rail_rides:
             j += json.dumps(ride.dict, indent=indentation)
             j += ']' if ride is self.rail_rides[-1] else ','
-        # j += '\n"bus_rides": ['
-        # for bus in self.bus_rides:
-        #     j += json.dumps(bus.dict, indent=indentation)
-        #     j += ']' if bus is self.bus_rides[-1] else ','
         j += '}'
         return j

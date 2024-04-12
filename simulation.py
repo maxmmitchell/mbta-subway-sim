@@ -51,15 +51,16 @@ dict_speed = { # served in kilometers/second (for consistent units), based on hi
 # HOPE I GET TO IT BUT FUTURE MAX DON'T CHANGE THIS PLEASE I BEG OF YOU
 walk_speed = 0.00142 # kilometers/second
 
-# TODO take user input
+# TODO take user input -- use click for this?
 # 1. Add or remove a stop?
 #   a. If adding, provide line to add to and connecting stop(s). Must be adjacent stop(s) if multiple,
 #      or end-of-line if single. Also, provide co-ordinates, and validate. Behavior is likely weird for 
 #      strange input coordinates far from the line.
+#      TODO: Specify available transfers?
 #   b. If removing, provide a valid stop_id for the station to be removed. TODO TBD: Have the option to only
 #      remove from *one* line for stations which are transfers? (e.g., make North Station green line exclusive?)
 
-# TODO both of these overarching functions should compute some stats as they modify:
+# TODO TODO TODO both of these overarching functions should compute some stats as they modify:
 # Which stops are being rerouted? Who's being poached? If ride times are changing, who's affected? Do things get faster or
 # slower and for whom?
 
@@ -105,6 +106,34 @@ def granulate_station(stop_id, tolerance = 0):
     else:
         return new_latitude, new_longitude
 
+# assumes local variables of the various maps have been modified
+# returns new value for distance matrix
+# TODO the line index is probably gonna fuck this all up
+# Note: I'm not sure why I wrote the above comment. I think this works but I'm ready
+#       to be wrong.
+def recalculate_map():
+    dict_graph = {}
+
+    def distance(line, origin, line_stops, stop, sofar, dir, curr_line, visited_lines):
+        if stop == 'place-xxxxx':
+            return
+        neighbor = 'inbound_neighbor' if dir == 'i' else 'outbound_neighbor'
+        time = 'inbound_time' if dir == 'i' else 'outbound_time'
+        dict_graph[origin][stop] = sofar
+        distance(line, origin, line_stops, line_stops[stop][neighbor], sofar + float(line_stops[stop][time]), dir, curr_line, visited_lines)
+        pot_trans = line_stops[stop]['transfer']
+        if pot_trans != 'none' and not pot_trans in visited_lines:
+            visited_lines.append(pot_trans)
+            distance(line, origin, dict_dict[pot_trans], stop, sofar, 'i', pot_trans, visited_lines)
+            distance(line, origin, dict_dict[pot_trans], stop, sofar, 'o', pot_trans, visited_lines)
+
+    for line, line_stops in dict_dict:
+        for stop in line_stops["stops"]:
+            distance(line, stop, line_stops, stop, 0, 'i', line, [line])
+            distance(line, stop, line_stops, stop, 0, 'o', line, [line])
+    
+    return dict_graph
+
 # Stop Subtraction:
 # 1. User selects a valid stop to remove from the MBTA. Call this stop X. Generate granular locations for all rides involving X.
 # 2. All rides which include X must be re-routed. Find stop Z, which is connected to Y and is nearest to CX.
@@ -141,33 +170,19 @@ def stop_subtraction(stop_id):
             ride[failure_point + '_id'] = z_stop_row['stop_id']
             ride[failure_point + '_point'] = str(z_stop_row['stop_lat']) + ', ' + str(z_stop_row['stop_lon'])
             ride[failure_point + '_station'] = z_stop_row['stop_name']
-
-# assumes local variables of the various maps have been modified
-# returns new value for distance matrix
-# TODO the line index is probably gonna fuck this all up
-def recalculate_map():
-    dict_graph = {}
-
-    def distance(line, origin, line_stops, stop, sofar, dir, curr_line, visited_lines):
-        if stop == 'place-xxxxx':
-            return
-        neighbor = 'inbound_neighbor' if dir == 'i' else 'outbound_neighbor'
-        time = 'inbound_time' if dir == 'i' else 'outbound_time'
-        dict_graph[line][origin][stop] = sofar
-        distance(line, origin, line_stops, line_stops[stop][neighbor], sofar + float(line_stops[stop][time]), dir, curr_line, visited_lines)
-        pot_trans = line_stops[stop]['transfer']
-        if pot_trans != 'none' and not pot_trans in visited_lines:
-            visited_lines.append(pot_trans)
-            distance(line, origin, dict_dict[pot_trans], stop, sofar, 'i', pot_trans, visited_lines)
-            distance(line, origin, dict_dict[pot_trans], stop, sofar, 'o', pot_trans, visited_lines)
-
-    for line in dict_graph:
-        line_stops = dict_dict[line]
-        for stop in dict_graph[line]:
-            distance(line, stop, line_stops, stop, 0, 'i', line, [line])
-            distance(line, stop, line_stops, stop, 0, 'o', line, [line])
-    
-    return dict_graph
+    # Modify maps
+    for line_dict in dict_dict:
+        try:
+            inbound_neighbor = line_dict["stops"][stop_id]["inbound_neighbor"]
+            outbound_neighbor = line_dict["stops"][stop_id]["outbound_neighbor"]
+            if inbound_neighbor != "place-xxxxx":
+                line_dict["stops"][inbound_neighbor]["outbound_neighbor"] = outbound_neighbor
+            if outbound_neighbor != "place-xxxxx"
+                line_dict["stops"][outbound_neighbor]["inbound_neighbor"] = inbound_neighbor
+            del line_dict["stops"][stop_id] 
+        except KeyError:
+            continue
+    new_rail_map = recalculate_map()
 
 # Stop Addition:
 # 1. User inputs coordinates and a valid line(s) to add the stop to. Call this stop N. 
@@ -222,7 +237,7 @@ def stop_addition(coords, line, neighbor_1, neighbor_2='place-xxxxx'):
         dict_line[neighbor_2]['inbound_time' if outbound_from_1 else 'outbound_time'] = time_to_2
 
     # recalculate EVERYTHING distance-wise
-    new_rail_map = recalculate_map() # TODO this function needs some tweaks I think
+    new_rail_map = recalculate_map()
 
     # find poachable stops 
     poachable_stops = []
@@ -251,4 +266,11 @@ def stop_addition(coords, line, neighbor_1, neighbor_2='place-xxxxx'):
                 ride[poach_point + '_id'] = 'place-usern'
                 ride[poach_point + '_point'] = str(coords)
                 ride[poach_point + '_station'] = 'User Stop N'
+
+if __name__ == "__main__":
+    # TODO remove these dummy values and take/validate user input
+    remove = "place-davis"
+    add_coords = (42.380869, -71.119685)
+    add_neighbor_1 = "place-portr"
+    add_neighbor_2 = "place-harvd"
 
