@@ -9,7 +9,10 @@
 import genotype as g
 import random
 import math
+import json
 import pandas as pd
+import click
+import os
 from geopy import distance
 
 df_rail_stops = pd.read_csv('MBTA_Rail_Stops.csv')
@@ -44,25 +47,14 @@ dict_speed = { # served in kilometers/second (for consistent units), based on hi
     "green-b":0.004649216  # even when compared to the other "slow" lines...
 }
 
-#model = g.from_file(model.json) # TODO
+model = g.Genotype(False)
+model.from_file("60_model_map.json") # TODO switch to full size model
+OUT_DIR = f"{os.getcwd()}/sim_out/"
 
 # NOTE: DO NOT CHANGE THIS! SOME THINGS IN THIS FILE HAVE BEEN MANUALLY CALCULATED
 # WITH THIS VALUE WHICH I KNOW IS BAD AND SHOULD BE FIXED; THEY'RE DOCUMENTED AND I
 # HOPE I GET TO IT BUT FUTURE MAX DON'T CHANGE THIS PLEASE I BEG OF YOU
 walk_speed = 0.00142 # kilometers/second
-
-# TODO take user input -- use click for this?
-# 1. Add or remove a stop?
-#   a. If adding, provide line to add to and connecting stop(s). Must be adjacent stop(s) if multiple,
-#      or end-of-line if single. Also, provide co-ordinates, and validate. Behavior is likely weird for 
-#      strange input coordinates far from the line.
-#      TODO: Specify available transfers?
-#   b. If removing, provide a valid stop_id for the station to be removed. TODO TBD: Have the option to only
-#      remove from *one* line for stations which are transfers? (e.g., make North Station green line exclusive?)
-
-# TODO TODO TODO both of these overarching functions should compute some stats as they modify:
-# Which stops are being rerouted? Who's being poached? If ride times are changing, who's affected? Do things get faster or
-# slower and for whom?
 
 # Consider a ride starting at stop X, call the other stop Y. Assign more granular locations beyond X and Y. Select a random location (pair of coordinates) such that the location:
 #   - is at most a twenty minute walk from the respective stop, and at least a five minute walk.
@@ -73,14 +65,14 @@ def granulate_station(stop_id, tolerance = 0):
     # Bounded by radius 5-20 min walk (300-1200 secs), or 0.426-1.704 kilometers
     # Ensure these coordinates are closer to given stop_id than any other stop
     # Tolerance enables us to reel this in to reduce risk of infinite recursion
-    distance = random.uniform(0.426, 1.704 - tolerance)
-    dx = random.uniform(0, distance) * (1 if random.randint(0, 1) == 0 else -1)
-    dy = math.sqrt(distance ** 2 - dx ** 2) * (1 if random.randint(0, 1) == 0 else -1)    
+    dist = random.uniform(0.426, 1.704 - tolerance)
+    dx = random.uniform(0, dist) * (1 if random.randint(0, 1) == 0 else -1)
+    dy = math.sqrt(dist ** 2 - dx ** 2) * (1 if random.randint(0, 1) == 0 else -1)    
     # get coords of station
     latitude = 0
     longitude = 0
     for i, r in df_rail_stops.iterrows():
-        if (r['stop_id'] == stop_id):
+        if r['stop_id'] == stop_id:
             latitude = r['stop_lat']
             longitude = r['stop_lon']
     # sanity check
@@ -95,7 +87,7 @@ def granulate_station(stop_id, tolerance = 0):
     for i, r in df_rail_stops.iterrows():
         # calulate distance from each stop
         d = distance.distance((r['stop_lat'], r['stop_lon']), (new_latitude, new_longitude))
-        if (d < closest_distance):
+        if d < closest_distance:
             closest = r['stop_id']
             closest_distance = d
             break # now we know something is faster, so we can break early (failed)
@@ -111,26 +103,31 @@ def granulate_station(stop_id, tolerance = 0):
 # TODO the line index is probably gonna fuck this all up
 # Note: I'm not sure why I wrote the above comment. I think this works but I'm ready
 #       to be wrong.
+# TODO potentially have to recalculate individual lines too if we want this to be reusable for multiple mods
 def recalculate_map():
     dict_graph = {}
-
-    def distance(line, origin, line_stops, stop, sofar, dir, curr_line, visited_lines):
+    print(json.dumps(dict_red_a, indent=4))
+    def trip_length(line, origin, line_stops, stop, sofar, dir, curr_line, visited_lines):
         if stop == 'place-xxxxx':
             return
         neighbor = 'inbound_neighbor' if dir == 'i' else 'outbound_neighbor'
         time = 'inbound_time' if dir == 'i' else 'outbound_time'
-        dict_graph[origin][stop] = sofar
-        distance(line, origin, line_stops, line_stops[stop][neighbor], sofar + float(line_stops[stop][time]), dir, curr_line, visited_lines)
+        try:
+            dict_graph[origin][stop] = sofar
+        except KeyError:
+            dict_graph[origin] = {}
+            dict_graph[origin][stop] = sofar
+        trip_length(line, origin, line_stops, line_stops[stop][neighbor], sofar + float(line_stops[stop][time]), dir, curr_line, visited_lines)
         pot_trans = line_stops[stop]['transfer']
         if pot_trans != 'none' and not pot_trans in visited_lines:
             visited_lines.append(pot_trans)
-            distance(line, origin, dict_dict[pot_trans], stop, sofar, 'i', pot_trans, visited_lines)
-            distance(line, origin, dict_dict[pot_trans], stop, sofar, 'o', pot_trans, visited_lines)
+            trip_length(line, origin, dict_dict[pot_trans], stop, sofar, 'i', pot_trans, visited_lines)
+            trip_length(line, origin, dict_dict[pot_trans], stop, sofar, 'o', pot_trans, visited_lines)
 
-    for line, line_stops in dict_dict:
-        for stop in line_stops["stops"]:
-            distance(line, stop, line_stops, stop, 0, 'i', line, [line])
-            distance(line, stop, line_stops, stop, 0, 'o', line, [line])
+    for line, line_stops in dict_dict.items():
+        for stop in line_stops:
+            trip_length(line, stop, line_stops, stop, 0, 'i', line, [line])
+            trip_length(line, stop, line_stops, stop, 0, 'o', line, [line])
     
     return dict_graph
 
@@ -139,50 +136,68 @@ def recalculate_map():
 # 2. All rides which include X must be re-routed. Find stop Z, which is connected to Y and is nearest to CX.
 # Note: this mutates the model we've imported (intentionally). An original version still exists on file.
 def stop_subtraction(stop_id):
-    for (ride in model['rail_rides']):
+    global rail_map
+    log = {}
+    for ride in model.rail_rides:
         # reroute if this ride contains removed stop
-        if (ride['start_id'] == stop_id or ride['end_id'] == stop_id):
-            failure_point = 'start' if ride['start_id'] == stop_id else 'end'
+        if ride.dict['start_id'] == stop_id or ride.dict['end_id'] == stop_id:
+            failure_point = 'start' if ride.dict['start_id'] == stop_id else 'end'
             staying_point = 'start' if failure_point == 'end' else 'end'
             # granulate both ends
-            failure_granulated = granulate_station(ride[failure_point + '_id'])
-            staying_granulated = granulate_station(ride[staying_point + '_id'])
+            failure_granulated = granulate_station(ride.dict[failure_point + '_id'])
+            staying_granulated = granulate_station(ride.dict[staying_point + '_id'])
             # find a new stop Z to replace failure stop
             # consider what is nearest to failure_granulated, and what is fastest to reach staying_granulated
             # compare time to walking time to direct between granulated points (rare edge case it is next fastest route)
             z_stop_row = None
             fastest_total_time = -1
+            original_total_time = -1
             for i, r in df_rail_stops.iterrows():
-                # can't replace failed stop with itself
-                if r['stop_id'] == ride[failure_point + '_id']:
-                    continue
                 # compute distance from failure_granulated to this stop_id
-                distance = distance.distance(failure_granulated, (r['stop_lat'], r['stop_lon']))
+                dist = distance.distance(failure_granulated, (r['stop_lat'], r['stop_lon'])).km
                 # calculate new walking time based on distance and assumed walk_speed
-                walk_time = distance / walk_speed
+                walk_time = dist / walk_speed / 60
                 # sum walking time and time to traverse stops
-                total_time = rail_map[r['stop_id']][ride[failure_point + '_id']] + walk_time
+                total_time = 0
+                try:
+                    total_time = rail_map[r['stop_id']][ride.dict[failure_point + '_id']] + float(walk_time)
+                except KeyError:
+                    continue
+                # can't replace failed stop with itself
+                if r['stop_id'] == ride.dict[failure_point + '_id']:
+                    original_total_time = total_time
+                    continue
                 # pick best time to continue with
-                if (fastest_total_time == -1 or total_time < fastest_total_time):
+                if fastest_total_time == -1 or total_time < fastest_total_time:
                     fastest_total_time = total_time
                     z_stop_row = r
             # replace failed stop with z_stop_row's info
-            ride[failure_point + '_id'] = z_stop_row['stop_id']
-            ride[failure_point + '_point'] = str(z_stop_row['stop_lat']) + ', ' + str(z_stop_row['stop_lon'])
-            ride[failure_point + '_station'] = z_stop_row['stop_name']
+            ride.dict[failure_point + '_id'] = z_stop_row['stop_id']
+            ride.dict[failure_point + '_point'] = str(z_stop_row['stop_lat']) + ', ' + str(z_stop_row['stop_lon'])
+            ride.dict[failure_point + '_station'] = z_stop_row['stop_name']
+            # log stop selected for replacement and change in travel time
+            delta_time = fastest_total_time - original_total_time
+            try:
+                log[z_stop_row['stop_id']].append(delta_time)
+            except KeyError:
+                log[z_stop_row['stop_id']] = [delta_time]
+
     # Modify maps
-    for line_dict in dict_dict:
-        try:
-            inbound_neighbor = line_dict["stops"][stop_id]["inbound_neighbor"]
-            outbound_neighbor = line_dict["stops"][stop_id]["outbound_neighbor"]
-            if inbound_neighbor != "place-xxxxx":
-                line_dict["stops"][inbound_neighbor]["outbound_neighbor"] = outbound_neighbor
-            if outbound_neighbor != "place-xxxxx"
-                line_dict["stops"][outbound_neighbor]["inbound_neighbor"] = inbound_neighbor
-            del line_dict["stops"][stop_id] 
-        except KeyError:
+    for line_dict in dict_dict.values():
+        if not stop_id in line_dict.keys():
             continue
-    new_rail_map = recalculate_map()
+
+        inbound_neighbor = line_dict[stop_id]["inbound_neighbor"]
+        outbound_neighbor = line_dict[stop_id]["outbound_neighbor"]
+        if inbound_neighbor != "place-xxxxx":
+            line_dict[inbound_neighbor]["outbound_neighbor"] = outbound_neighbor
+            line_dict[inbound_neighbor]["outbound_time"] = float(line_dict[inbound_neighbor]["outbound_time"]) + float(line_dict[stop_id]["outbound_time"])
+        if outbound_neighbor != "place-xxxxx":
+            line_dict[outbound_neighbor]["inbound_neighbor"] = inbound_neighbor
+            line_dict[outbound_neighbor]["inbound_time"] = float(line_dict[outbound_neighbor]["inbound_time"]) + float(line_dict[stop_id]["inbound_time"])
+        del line_dict[stop_id] 
+    rail_map = recalculate_map()
+    return log
 
 # Stop Addition:
 # 1. User inputs coordinates and a valid line(s) to add the stop to. Call this stop N. 
@@ -203,6 +218,7 @@ def stop_addition(coords, line, neighbor_1, neighbor_2='place-xxxxx'):
     # assume user has knowledge of our mapping system and knows where their new stop belongs
     dict_line = dict_dict[line]
     speed_line = dict_speed[line]
+    log = {}
 
     # find coordinates for neighbors
     neighbor_1_coords = (0,0)
@@ -218,11 +234,12 @@ def stop_addition(coords, line, neighbor_1, neighbor_2='place-xxxxx'):
     # crazy expensive overhauls to the existing tunnels -- that stuff is 'boring' ;)
     # this is a decent way to estimate; it's not exactly the same as how we calulated for the extant
     # stops, but I've compared a few anecdotally and it seems ok for our purposes right now.
-    time_to_1 = (distance.distance(coords, neighbor_1_coords) / speed_line) / 60 # convert to minutes from seconds
-    time_to_2 = (distance.distance(coords, neighbor_2_coords) / speed_line) / 60 if neighbor_2 != 'place-xxxxx' else -1 # end of line times should keep with the standard set
+    time_to_1 = (distance.distance(coords, neighbor_1_coords).km / speed_line) / 60 # convert to minutes from seconds
+    time_to_2 = (distance.distance(coords, neighbor_2_coords).km / speed_line) / 60 if neighbor_2 != 'place-xxxxx' else -1 # end of line times should keep with the standard set
 
     # insert new stop (N) into line on mapping
-    outbound_from_1 = neighbor_1['outbound_neighbor'] == neighbor_2
+    outbound_from_1 = dict_line[neighbor_1]['outbound_neighbor'] == neighbor_2
+    dict_line['place-usern'] = {}
     dict_line['place-usern']['outbound_neighbor'] = neighbor_1 if outbound_from_1 else neighbor_2
     dict_line['place-usern']['outbound_time'] = time_to_1 if outbound_from_1 else time_to_2
     dict_line['place-usern']['inbound_neighbor'] = neighbor_2 if outbound_from_1 else neighbor_1
@@ -232,45 +249,148 @@ def stop_addition(coords, line, neighbor_1, neighbor_2='place-xxxxx'):
     # modify neighbors
     dict_line[neighbor_1]['outbound_neighbor' if outbound_from_1 else 'inbound_neighbor'] = 'place-usern'
     dict_line[neighbor_1]['outbound_time' if outbound_from_1 else 'inbound_time'] = time_to_1
-    if (neighbor_2 != 'place-xxxxx'):
+    if neighbor_2 != 'place-xxxxx':
         dict_line[neighbor_2]['inbound_neighbor' if outbound_from_1 else 'outbound_neighbor'] = 'place-usern'
         dict_line[neighbor_2]['inbound_time' if outbound_from_1 else 'outbound_time'] = time_to_2
 
     # recalculate EVERYTHING distance-wise
-    new_rail_map = recalculate_map()
+    rail_map = recalculate_map()
 
     # find poachable stops 
-    poachable_stops = []
+    poachable_stops = {}
     # N is less than a 40 minute walk -- 2400 seconds -> 3.408 km
     # Ergo, N is in theory a reasonable walking distance from the ride’s granular location.
     for i, r in df_rail_stops.iterrows():
-        distance = distance.distance(coords, (r['stop_lat'], r['stop_lon']))
-        if distance < 3.408:
-            poachable_stops.append(r['stop_id'])
+        dist = distance.distance(coords, (r['stop_lat'], r['stop_lon']))
+        if dist < 3.408:
+            poachable_stops[r['stop_id']] = dist
         
     # for each ride including a poachable stop: 
-    for (ride in model['rail_rides']):
-        # TODO: What does it mean if both the start and finish are "poachable?"
-        # You shouldn't poach both, but how do we decide which to poach?
-        if (ride['start_id'] in poachable_stops or ride['end_id'] in poachable_stops):
-            poach_point = 'start' if ride['start_id'] in poachable_stops else 'end'
-            destination_point = 'end' if ride['start_id'] in poachable_stops else 'start'
-            poach_granulated = granulate_station(ride[poach_point + '_id'])
+    for ride in model.rail_rides:
+        if ride.dict['start_id'] in poachable_stops.keys() or ride.dict['end_id'] in poachable_stops.keys():
+            # If both start and end are poachable, poach the one closer to N
+            poach_point = 'start' if ride.dict['start_id'] in poachable_stops.keys() else 'end'
+            destination_point = 'end' if poach_point == 'start' else 'start'
+            if ride.dict['start_id'] in poachable_stops.keys() and ride.dict['end_id'] in poachable_stops.keys():
+                poach_point = 'start' if poachable_stops[ride.dict['start_id']] < poachable_stops[ride.dict['end_id']] else 'end'
+                destination_point_point = 'end' if poach_point == 'start' else 'start'
+
+            poach_granulated = granulate_station(ride.dict[poach_point + '_id'])
             # determine if N is more efficient 
             walk_time_N = distance.distance(coords, poach_granulated) / walk_speed / 60 # convert seconds to minutes
-            walk_time_poach = distance.distance(ride[poach_point + '_coords'], poach_granulated) / walk_speed / 60 
-            rail_time_N = new_rail_map['place-usern'][ride[destination_point + '_id']]
-            rail_time_poach = new_rail_map[ride[poach_point + '_id']][ride[destination_point + '_id']]
+            walk_time_poach = distance.distance(ride.dict[poach_point + '_coords'], poach_granulated) / walk_speed / 60 
+            rail_time_N = rail_map['place-usern'][ride.dict[destination_point + '_id']]
+            rail_time_poach = rail_map[ride.dict[poach_point + '_id']][ride.dict[destination_point + '_id']]
             if walk_time_N + rail_time_N < walk_time_poach + rail_time_poach:
+                delta_time = (walk_time_N + rail_time_N) - (walk_time_poach + rail_time_poach)
+                try:
+                    log[ride.dict[poach_point + '_id']].append(delta_time)
+                except KeyError:
+                    log[ride.dict[poach_point + '_id']] = [delta_time]
                 # N is more efficient, replace poach_point
-                ride[poach_point + '_id'] = 'place-usern'
-                ride[poach_point + '_point'] = str(coords)
-                ride[poach_point + '_station'] = 'User Stop N'
+                ride.dict[poach_point + '_id'] = 'place-usern'
+                ride.dict[poach_point + '_point'] = str(coords)
+                ride.dict[poach_point + '_station'] = 'User Stop N'
+
+@click.command()
+@click.option(
+    "--interactive",
+    "-i",
+    default=False,
+    help="Run the simulation in interactive mode."
+) # TODO implement interactive mode
+@click.option(
+    "--add/--subtract",
+    "-a/-s",
+    required=True,
+    help="Elect to add or remove a station."
+)
+@click.option(
+    "--station",
+    multiple=True,
+    required=True,
+    help="Station(s) for either addition or subtraction. In subtraction mode, this station is removed. In addition, these station(s) indicate which station(s) to add the new station between. If only one station is provided in addition mode, it is assumed that the new station is to be added at the end of the line."
+)
+@click.option(
+    "--latitude",
+    type=float,
+    help="Latitude to place new station at."
+)
+@click.option(
+    "--longitude",
+    type=float,
+    help="Longitude to place new station at."
+)
+@click.option(
+    "--line",
+    help="Line to place new stop on. Valid options are: red-a, red-b, blue, orange, green-b, green-c, green-d, and green-e."
+)
+@click.option(
+    "--directory",
+    default="",
+    help="Set a different directory from which to pull the model, map, etc."
+)
+# Gather user input on CLI and validate
+def cli():
+    if directory != "":
+        if not (os.path.exists(directory) and os.path.isdir(directory)):
+            raise click.BadParameter(f"Provided directory \"{directory}\" is invalid. Make sure it exists and is a directory!")
+        else:
+            # Set up all globals with correct, new directory TODO
+            raise click.BadParameter(f"TODO: Implement directory option")
+    
+    # TODO add option for different out directory
+
+    # Need a lot more info for an add
+    if add:
+        validate_addition([latitude, longitude], line, station[0], station[1] if len(station) == 2 else 'place-xxxxx')
+    else:
+        validate_subtraction(station[0])
+
+#   TODO: Specify available transfers?
+#   Behavior is likely weird for strange input coordinates far from the line, but that is on user.
+#   TODO add notes to README to guide user on lines, stop_ids, etc.
+def validate_addition(coords, line, neighbor_1, neighbor_2='place-xxxxx'):
+    # coords must be on earth
+    if not (coords[0] > -180 and coords[0] < 180 and coords[1] > -90 and coords[1] < 90):
+        raise click.BadParameter(f"Provided coordinates \"{str(coords)}\" for placement of new station are not valid.")
+    # line must be valid
+    if not line in dict_dict.keys():
+        raise click.BadParameter(f"Provided line \"{line}\" is not a valid line. Valid options are: red-a, red-b, blue, orange, green-b, green-c, green-d, and green-e. For more details on these lines, please consult README.md.")
+    # neighbors must be neighbors for new stop to go in between them
+    if dict_dict[line][neighbor_1]["inbound_neighbor"] != neighbor_2 and dict_dict[line][neighbor_1]["outbound_neighbor"] != neighbor_2:
+        raise click.BadParameter(f"Provided stations \"{neighbor_1}\" and \"{neighbor_2}\" are invalid for stop addition. Provided stations must neighbor each other on the provided line, \"{line}\". For more details on these lines, please consult README.md.")
+
+#   TODO TBD: Have the option to only remove from *one* line for stations which are transfers? 
+#   (e.g., make North Station green line exclusive?)
+def validate_subtraction(stop_id):
+    # Check that stop_id is valid
+    for i, r in df_rail_stops.iterrows():
+        if r['stop_id'] == stop_id:
+            return
+    raise click.BadParameter(f"Provided stop_id \"{stop_id}\" is not a valid stop. Please consult your MBTA_Rail_Stops.csv file for valid stop_id values and check your spelling.")
+
 
 if __name__ == "__main__":
     # TODO remove these dummy values and take/validate user input
     remove = "place-davis"
     add_coords = (42.380869, -71.119685)
     add_neighbor_1 = "place-portr"
-    add_neighbor_2 = "place-harvd"
+    add_neighbor_2 = "place-harsq"
+
+    # log = stop_subtraction(remove)
+    # with open(f"{OUT_DIR}sub/sim_model.json", 'w') as f:
+    #     f.write(model.json_print())
+    # with open(f"{OUT_DIR}sub/sim_log.json", 'w') as f:
+    #     f.write(json.dumps(log, indent=4))
+    # with open(f"{OUT_DIR}sub/sim_map.json", 'w') as f:
+    #     f.write(json.dumps(rail_map, indent=4))
+
+    log2 = stop_addition(add_coords, "red-a", add_neighbor_1, add_neighbor_2)
+    with open(f"{OUT_DIR}add/sim_model.json", 'w') as f:
+        f.write(model.json_print())
+    with open(f"{OUT_DIR}add/sim_log.json", 'w') as f:
+        f.write(json.dumps(log2, indent=4))
+    with open(f"{OUT_DIR}add/sim_map.json", 'w') as f:
+        f.write(json.dumps(rail_map, indent=4))
 

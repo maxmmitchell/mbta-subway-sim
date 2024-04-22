@@ -2,9 +2,14 @@
 *A simulator of outages and station additions to the MTA subway*
 
 ## What does `MBTA Subway Sim` do?
-`MTA Subway Sim` simulates the effects of station addition and removals on the MBTA subway. It anticipates how riders might be impacted using historical data. It takes into account week-wise date and time-of-day-wise time variance in ridership.
+`MBTA Subway Sim` simulates the effects of station addition and subtractions on the MBTA subway. It anticipates how riders might be impacted using historical data. It takes into account week-wise date and time-of-day-wise time variance in ridership. `MBTA Subway Sim`, when run, fills the folder `sim_out` (which must exist) with the following files:
+- `log.json`: log of the impacts of the user-described change to the subway system. In the case of subtraction, the keys represent the stop which was used to replace the removed station, and the value is a list of the change(s) in total ride time this caused, in minutes. In the case of addition, the keys represent stations whose riders in the original model were "poached" by the new stop, and the value is a list of the change(s) in total ride time this caused, in minutes.
+- `map.json`: recalculation of the time-matrix contained in `rail_map.json`
+- `model.json`: recomputed model based on the model which was fed into the simulation, accounting for the changes.
 
 ## How do I use `MBTA Subway Sim`?
+`python3 simulation.py [OPTIONS]`
+- ``
 
 ## What files are here?
 - `data.py`: working file for processing data. Used for intermediate phases but more or less irrelevant now.
