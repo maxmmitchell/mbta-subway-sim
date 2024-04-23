@@ -27,6 +27,8 @@
         Set a different directory in which to deposit the output log files. Paths are assumed local to current working directory.
 - `--help`
         Display the above options and descriptions.
+- `--name`
+        Set a name for a newly added station. Must be five letters long, and be unique.
 
 ## How do I find the `stop_id` for the station I want?
 Check `MBTA_Rail_Stops.csv`. A simple grep for the common stop name, or address, should turn up the appropriate row with the `stop_id`.
@@ -41,10 +43,13 @@ Most stops are on the line expected of them, e.g., Forest Hills is on orange, Wo
 - `simulation.py`: set of functions which act as the logic of simulating adding and removing stops.
 - `train.py`: script to train a model based on many pre-generated models.
 - `genModels.sh`: script to generate models. Somewhat hacky.
+- `/sim_out_default`: default location for simulation output files.
 - `/sim_in_default/`: default location for simulation start-up files.
 - - `full_model_1.json`: TODO DESCRIBE MODEL FILE
 - - `map.json`: distance matrix representing the time from each station to every other station.
 - - `red-a.json, red-b.json, blue.json, orange.json, green-e.json, green-d.json, green-c.json, green-b.json`: representations of the layout of each line. branches get their own file, and to avoid duplication, common set of track is only represented once, as this representation cares only about stop-to-stop times. `red-a.json` and `green-e.json` get the bulk of it; see official write-up for more details.
+- `/out_add_ex/`: example of adding a station.
+- `/out_sub_ex/`: example of subtracting a station. 
 
 ## How was `MBTA Subway Sim` made?
 `MBTA Subway Sim` was created by Max Mitchell for his Master's project at Tufts University across the 2023-2024 school year. It has two parts; the model, and the simulation. The model is a genetic model representing a full set a rides on a given day, inferring routes based on historical ridership traffic data available on the MBTA's open data portal. the simulation expands on this model, taking as an input a change to the subway structure, and simulating the impact on ridership for current riders.
@@ -53,6 +58,7 @@ Most stops are on the line expected of them, e.g., Forest Hills is on orange, Wo
 - Interactive Mode
 - Improving the model/simulation, lots of tuning to be done.
 - Manifest documents in out directories describing line changes
+- Allow for outages/subtraction to be only for a set time range (e.g., AM_PEAK only, or PM-MIDNIGHT, etc.)
 
 ## Gratitude
 Special thanks to Richard Townsend, my advisor. Liping Liu and Shan Jiang, for providing advice in a field which was new to me.

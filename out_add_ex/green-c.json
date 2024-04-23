@@ -1,0 +1,107 @@
+{
+    "place-bcnwa": {
+        "inbound_neighbor": "place-tapst",
+        "inbound_time": 1,
+        "outbound_neighbor": "place-fbkst",
+        "outbound_time": 3,
+        "transfer": "none"
+    },
+    "place-bndhl": {
+        "inbound_neighbor": "place-fbkst",
+        "inbound_time": 1,
+        "outbound_neighbor": "place-sumav",
+        "outbound_time": 1,
+        "transfer": "none"
+    },
+    "place-clmnl": {
+        "inbound_neighbor": "place-xxxxx",
+        "inbound_time": -1,
+        "outbound_neighbor": "place-engav",
+        "outbound_time": 1,
+        "transfer": "none"
+    },
+    "place-cool": {
+        "inbound_neighbor": "place-sumav",
+        "inbound_time": 1,
+        "outbound_neighbor": "place-stpul",
+        "outbound_time": 2,
+        "transfer": "none"
+    },
+    "place-denrd": {
+        "inbound_neighbor": "place-engav",
+        "inbound_time": 2,
+        "outbound_neighbor": "place-tapst",
+        "outbound_time": 1,
+        "transfer": "none"
+    },
+    "place-engav": {
+        "inbound_neighbor": "place-clmnl",
+        "inbound_time": 1,
+        "outbound_neighbor": "place-denrd",
+        "outbound_time": 2,
+        "transfer": "none"
+    },
+    "place-fbkst": {
+        "inbound_neighbor": "place-bcnwa",
+        "inbound_time": 3,
+        "outbound_neighbor": "place-bndhl",
+        "outbound_time": 1,
+        "transfer": "none"
+    },
+    "place-hwsst": {
+        "inbound_neighbor": "place-kntst",
+        "inbound_time": 1,
+        "outbound_neighbor": "place-smary",
+        "outbound_time": 2,
+        "transfer": "none"
+    },
+    "place-hymnl": {
+        "inbound_neighbor": "place-kencl",
+        "inbound_time": 3,
+        "outbound_neighbor": "place-xxxxx",
+        "outbound_time": -1,
+        "transfer": "green-d"
+    },
+    "place-kencl": {
+        "inbound_neighbor": "place-smary",
+        "inbound_time": 3,
+        "outbound_neighbor": "place-hymnl",
+        "outbound_time": 3,
+        "transfer": "green-b"
+    },
+    "place-kntst": {
+        "inbound_neighbor": "place-stpul",
+        "inbound_time": 1,
+        "outbound_neighbor": "place-hwsst",
+        "outbound_time": 1,
+        "transfer": "none"
+    },
+    "place-smary": {
+        "inbound_neighbor": "place-hwsst",
+        "inbound_time": 2,
+        "outbound_neighbor": "place-kencl",
+        "outbound_time": 3,
+        "transfer": "none"
+    },
+    "place-stpul": {
+        "inbound_neighbor": "place-cool",
+        "inbound_time": 2,
+        "outbound_neighbor": "place-kntst",
+        "outbound_time": 1,
+        "transfer": "none"
+    },
+    "place-sumav": {
+        "inbound_neighbor": "place-bndhl",
+        "inbound_time": 1,
+        "outbound_neighbor": "place-cool",
+        "outbound_time": 1,
+        "transfer": "none"
+    },
+    "place-tapst": {
+        "inbound_neighbor": "place-denrd",
+        "inbound_time": 1,
+        "outbound_neighbor": "place-bcnwa",
+        "outbound_time": 1,
+        "transfer": "none"
+    }
+}

@@ -43,7 +43,6 @@ dict_speed = { # served in kilometers/second (for consistent units), based on hi
 }
 
 model = g.Genotype(False)
-model.from_file("60_model_map.json") # TODO switch to full size model
 
 # NOTE: DO NOT CHANGE THIS! SOME THINGS IN THIS FILE HAVE BEEN MANUALLY CALCULATED
 # WITH THIS VALUE WHICH I KNOW IS BAD AND SHOULD BE FIXED; THEY'RE DOCUMENTED AND I
@@ -202,7 +201,7 @@ def stop_subtraction(stop_id):
 # 5. For all Ri, replace Pi with N.
 #
 # At this point, ridership metrics can be recalculated. 
-def stop_addition(coords, line, neighbor_1, neighbor_2='place-xxxxx'):
+def stop_addition(name, coords, line, neighbor_1, neighbor_2='place-xxxxx'):
     global rail_map
     # TODO based on neighbors we could deduce line, but for right now, 
     # assume user has knowledge of our mapping system and knows where their new stop belongs
@@ -228,19 +227,20 @@ def stop_addition(coords, line, neighbor_1, neighbor_2='place-xxxxx'):
     time_to_2 = (distance.distance(coords, neighbor_2_coords).km / speed_line) / 60 if neighbor_2 != 'place-xxxxx' else -1 # end of line times should keep with the standard set
 
     # insert new stop (N) into line on mapping
+    # TODO have user describe name for stop
     outbound_from_1 = dict_line[neighbor_1]['outbound_neighbor'] == neighbor_2
-    dict_line['place-usern'] = {}
-    dict_line['place-usern']['outbound_neighbor'] = neighbor_2 if outbound_from_1 else neighbor_1
-    dict_line['place-usern']['outbound_time'] = time_to_2 if outbound_from_1 else time_to_1
-    dict_line['place-usern']['inbound_neighbor'] = neighbor_1 if outbound_from_1 else neighbor_2
-    dict_line['place-usern']['inbound_time'] = time_to_1 if outbound_from_1 else time_to_2
-    dict_line['place-usern']['transfer'] = 'none'
+    dict_line[name] = {}
+    dict_line[name]['outbound_neighbor'] = neighbor_2 if outbound_from_1 else neighbor_1
+    dict_line[name]['outbound_time'] = time_to_2 if outbound_from_1 else time_to_1
+    dict_line[name]['inbound_neighbor'] = neighbor_1 if outbound_from_1 else neighbor_2
+    dict_line[name]['inbound_time'] = time_to_1 if outbound_from_1 else time_to_2
+    dict_line[name]['transfer'] = 'none'
 
     # modify neighbors
-    dict_line[neighbor_1]['outbound_neighbor' if outbound_from_1 else 'inbound_neighbor'] = 'place-usern'
+    dict_line[neighbor_1]['outbound_neighbor' if outbound_from_1 else 'inbound_neighbor'] = name
     dict_line[neighbor_1]['outbound_time' if outbound_from_1 else 'inbound_time'] = time_to_1
     if neighbor_2 != 'place-xxxxx':
-        dict_line[neighbor_2]['inbound_neighbor' if outbound_from_1 else 'outbound_neighbor'] = 'place-usern'
+        dict_line[neighbor_2]['inbound_neighbor' if outbound_from_1 else 'outbound_neighbor'] = name
         dict_line[neighbor_2]['inbound_time' if outbound_from_1 else 'outbound_time'] = time_to_2
 
     # recalculate EVERYTHING distance-wise
@@ -270,7 +270,7 @@ def stop_addition(coords, line, neighbor_1, neighbor_2='place-xxxxx'):
             # determine if N is more efficient 
             walk_time_N = distance.distance(coords, poach_granulated).km / walk_speed / 60 # convert seconds to minutes
             walk_time_poach = distance.distance(ride.dict[poach_point + '_point'], poach_granulated).km / walk_speed / 60 
-            rail_time_N = rail_map['place-usern'][ride.dict[destination_point + '_id']]
+            rail_time_N = rail_map[name][ride.dict[destination_point + '_id']]
             rail_time_poach = rail_map[ride.dict[poach_point + '_id']][ride.dict[destination_point + '_id']]
             if walk_time_N + rail_time_N < walk_time_poach + rail_time_poach:
                 delta_time = (walk_time_N + rail_time_N) - (walk_time_poach + rail_time_poach)
@@ -279,7 +279,7 @@ def stop_addition(coords, line, neighbor_1, neighbor_2='place-xxxxx'):
                 except KeyError:
                     log[ride.dict[poach_point + '_id']] = [delta_time]
                 # N is more efficient, replace poach_point
-                ride.dict[poach_point + '_id'] = 'place-usern'
+                ride.dict[poach_point + '_id'] = name
                 ride.dict[poach_point + '_point'] = str(coords)
                 ride.dict[poach_point + '_station'] = 'User Stop N'
     return log
@@ -327,15 +327,24 @@ def stop_addition(coords, line, neighbor_1, neighbor_2='place-xxxxx'):
     default="",
     help="Set a different directory in which to deposit the output log files. Paths are assumed local to current working directory."
 )
+@click.option(
+    "--name",
+    type=str,
+    help="Set a name for a newly added station. Must be five letters long, and be unique."
+)
 # Gather user input on CLI and validate
-def cli(interactive, add, station, latitude, longitude, line, from_file, output):
+def cli(interactive, add, station, latitude, longitude, line, from_file, output, name):
     if output != "":
-        validate_directory(output)
+        maybe_error = validate_directory(output)
+        if maybe_error != "":
+            raise click.BadParameter(maybe_error)
         global OUT_DIR
         OUT_DIR = os.getcwd() + output
 
     if from_file != "":
-        validate_directory(from_file)
+        maybe_error = validate_directory(from_file)
+        if maybe_error != "":
+            raise click.BadParameter(maybe_error)
         global IN_DIR 
         IN_DIR = os.getcwd() + from_file
 
@@ -355,32 +364,94 @@ def cli(interactive, add, station, latitude, longitude, line, from_file, output)
             "green-c":json.load(open(f'{IN_DIR}green-c.json'))['stops'],
             "green-b":json.load(open(f'{IN_DIR}green-b.json'))['stops']
         }
+    model.from_file(f"{IN_DIR}model.json") # TODO switch to full size model in default folder
 
     if interactive:
-        raise click.BadParameter(f"Interactive mode unimplemented :(")
+        help_text = """
+quit, q:    Exit the program.
+log, l:     Serialize the program's current state. You will be prompted to provide an 
+            output directory. If none is given, the last passed directory (or default)
+            Will be used.
+add, a:     Add a station. You will be prompted to provide coordinates, a line, and neighboring
+            station(s) to the new stop.
+sub, s:     Subtract a station. You will be prompted to provide a `stop_id` for the desired station.
+help, h:    Display this message again.
+"""
+        command = input(f"""Welcome to interactive mode! The following commands are available to you:
+{help_text}
+""")
+        log = {}
+        action = 0
+        while not (command == "quit" or command == "q"):
+            command = input("What's next? ")
+            if command == "help" or command == "h":
+                print(help_text)
+            elif command == "log" or command == "l":
+                command = input("Serialize to what directory? ")
+                maybe_error = validate_directory(command)
+                if maybe_error != "":
+                    print(maybe_error)
+                    continue
+                else:
+                    OUT_DIR = command
+                    serialize(log)
+            elif command == "sub" or command == "s":
+                command = input("Subtract which station? ")
+                maybe_error = validate_subtraction(command)
+                if maybe_error != "":
+                    print(maybe_error)
+                    continue
+                else:
+                    log[str(action)] = stop_subtraction(command)
+                    action += 1
+            elif command == "add" or command == "a":
+                line = input("Add to which line? ")
+                station1 = input("Add next to which station? ")
+                station2 = input("Add next to which other station? (leave blank or type 'xxxxx' for end-of-the-line) ")
+                lat = input("Add at what latitude? ")
+                lon = input("Add at what longitude? ")
+                name = input("What would you like to call this new station? (five letters, unique) ")
+                maybe_error = validate_addition(name, [lat, lon], line, station1, 'place-xxxxx' if station2 == "" else station2)
+                if maybe_error != "":
+                    print(maybe_error)
+                    continue
+                else:
+                    log[str(action)] = stop_addition(f"place-{name}", [lat, lon], line, station1, 'place-xxxxx' if station2 == "" else station2)
+                    action += 1
     else:
         log = {}
         if add:
-            validate_addition([latitude, longitude], line, station[0], station[1] if len(station) == 2 else 'place-xxxxx')
-            log = stop_addition([latitude, longitude], line, station[0], station[1] if len(station) == 2 else 'place-xxxxx')
+            maybe_error = validate_addition(name, [latitude, longitude], line, station[0], station[1] if len(station) == 2 else 'place-xxxxx')
+            if maybe_error == "":
+                log = stop_addition(name, [latitude, longitude], line, station[0], station[1] if len(station) == 2 else 'place-xxxxx')
+            else:
+                raise click.BadParameter(maybe_error)
         else:
-            validate_subtraction(station[0])
-            log = stop_subtraction(station[0])
+            maybe_error = validate_subtraction(station[0])
+            if maybe_error == "":
+                log = stop_subtraction(station[0])
+            else:
+                raise click.BadParameter(maybe_error)
         serialize(log)
 
 #   TODO: Specify available transfers?
 #   Behavior is likely weird for strange input coordinates far from the line, but that is on user.
 #   TODO add notes to README to guide user on lines, stop_ids, etc.
-def validate_addition(coords, line, neighbor_1, neighbor_2='place-xxxxx'):
+def validate_addition(name, coords, line, neighbor_1, neighbor_2):
     # coords must be on earth
     if not (coords[0] > -180 and coords[0] < 180 and coords[1] > -90 and coords[1] < 90):
-        raise click.BadParameter(f"Provided coordinates \"{str(coords)}\" for placement of new station are not valid.")
+        return f"Provided coordinates \"{str(coords)}\" for placement of new station are not valid."
     # line must be valid
     if not line in dict_dict.keys():
-        raise click.BadParameter(f"Provided line \"{line}\" is not a valid line. Valid options are: red-a, red-b, blue, orange, green-b, green-c, green-d, and green-e. For more details on these lines, please consult README.md.")
+        return f"Provided line \"{line}\" is not a valid line. Valid options are: red-a, red-b, blue, orange, green-b, green-c, green-d, and green-e. For more details on these lines, please consult README.md."
     # neighbors must be neighbors for new stop to go in between them
     if dict_dict[line][neighbor_1]["inbound_neighbor"] != neighbor_2 and dict_dict[line][neighbor_1]["outbound_neighbor"] != neighbor_2:
-        raise click.BadParameter(f"Provided stations \"{neighbor_1}\" and \"{neighbor_2}\" are invalid for stop addition. Provided stations must neighbor each other on the provided line, \"{line}\". For more details on these lines, please consult README.md.")
+        return f"Provided stations \"{neighbor_1}\" and \"{neighbor_2}\" are invalid for stop addition. Provided stations must neighbor each other on the provided line, \"{line}\". For more details on these lines, please consult README.md."
+    if f"place-{name}" in rail_map.keys():
+        return f"Provided name \"{name}\" is invalid for a new stop, as it already exists."
+    if len(name) != 5:
+        return f"Provided name \"{name}\" must be five characters long."
+    return ""
 
 #   TODO TBD: Have the option to only remove from *one* line for stations which are transfers? 
 #   (e.g., make North Station green line exclusive?)
@@ -388,12 +459,13 @@ def validate_subtraction(stop_id):
     # Check that stop_id is valid
     for i, r in df_rail_stops.iterrows():
         if r['stop_id'] == stop_id:
-            return
-    raise click.BadParameter(f"Provided stop_id \"{stop_id}\" is not a valid stop. Please consult your MBTA_Rail_Stops.csv file for valid stop_id values and check your spelling.")
+            return ""
+    return f"Provided stop_id \"{stop_id}\" is not a valid stop. Please consult your MBTA_Rail_Stops.csv file for valid stop_id values and check your spelling."
 
 def validate_directory(path):
     if not (os.path.exists(os.getcwd() + path) and os.path.isdir(os.getcwd() + path)):
-        raise click.BadParameter(f"Provided directory \"{path}\" is invalid. Make sure it exists and is a directory!")
+        return f"Provided directory \"{path}\" is invalid. Make sure it exists and is a directory!"
+    return ""
 
 def serialize(log):
     with open(f"{OUT_DIR}sim_model.json", 'w') as f:
@@ -407,10 +479,5 @@ def serialize(log):
             f.write(json.dumps(line_dict, indent=4))
 
 if __name__ == "__main__":
-    # TODO remove these dummy values and take/validate user input
-    # remove = "place-davis"
-    # add_coords = (42.380869, -71.119685)
-    # add_neighbor_1 = "place-portr"
-    # add_neighbor_2 = "place-harsq"
     cli()
 
