@@ -15,26 +15,21 @@ import click
 import os
 from geopy import distance
 
+OUT_DIR = f"{os.getcwd()}/sim_out/"
+IN_DIR = f"{os.getcwd()}/sim_in_default/"
+
 df_rail_stops = pd.read_csv('MBTA_Rail_Stops.csv')
 
-rail_map = json.load(open('map.json'))
-dict_blue = json.load(open('blueline.json'))['stops']
-dict_red_a = json.load(open('redline-a.json'))['stops']
-dict_red_b = json.load(open('redline-b.json'))['stops']
-dict_orange = json.load(open('orangeline.json'))['stops']
-dict_green_e = json.load(open('greenline-e.json'))['stops']
-dict_green_d = json.load(open('greenline-d.json'))['stops']
-dict_green_c = json.load(open('greenline-c.json'))['stops']
-dict_green_b = json.load(open('greenline-b.json'))['stops']
+rail_map = json.load(open(f'{IN_DIR}map.json'))
 dict_dict = {
-    "blue":dict_blue,
-    "red-a":dict_red_a,
-    "red-b":dict_red_b,
-    "orange":dict_orange,
-    "green-e":dict_green_e,
-    "green-d":dict_green_d,
-    "green-c":dict_green_c,
-    "green-b":dict_green_b
+    "blue":json.load(open(f'{IN_DIR}blue.json'))['stops'],
+    "red-a":json.load(open(f'{IN_DIR}red-a.json'))['stops'],
+    "red-b":json.load(open(f'{IN_DIR}red-b.json'))['stops'],
+    "orange":json.load(open(f'{IN_DIR}orange.json'))['stops'],
+    "green-e":json.load(open(f'{IN_DIR}green-e.json'))['stops'],
+    "green-d":json.load(open(f'{IN_DIR}green-d.json'))['stops'],
+    "green-c":json.load(open(f'{IN_DIR}green-c.json'))['stops'],
+    "green-b":json.load(open(f'{IN_DIR}green-b.json'))['stops']
 }
 dict_speed = { # served in kilometers/second (for consistent units), based on historical averages
     "blue":0.007465568,
@@ -49,7 +44,6 @@ dict_speed = { # served in kilometers/second (for consistent units), based on hi
 
 model = g.Genotype(False)
 model.from_file("60_model_map.json") # TODO switch to full size model
-OUT_DIR = f"{os.getcwd()}/sim_out/"
 
 # NOTE: DO NOT CHANGE THIS! SOME THINGS IN THIS FILE HAVE BEEN MANUALLY CALCULATED
 # WITH THIS VALUE WHICH I KNOW IS BAD AND SHOULD BE FIXED; THEY'RE DOCUMENTED AND I
@@ -100,13 +94,8 @@ def granulate_station(stop_id, tolerance = 0):
 
 # assumes local variables of the various maps have been modified
 # returns new value for distance matrix
-# TODO the line index is probably gonna fuck this all up
-# Note: I'm not sure why I wrote the above comment. I think this works but I'm ready
-#       to be wrong.
-# TODO potentially have to recalculate individual lines too if we want this to be reusable for multiple mods
 def recalculate_map():
     dict_graph = {}
-    print(json.dumps(dict_red_a, indent=4))
     def trip_length(line, origin, line_stops, stop, sofar, dir, curr_line, visited_lines):
         if stop == 'place-xxxxx':
             return
@@ -214,6 +203,7 @@ def stop_subtraction(stop_id):
 #
 # At this point, ridership metrics can be recalculated. 
 def stop_addition(coords, line, neighbor_1, neighbor_2='place-xxxxx'):
+    global rail_map
     # TODO based on neighbors we could deduce line, but for right now, 
     # assume user has knowledge of our mapping system and knows where their new stop belongs
     dict_line = dict_dict[line]
@@ -240,10 +230,10 @@ def stop_addition(coords, line, neighbor_1, neighbor_2='place-xxxxx'):
     # insert new stop (N) into line on mapping
     outbound_from_1 = dict_line[neighbor_1]['outbound_neighbor'] == neighbor_2
     dict_line['place-usern'] = {}
-    dict_line['place-usern']['outbound_neighbor'] = neighbor_1 if outbound_from_1 else neighbor_2
-    dict_line['place-usern']['outbound_time'] = time_to_1 if outbound_from_1 else time_to_2
-    dict_line['place-usern']['inbound_neighbor'] = neighbor_2 if outbound_from_1 else neighbor_1
-    dict_line['place-usern']['inbound_time'] = time_to_2 if outbound_from_1 else time_to_1
+    dict_line['place-usern']['outbound_neighbor'] = neighbor_2 if outbound_from_1 else neighbor_1
+    dict_line['place-usern']['outbound_time'] = time_to_2 if outbound_from_1 else time_to_1
+    dict_line['place-usern']['inbound_neighbor'] = neighbor_1 if outbound_from_1 else neighbor_2
+    dict_line['place-usern']['inbound_time'] = time_to_1 if outbound_from_1 else time_to_2
     dict_line['place-usern']['transfer'] = 'none'
 
     # modify neighbors
@@ -255,6 +245,7 @@ def stop_addition(coords, line, neighbor_1, neighbor_2='place-xxxxx'):
 
     # recalculate EVERYTHING distance-wise
     rail_map = recalculate_map()
+    print(json.dumps(rail_map, indent=4))
 
     # find poachable stops 
     poachable_stops = {}
@@ -277,8 +268,8 @@ def stop_addition(coords, line, neighbor_1, neighbor_2='place-xxxxx'):
 
             poach_granulated = granulate_station(ride.dict[poach_point + '_id'])
             # determine if N is more efficient 
-            walk_time_N = distance.distance(coords, poach_granulated) / walk_speed / 60 # convert seconds to minutes
-            walk_time_poach = distance.distance(ride.dict[poach_point + '_coords'], poach_granulated) / walk_speed / 60 
+            walk_time_N = distance.distance(coords, poach_granulated).km / walk_speed / 60 # convert seconds to minutes
+            walk_time_poach = distance.distance(ride.dict[poach_point + '_point'], poach_granulated).km / walk_speed / 60 
             rail_time_N = rail_map['place-usern'][ride.dict[destination_point + '_id']]
             rail_time_poach = rail_map[ride.dict[poach_point + '_id']][ride.dict[destination_point + '_id']]
             if walk_time_N + rail_time_N < walk_time_poach + rail_time_poach:
@@ -291,12 +282,13 @@ def stop_addition(coords, line, neighbor_1, neighbor_2='place-xxxxx'):
                 ride.dict[poach_point + '_id'] = 'place-usern'
                 ride.dict[poach_point + '_point'] = str(coords)
                 ride.dict[poach_point + '_station'] = 'User Stop N'
+    return log
 
 @click.command()
 @click.option(
     "--interactive",
     "-i",
-    default=False,
+    is_flag=True,
     help="Run the simulation in interactive mode."
 ) # TODO implement interactive mode
 @click.option(
@@ -309,7 +301,7 @@ def stop_addition(coords, line, neighbor_1, neighbor_2='place-xxxxx'):
     "--station",
     multiple=True,
     required=True,
-    help="Station(s) for either addition or subtraction. In subtraction mode, this station is removed. In addition, these station(s) indicate which station(s) to add the new station between. If only one station is provided in addition mode, it is assumed that the new station is to be added at the end of the line."
+    help="Station(s) for either addition or subtraction, by their `stop_id`. In subtraction mode, this station is removed. In addition, these station(s) indicate which station(s) to add the new station between. If only one station is provided in addition mode, it is assumed that the new station is to be added at the end of the line."
 )
 @click.option(
     "--latitude",
@@ -326,26 +318,55 @@ def stop_addition(coords, line, neighbor_1, neighbor_2='place-xxxxx'):
     help="Line to place new stop on. Valid options are: red-a, red-b, blue, orange, green-b, green-c, green-d, and green-e."
 )
 @click.option(
-    "--directory",
+    "--from-file",
     default="",
-    help="Set a different directory from which to pull the model, map, etc."
+    help="Set a different directory from which to pull the input model, and map files. Paths are assumed local to current working directory."
+)
+@click.option(
+    "--output",
+    default="",
+    help="Set a different directory in which to deposit the output log files. Paths are assumed local to current working directory."
 )
 # Gather user input on CLI and validate
-def cli():
-    if directory != "":
-        if not (os.path.exists(directory) and os.path.isdir(directory)):
-            raise click.BadParameter(f"Provided directory \"{directory}\" is invalid. Make sure it exists and is a directory!")
-        else:
-            # Set up all globals with correct, new directory TODO
-            raise click.BadParameter(f"TODO: Implement directory option")
-    
-    # TODO add option for different out directory
+def cli(interactive, add, station, latitude, longitude, line, from_file, output):
+    if output != "":
+        validate_directory(output)
+        global OUT_DIR
+        OUT_DIR = os.getcwd() + output
 
-    # Need a lot more info for an add
-    if add:
-        validate_addition([latitude, longitude], line, station[0], station[1] if len(station) == 2 else 'place-xxxxx')
+    if from_file != "":
+        validate_directory(from_file)
+        global IN_DIR 
+        IN_DIR = os.getcwd() + from_file
+
+        global df_rail_stops
+        global rail_map
+        global dict_dict
+
+        df_rail_stops = pd.read_csv(f'{IN_DIR}MBTA_Rail_Stops.csv')
+        rail_map = json.load(open(f'{IN_DIR}map.json'))
+        dict_dict = {
+            "blue":json.load(open(f'{IN_DIR}blue.json'))['stops'],
+            "red-a":json.load(open(f'{IN_DIR}red-a.json'))['stops'],
+            "red-b":json.load(open(f'{IN_DIR}red-b.json'))['stops'],
+            "orange":json.load(open(f'{IN_DIR}orange.json'))['stops'],
+            "green-e":json.load(open(f'{IN_DIR}green-e.json'))['stops'],
+            "green-d":json.load(open(f'{IN_DIR}green-d.json'))['stops'],
+            "green-c":json.load(open(f'{IN_DIR}green-c.json'))['stops'],
+            "green-b":json.load(open(f'{IN_DIR}green-b.json'))['stops']
+        }
+
+    if interactive:
+        raise click.BadParameter(f"Interactive mode unimplemented :(")
     else:
-        validate_subtraction(station[0])
+        log = {}
+        if add:
+            validate_addition([latitude, longitude], line, station[0], station[1] if len(station) == 2 else 'place-xxxxx')
+            log = stop_addition([latitude, longitude], line, station[0], station[1] if len(station) == 2 else 'place-xxxxx')
+        else:
+            validate_subtraction(station[0])
+            log = stop_subtraction(station[0])
+        serialize(log)
 
 #   TODO: Specify available transfers?
 #   Behavior is likely weird for strange input coordinates far from the line, but that is on user.
@@ -370,27 +391,26 @@ def validate_subtraction(stop_id):
             return
     raise click.BadParameter(f"Provided stop_id \"{stop_id}\" is not a valid stop. Please consult your MBTA_Rail_Stops.csv file for valid stop_id values and check your spelling.")
 
+def validate_directory(path):
+    if not (os.path.exists(os.getcwd() + path) and os.path.isdir(os.getcwd() + path)):
+        raise click.BadParameter(f"Provided directory \"{path}\" is invalid. Make sure it exists and is a directory!")
+
+def serialize(log):
+    with open(f"{OUT_DIR}sim_model.json", 'w') as f:
+        f.write(model.json_print())
+    with open(f"{OUT_DIR}sim_log.json", 'w') as f:
+        f.write(json.dumps(log, indent=4))
+    with open(f"{OUT_DIR}sim_map.json", 'w') as f:
+        f.write(json.dumps(rail_map, indent=4))
+    for line, line_dict in dict_dict.items():
+        with open(f"{OUT_DIR}{line}.json", 'w') as f:
+            f.write(json.dumps(line_dict, indent=4))
 
 if __name__ == "__main__":
     # TODO remove these dummy values and take/validate user input
-    remove = "place-davis"
-    add_coords = (42.380869, -71.119685)
-    add_neighbor_1 = "place-portr"
-    add_neighbor_2 = "place-harsq"
-
-    # log = stop_subtraction(remove)
-    # with open(f"{OUT_DIR}sub/sim_model.json", 'w') as f:
-    #     f.write(model.json_print())
-    # with open(f"{OUT_DIR}sub/sim_log.json", 'w') as f:
-    #     f.write(json.dumps(log, indent=4))
-    # with open(f"{OUT_DIR}sub/sim_map.json", 'w') as f:
-    #     f.write(json.dumps(rail_map, indent=4))
-
-    log2 = stop_addition(add_coords, "red-a", add_neighbor_1, add_neighbor_2)
-    with open(f"{OUT_DIR}add/sim_model.json", 'w') as f:
-        f.write(model.json_print())
-    with open(f"{OUT_DIR}add/sim_log.json", 'w') as f:
-        f.write(json.dumps(log2, indent=4))
-    with open(f"{OUT_DIR}add/sim_map.json", 'w') as f:
-        f.write(json.dumps(rail_map, indent=4))
+    # remove = "place-davis"
+    # add_coords = (42.380869, -71.119685)
+    # add_neighbor_1 = "place-portr"
+    # add_neighbor_2 = "place-harsq"
+    cli()
 

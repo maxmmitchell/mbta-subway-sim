@@ -1,0 +1,87 @@
+{"stops": {
+    "place-aport":{
+        "inbound_neighbor":"place-mvbcl",
+        "inbound_time": 3,
+        "outbound_neighbor":"place-wimnl",
+        "outbound_time": 2,
+        "transfer":"none"
+    },        
+    "place-aqucl":{
+        "inbound_neighbor":"place-state",
+        "inbound_time": 2,
+        "outbound_neighbor":"place-mvbcl",
+        "outbound_time": 2,
+        "transfer":"none"
+    },
+    "place-bmmnl":{
+        "inbound_neighbor":"place-sdmnl",
+        "inbound_time": 2,
+        "outbound_neighbor":"place-rbmnl",
+        "outbound_time": 5,
+        "transfer":"none"
+    },
+    "place-bomnl":{
+        "inbound_neighbor":"place-xxxxx",
+        "inbound_time": -1,
+        "outbound_neighbor":"place-gover",
+        "outbound_time": 1,
+        "transfer":"none"
+    },
+    "place-gover":{
+        "inbound_neighbor":"place-bomnl",
+        "inbound_time": 1,
+        "outbound_neighbor":"place-state",
+        "outbound_time": 2,
+        "transfer":"green-e"
+    },
+    "place-mvbcl":{
+        "inbound_neighbor":"place-aqucl",
+        "inbound_time": 2,
+        "outbound_neighbor":"place-aport",
+        "outbound_time": 3,
+        "transfer":"none"
+    },
+    "place-orhte":{
+        "inbound_neighbor":"place-wimnl",
+        "inbound_time": 3,
+        "outbound_neighbor":"place-sdmnl",
+        "outbound_time": 2,
+        "transfer":"none"
+    },
+    "place-rbmnl":{
+        "inbound_neighbor":"place-bmmnl",
+        "inbound_time": 5,
+        "outbound_neighbor":"place-wondl",
+        "outbound_time": 1,
+        "transfer":"none"
+    },
+    "place-sdmnl":{
+        "inbound_neighbor":"place-orhte",
+        "inbound_time": 2,
+        "outbound_neighbor":"place-bmmnl",
+        "outbound_time": 2,
+        "transfer":"none"
+    },
+    "place-state":{
+        "inbound_neighbor":"place-gover",
+        "inbound_time": 2,
+        "outbound_neighbor":"place-aqucl",
+        "outbound_time": 2,
+        "transfer":"orange"
+    },
+    "place-wimnl":{
+        "inbound_neighbor":"place-aport",
+        "inbound_time": 2,
+        "outbound_neighbor":"place-orhte",
+        "outbound_time": 3,
+        "transfer":"none"
+    },
+    "place-wondl":{
+        "inbound_neighbor":"place-rbmnl",
+        "inbound_time": 1,
+        "outbound_neighbor":"place-xxxxx",
+        "outbound_time": -1,
+        "transfer":"none"
+    }
+}
+}
