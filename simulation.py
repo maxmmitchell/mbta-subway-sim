@@ -245,7 +245,6 @@ def stop_addition(name, coords, line, neighbor_1, neighbor_2='place-xxxxx'):
 
     # recalculate EVERYTHING distance-wise
     rail_map = recalculate_map()
-    print(json.dumps(rail_map, indent=4))
 
     # find poachable stops 
     poachable_stops = {}
