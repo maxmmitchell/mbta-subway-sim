@@ -1,0 +1,44 @@
+{
+    "place-brntn": {
+        "inbound_neighbor": "place-xxxxx",
+        "inbound_time": "-1",
+        "outbound_neighbor": "place-qamnl",
+        "outbound_time": "7",
+        "transfer": "none"
+    },
+    "place-jfk": {
+        "inbound_neighbor": "place-nqncy",
+        "inbound_time": "11",
+        "outbound_neighbor": "place-xxxxx",
+        "outbound_time": "-1",
+        "transfer": "red-a"
+    },
+    "place-nqncy": {
+        "inbound_neighbor": "place-wlsta",
+        "inbound_time": "3",
+        "outbound_neighbor": "place-jfk",
+        "outbound_time": "11",
+        "transfer": "none"
+    },
+    "place-qamnl": {
+        "inbound_neighbor": "place-brntn",
+        "inbound_time": "7",
+        "outbound_neighbor": "place-qnctr",
+        "outbound_time": "3",
+        "transfer": "none"
+    },
+    "place-qnctr": {
+        "inbound_neighbor": "place-qamnl",
+        "inbound_time": "3",
+        "outbound_neighbor": "place-wlsta",
+        "outbound_time": "3",
+        "transfer": "none"
+    },
+    "place-wlsta": {
+        "inbound_neighbor": "place-qnctr",
+        "inbound_time": "3",
+        "outbound_neighbor": "place-nqncy",
+        "outbound_time": "3",
+        "transfer": "none"
+    }
+}

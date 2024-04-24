@@ -1,0 +1,149 @@
+{
+    "place-astao": {
+        "inbound_neighbor": "place-sull",
+        "inbound_time": "3",
+        "outbound_neighbor": "place-yacht",
+        "outbound_time": 0.86131669436839,
+        "transfer": "none"
+    },
+    "place-bbsta": {
+        "inbound_neighbor": "place-masta",
+        "inbound_time": "4",
+        "outbound_neighbor": "place-tumnl",
+        "outbound_time": "3",
+        "transfer": "none"
+    },
+    "place-ccmnl": {
+        "inbound_neighbor": "place-haecl",
+        "inbound_time": 4.0,
+        "outbound_neighbor": "place-sull",
+        "outbound_time": "2",
+        "transfer": "none"
+    },
+    "place-chncl": {
+        "inbound_neighbor": "place-tumnl",
+        "inbound_time": "1",
+        "outbound_neighbor": "place-dwnxg",
+        "outbound_time": "2",
+        "transfer": "none"
+    },
+    "place-dwnxg": {
+        "inbound_neighbor": "place-chncl",
+        "inbound_time": "2",
+        "outbound_neighbor": "place-state",
+        "outbound_time": "4",
+        "transfer": "red-a"
+    },
+    "place-forhl": {
+        "inbound_neighbor": "place-xxxxx",
+        "inbound_time": "-1",
+        "outbound_neighbor": "place-grnst",
+        "outbound_time": "2",
+        "transfer": "none"
+    },
+    "place-grnst": {
+        "inbound_neighbor": "place-forhl",
+        "inbound_time": "2",
+        "outbound_neighbor": "place-sbmnl",
+        "outbound_time": "2",
+        "transfer": "none"
+    },
+    "place-haecl": {
+        "inbound_neighbor": "place-state",
+        "inbound_time": "2",
+        "outbound_neighbor": "place-ccmnl",
+        "outbound_time": 4.0,
+        "transfer": "green-e"
+    },
+    "place-jaksn": {
+        "inbound_neighbor": "place-sbmnl",
+        "inbound_time": "3",
+        "outbound_neighbor": "place-rcmnl",
+        "outbound_time": "2",
+        "transfer": "none"
+    },
+    "place-masta": {
+        "inbound_neighbor": "place-rugg",
+        "inbound_time": "2",
+        "outbound_neighbor": "place-bbsta",
+        "outbound_time": "4",
+        "transfer": "none"
+    },
+    "place-rugg": {
+        "inbound_neighbor": "place-rcmnl",
+        "inbound_time": "2",
+        "outbound_neighbor": "place-masta",
+        "outbound_time": "2",
+        "transfer": "none"
+    },
+    "place-mlmnl": {
+        "inbound_neighbor": "place-welln",
+        "inbound_time": "4",
+        "outbound_neighbor": "place-ogmnl",
+        "outbound_time": "1",
+        "transfer": "none"
+    },
+    "place-ogmnl": {
+        "inbound_neighbor": "place-mlmnl",
+        "inbound_time": "1",
+        "outbound_neighbor": "place-xxxxx",
+        "outbound_time": "-1",
+        "transfer": "none"
+    },
+    "place-rcmnl": {
+        "inbound_neighbor": "place-jaksn",
+        "inbound_time": "2",
+        "outbound_neighbor": "place-rugg",
+        "outbound_time": "2",
+        "transfer": "none"
+    },
+    "place-sbmnl": {
+        "inbound_neighbor": "place-grnst",
+        "inbound_time": "2",
+        "outbound_neighbor": "place-jaksn",
+        "outbound_time": "3",
+        "transfer": "none"
+    },
+    "place-state": {
+        "inbound_neighbor": "place-dwnxg",
+        "inbound_time": "4",
+        "outbound_neighbor": "place-haecl",
+        "outbound_time": "2",
+        "transfer": "blue"
+    },
+    "place-sull": {
+        "inbound_neighbor": "place-ccmnl",
+        "inbound_time": "2",
+        "outbound_neighbor": "place-astao",
+        "outbound_time": "3",
+        "transfer": "none"
+    },
+    "place-tumnl": {
+        "inbound_neighbor": "place-bbsta",
+        "inbound_time": "3",
+        "outbound_neighbor": "place-chncl",
+        "outbound_time": "1",
+        "transfer": "none"
+    },
+    "place-welln": {
+        "inbound_neighbor": "place-mystc",
+        "inbound_time": 1.6145467953368378,
+        "outbound_neighbor": "place-mlmnl",
+        "outbound_time": "4",
+        "transfer": "none"
+    },
+    "place-mystc": {
+        "outbound_neighbor": "place-welln",
+        "outbound_time": 1.6145467953368378,
+        "inbound_neighbor": "place-yacht",
+        "inbound_time": 21767.29192503482,
+        "transfer": "none"
+    },
+    "place-yacht": {
+        "outbound_neighbor": "place-mystc",
+        "outbound_time": 21767.29192503482,
+        "inbound_neighbor": "place-astao",
+        "inbound_time": 0.86131669436839,
+        "transfer": "none"
+    }
+}
