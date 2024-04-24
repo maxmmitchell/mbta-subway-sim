@@ -293,13 +293,11 @@ def stop_addition(name, coords, line, neighbor_1, neighbor_2='place-xxxxx'):
 @click.option(
     "--add/--subtract",
     "-a/-s",
-    required=True,
     help="Elect to add or remove a station."
 )
 @click.option(
     "--station",
     multiple=True,
-    required=True,
     help="Station(s) for either addition or subtraction, by their `stop_id`. In subtraction mode, this station is removed. In addition, these station(s) indicate which station(s) to add the new station between. If only one station is provided in addition mode, it is assumed that the new station is to be added at the end of the line."
 )
 @click.option(
@@ -375,7 +373,7 @@ add, a:     Add a station. You will be prompted to provide coordinates, a line, 
             station(s) to the new stop.
 sub, s:     Subtract a station. You will be prompted to provide a `stop_id` for the desired station.
 help, h:    Display this message again.
-"""
+Press Enter to continue."""
         command = input(f"""Welcome to interactive mode! The following commands are available to you:
 {help_text}
 """)
@@ -392,7 +390,7 @@ help, h:    Display this message again.
                     print(maybe_error)
                     continue
                 else:
-                    OUT_DIR = command
+                    OUT_DIR = os.getcwd() + command
                     serialize(log)
             elif command == "sub" or command == "s":
                 command = input("Subtract which station? ")
@@ -410,7 +408,7 @@ help, h:    Display this message again.
                 lat = input("Add at what latitude? ")
                 lon = input("Add at what longitude? ")
                 name = input("What would you like to call this new station? (five letters, unique) ")
-                maybe_error = validate_addition(name, [lat, lon], line, station1, 'place-xxxxx' if station2 == "" else station2)
+                maybe_error = validate_addition(name, [float(lat), float(lon)], line, station1, 'place-xxxxx' if station2 == "" else station2)
                 if maybe_error != "":
                     print(maybe_error)
                     continue
@@ -467,11 +465,11 @@ def validate_directory(path):
     return ""
 
 def serialize(log):
-    with open(f"{OUT_DIR}sim_model.json", 'w') as f:
+    with open(f"{OUT_DIR}model.json", 'w') as f:
         f.write(model.json_print())
-    with open(f"{OUT_DIR}sim_log.json", 'w') as f:
+    with open(f"{OUT_DIR}log.json", 'w') as f:
         f.write(json.dumps(log, indent=4))
-    with open(f"{OUT_DIR}sim_map.json", 'w') as f:
+    with open(f"{OUT_DIR}map.json", 'w') as f:
         f.write(json.dumps(rail_map, indent=4))
     for line, line_dict in dict_dict.items():
         with open(f"{OUT_DIR}{line}.json", 'w') as f:
