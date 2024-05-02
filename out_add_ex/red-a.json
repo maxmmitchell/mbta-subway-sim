@@ -65,7 +65,7 @@
     "place-harsq": {
         "inbound_neighbor": "place-cntsq",
         "inbound_time": "7",
-        "outbound_neighbor": "place-usern",
+        "outbound_neighbor": "place-lesly",
         "outbound_time": 2.32608219704479,
         "transfer": "none"
     },
@@ -91,7 +91,7 @@
         "transfer": "green-e"
     },
     "place-portr": {
-        "inbound_neighbor": "place-usern",
+        "inbound_neighbor": "place-lesly",
         "inbound_time": 2.3307342191162466,
         "outbound_neighbor": "place-davis",
         "outbound_time": "3",
@@ -118,7 +118,7 @@
         "outbound_time": "2",
         "transfer": "none"
     },
-    "place-usern": {
+    "place-lesly": {
         "outbound_neighbor": "place-portr",
         "outbound_time": 2.3307342191162466,
         "inbound_neighbor": "place-harsq",

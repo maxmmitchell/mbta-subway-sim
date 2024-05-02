@@ -51,8 +51,8 @@
     "place-haecl": {
         "inbound_neighbor": "place-gover",
         "inbound_time": 2,
-        "outbound_neighbor": "place-spmnl",
-        "outbound_time": 5.0,
+        "outbound_neighbor": "place-north",
+        "outbound_time": 2,
         "transfer": "orange"
     },
     "place-hsmnl": {
@@ -90,6 +90,13 @@
         "outbound_time": 1,
         "transfer": "none"
     },
+    "place-north": {
+        "inbound_neighbor": "place-haecl",
+        "inbound_time": 2,
+        "outbound_neighbor": "place-spmnl",
+        "outbound_time": 3,
+        "transfer": "orange"
+    },
     "place-nuniv": {
         "inbound_neighbor": "place-mfa",
         "inbound_time": 4,
@@ -119,8 +126,8 @@
         "transfer": "none"
     },
     "place-spmnl": {
-        "inbound_neighbor": "place-haecl",
-        "inbound_time": 5.0,
+        "inbound_neighbor": "place-north",
+        "inbound_time": 3,
         "outbound_neighbor": "place-lech",
         "outbound_time": 2,
         "transfer": "none"

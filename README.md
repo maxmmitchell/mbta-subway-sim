@@ -4,6 +4,7 @@
 ## What does `MBTA Subway Sim` do?
 `MBTA Subway Sim` simulates the effects of station addition and subtractions on the MBTA subway. It anticipates how riders might be impacted using historical data. It takes into account week-wise date and time-of-day-wise time variance in ridership. `MBTA Subway Sim`, when run, fills the folder `sim_out` (or a user-described folder, which must exist) with the following files:
 - `log.json`: log of the impacts of the user-described change to the subway system. In the case of subtraction, the keys represent the stop which was used to replace the removed station, and the value is a list of the change(s) in total ride time this caused, in minutes. In the case of addition, the keys represent stations whose riders in the original model were "poached" by the new stop, and the value is a list of the change(s) in total ride time this caused, in minutes.
+- `manifest.txt`: manifest describing the change(s) made to the subway system by the user.
 - `map.json`: recalculation of the time-matrix contained in `rail_map.json`
 - `model.json`: recomputed model based on the model which was fed into the simulation, accounting for the changes.
 - `red-a.json, red-b.json, blue.json, orange.json, green-e.json, green-d.json, green-c.json, green-b.json`: recomputed map of the MBTA for each line.
@@ -33,7 +34,7 @@ The output can itself then be fed back into the simulation, allowing for iterati
         Set a name for a newly added station. Must be five letters long, and be unique.
 
 ## How do I find the `stop_id` for the station I want?
-Check `MBTA_Rail_Stops.csv`. A simple grep for the common stop name, or address, should turn up the appropriate row with the `stop_id`.
+Check `MBTA_Rail_Stops.csv`. A simple grep for the common stop name, or address, should turn up the appropriate row with the `stop_id`. Note that while `MBTA_Rail_Stops.csv` is a handy guide for finding information on stations, it is _not_ the resource used by the simulation to determine whether or not stops exist -- for that, please see `map.json`.
 
 ## How do I know which line to use?
 Most stops are on the line expected of them, e.g., Forest Hills is on orange, Wonderland is on blue, etc. Things get funky with the green and red line, which are broken up corresponding to their branches. For the red line, stations from Alewife to Ashmont is on red-a, and stations from JFK to Braintree is on red-b. For the green line, green-e contains stations from Lechmere to Heath St., green-d contains stations from Kenmore to Riverside, green-c contains stations from Kenmore to Cleveland Circle, and green-b contains stations from Kenmore to Boston College.
@@ -53,16 +54,17 @@ Most stops are on the line expected of them, e.g., Forest Hills is on orange, Wo
 - - `/sim_in_full/`: same as `/sim_in_default/`, except contains a full-size model instead of a scale one.
 - `/out_add_ex/`: example of adding a station.
 - `/out_sub_ex/`: example of subtracting a station. 
+- `/out_add_ex_full/`: example of adding a station, with the full-size model.
+- `/out_sub_ex_full/`: example of subtracting a station, with the full-size model. 
 
 ## How was `MBTA Subway Sim` made?
-`MBTA Subway Sim` was created by Max Mitchell for his Master's project at Tufts University across the 2023-2024 school year. It has two parts; the model, and the simulation. The model is a genetic model representing a full set a rides on a given day, inferring routes based on historical ridership traffic data available on the MBTA's open data portal. the simulation expands on this model, taking as an input a change to the subway structure, and simulating the impact on ridership for current riders.
+`MBTA Subway Sim` was created by Max Mitchell for his Master's project at Tufts University across the 2023-2024 school year. It has two parts; the model, and the simulation. The model is a genetic model representing a full set a rides on a given day, inferring routes based on historical ridership traffic data available on the MBTA's open data portal. the simulation expands on this model, taking as an input a change to the subway structure, and simulating the impact on ridership for current riders. 
 
-## Future Work Ideas TODO EDIT THIS
-- Interactive Mode
-- Improving the model/simulation, lots of tuning to be done.
-- Manifest documents in out directories describing line changes
-- Allow for outages/subtraction to be only for a set time range (e.g., AM_PEAK only, or PM-MIDNIGHT, etc.)
-- Add new stops to MBTA_Rail_Stops.csv to log their lat/lon NEED THIS FOR ITERATIVE WORK WITH ADDING STOPS
+## Future Work TODO EDIT THIS
+`MBTA Subway Sim` has many exciting avenues remaining for future development and work. Please review my full write-up's Future Work section for more details.
+1. Improving the Model/Simulation
+2. Allow for outages/subtraction to be only for a set time range (e.g., AM_PEAK only, or PM-MIDNIGHT, etc.)
+3. give more riders opportunity to change at time of stop addition/subtraction based on slowdowns from new stop
 
 ## Gratitude
 Special thanks to Richard Townsend, my advisor. Liping Liu and Shan Jiang, for providing advice in a field which was new to me.

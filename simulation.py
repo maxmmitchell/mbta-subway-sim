@@ -18,8 +18,6 @@ from geopy import distance
 OUT_DIR = f"{os.getcwd()}/sim_out/"
 IN_DIR = f"{os.getcwd()}/sim_in_default/"
 
-df_rail_stops = pd.read_csv('MBTA_Rail_Stops.csv')
-
 rail_map = json.load(open(f'{IN_DIR}map.json'))
 dict_dict = {
     "blue":json.load(open(f'{IN_DIR}blue.json'))['stops'],
@@ -64,10 +62,10 @@ def granulate_station(stop_id, tolerance = 0):
     # get coords of station
     latitude = 0
     longitude = 0
-    for i, r in df_rail_stops.iterrows():
-        if r['stop_id'] == stop_id:
-            latitude = r['stop_lat']
-            longitude = r['stop_lon']
+    for key in rail_map.keys():
+        if key == stop_id:
+            latitude = float(rail_map[key]['lat'])
+            longitude = float(rail_map[key]['lon'])
     # sanity check
     assert latitude != 0 and longitude != 0
     # calculate actual position of "granulated" station by adding relative vector to station coords
@@ -77,11 +75,11 @@ def granulate_station(stop_id, tolerance = 0):
 
     closest = stop_id
     closest_distance = distance.distance((latitude, longitude), (new_latitude, new_longitude))
-    for i, r in df_rail_stops.iterrows():
+    for key in rail_map.keys():
         # calulate distance from each stop
-        d = distance.distance((r['stop_lat'], r['stop_lon']), (new_latitude, new_longitude))
+        d = distance.distance((rail_map[key]['lat'], rail_map[key]['lon']), (new_latitude, new_longitude))
         if d < closest_distance:
-            closest = r['stop_id']
+            closest = key
             closest_distance = d
             break # now we know something is faster, so we can break early (failed)
 
@@ -104,7 +102,7 @@ def recalculate_map():
             dict_graph[origin][stop] = sofar
         except KeyError:
             dict_graph[origin] = {}
-            dict_graph[origin][stop] = sofar
+            dict_graph[origin][stop] = float(sofar)
         trip_length(line, origin, line_stops, line_stops[stop][neighbor], sofar + float(line_stops[stop][time]), dir, curr_line, visited_lines)
         pot_trans = line_stops[stop]['transfer']
         if pot_trans != 'none' and not pot_trans in visited_lines:
@@ -117,6 +115,12 @@ def recalculate_map():
             trip_length(line, stop, line_stops, stop, 0, 'i', line, [line])
             trip_length(line, stop, line_stops, stop, 0, 'o', line, [line])
     
+    # copy over lat/lons
+    for key in rail_map.keys():
+        if key in dict_graph.keys():
+            dict_graph[key]['lat'] = rail_map[key]['lat']
+            dict_graph[key]['lon'] = rail_map[key]['lon']
+    
     return dict_graph
 
 # Stop Subtraction:
@@ -128,47 +132,50 @@ def stop_subtraction(stop_id):
     log = {}
     for ride in model.rail_rides:
         # reroute if this ride contains removed stop
-        if ride.dict['start_id'] == stop_id or ride.dict['end_id'] == stop_id:
-            failure_point = 'start' if ride.dict['start_id'] == stop_id else 'end'
-            staying_point = 'start' if failure_point == 'end' else 'end'
-            # granulate both ends
-            failure_granulated = granulate_station(ride.dict[failure_point + '_id'])
-            staying_granulated = granulate_station(ride.dict[staying_point + '_id'])
-            # find a new stop Z to replace failure stop
-            # consider what is nearest to failure_granulated, and what is fastest to reach staying_granulated
-            # compare time to walking time to direct between granulated points (rare edge case it is next fastest route)
-            z_stop_row = None
-            fastest_total_time = -1
-            original_total_time = -1
-            for i, r in df_rail_stops.iterrows():
-                # compute distance from failure_granulated to this stop_id
-                dist = distance.distance(failure_granulated, (r['stop_lat'], r['stop_lon'])).km
-                # calculate new walking time based on distance and assumed walk_speed
-                walk_time = dist / walk_speed / 60
-                # sum walking time and time to traverse stops
-                total_time = 0
+        try: # TODO figure out why full model is missing keys on certain rides (no 'start_id' on one, at least)
+            if ride.dict['start_id'] == stop_id or ride.dict['end_id'] == stop_id:
+                failure_point = 'start' if ride.dict['start_id'] == stop_id else 'end'
+                staying_point = 'start' if failure_point == 'end' else 'end'
+                # granulate both ends
+                failure_granulated = granulate_station(ride.dict[failure_point + '_id'])
+                staying_granulated = granulate_station(ride.dict[staying_point + '_id'])
+                # find a new stop Z to replace failure stop
+                # consider what is nearest to failure_granulated, and what is fastest to reach staying_granulated
+                # compare time to walking time to direct between granulated points (rare edge case it is next fastest route)
+                z_stop = None
+                fastest_total_time = -1
+                original_total_time = -1
+                for key in rail_map.keys():
+                    # compute distance from failure_granulated to this stop_id
+                    dist = distance.distance(failure_granulated, (rail_map[key]['lat'], rail_map[key]['lon'])).km
+                    # calculate new walking time based on distance and assumed walk_speed
+                    walk_time = dist / walk_speed / 60
+                    # sum walking time and time to traverse stops
+                    total_time = 0
+                    try:
+                        total_time = rail_map[key][ride.dict[failure_point + '_id']] + float(walk_time)
+                    except KeyError:
+                        continue
+                    # can't replace failed stop with itself
+                    if key == ride.dict[failure_point + '_id']:
+                        original_total_time = total_time
+                        continue
+                    # pick best time to continue with
+                    if fastest_total_time == -1 or total_time < fastest_total_time:
+                        fastest_total_time = total_time
+                        z_stop = key
+                # replace failed stop with z_stop_row's info
+                ride.dict[failure_point + '_id'] = z_stop
+                ride.dict[failure_point + '_point'] = str(rail_map[z_stop]['lat']) + ', ' + str(rail_map[z_stop]['lon'])
+                ride.dict[failure_point + '_station'] = z_stop # TODO would be nice to have the actual name here, instead of the stop_id
+                # log stop selected for replacement and change in travel time
+                delta_time = fastest_total_time - original_total_time
                 try:
-                    total_time = rail_map[r['stop_id']][ride.dict[failure_point + '_id']] + float(walk_time)
+                    log[z_stop].append(delta_time)
                 except KeyError:
-                    continue
-                # can't replace failed stop with itself
-                if r['stop_id'] == ride.dict[failure_point + '_id']:
-                    original_total_time = total_time
-                    continue
-                # pick best time to continue with
-                if fastest_total_time == -1 or total_time < fastest_total_time:
-                    fastest_total_time = total_time
-                    z_stop_row = r
-            # replace failed stop with z_stop_row's info
-            ride.dict[failure_point + '_id'] = z_stop_row['stop_id']
-            ride.dict[failure_point + '_point'] = str(z_stop_row['stop_lat']) + ', ' + str(z_stop_row['stop_lon'])
-            ride.dict[failure_point + '_station'] = z_stop_row['stop_name']
-            # log stop selected for replacement and change in travel time
-            delta_time = fastest_total_time - original_total_time
-            try:
-                log[z_stop_row['stop_id']].append(delta_time)
-            except KeyError:
-                log[z_stop_row['stop_id']] = [delta_time]
+                    log[z_stop] = [delta_time]
+        except KeyError:
+            continue
 
     # Modify maps
     for line_dict in dict_dict.values():
@@ -203,6 +210,7 @@ def stop_subtraction(stop_id):
 # At this point, ridership metrics can be recalculated. 
 def stop_addition(name, coords, line, neighbor_1, neighbor_2='place-xxxxx'):
     global rail_map
+    name = f"place-{name}"
     # TODO based on neighbors we could deduce line, but for right now, 
     # assume user has knowledge of our mapping system and knows where their new stop belongs
     dict_line = dict_dict[line]
@@ -212,11 +220,11 @@ def stop_addition(name, coords, line, neighbor_1, neighbor_2='place-xxxxx'):
     # find coordinates for neighbors
     neighbor_1_coords = (0,0)
     neighbor_2_coords = (0,0)
-    for i, r in df_rail_stops.iterrows():
-        if r['stop_id'] == neighbor_1:
-            neighbor_1_coords = (r['stop_lat'], r['stop_lon'])
-        if r['stop_id'] == neighbor_2:
-            neighbor_2_coords = (r['stop_lat'], r['stop_lon'])
+    for key in rail_map.keys():
+        if key == neighbor_1:
+            neighbor_1_coords = (rail_map[key]['lat'], rail_map[key]['lon'])
+        if key == neighbor_2:
+            neighbor_2_coords = (rail_map[key]['lat'], rail_map[key]['lon'])
 
     # determine transit times for new stop to/from its neighbors
     # assume straight line travel underground, nevermind the fact that this would require
@@ -227,7 +235,6 @@ def stop_addition(name, coords, line, neighbor_1, neighbor_2='place-xxxxx'):
     time_to_2 = (distance.distance(coords, neighbor_2_coords).km / speed_line) / 60 if neighbor_2 != 'place-xxxxx' else -1 # end of line times should keep with the standard set
 
     # insert new stop (N) into line on mapping
-    # TODO have user describe name for stop
     outbound_from_1 = dict_line[neighbor_1]['outbound_neighbor'] == neighbor_2
     dict_line[name] = {}
     dict_line[name]['outbound_neighbor'] = neighbor_2 if outbound_from_1 else neighbor_1
@@ -235,6 +242,11 @@ def stop_addition(name, coords, line, neighbor_1, neighbor_2='place-xxxxx'):
     dict_line[name]['inbound_neighbor'] = neighbor_1 if outbound_from_1 else neighbor_2
     dict_line[name]['inbound_time'] = time_to_1 if outbound_from_1 else time_to_2
     dict_line[name]['transfer'] = 'none'
+
+    # track location of new stop
+    rail_map[name] = {}
+    rail_map[name]['lat'] = float(coords[0])
+    rail_map[name]['lon'] = float(coords[1])
 
     # modify neighbors
     dict_line[neighbor_1]['outbound_neighbor' if outbound_from_1 else 'inbound_neighbor'] = name
@@ -250,10 +262,10 @@ def stop_addition(name, coords, line, neighbor_1, neighbor_2='place-xxxxx'):
     poachable_stops = {}
     # N is less than a 40 minute walk -- 2400 seconds -> 3.408 km
     # Ergo, N is in theory a reasonable walking distance from the ride’s granular location.
-    for i, r in df_rail_stops.iterrows():
-        dist = distance.distance(coords, (r['stop_lat'], r['stop_lon']))
+    for key in rail_map.keys():
+        dist = distance.distance(coords, (rail_map[key]['lat'], rail_map[key]['lon']))
         if dist < 3.408:
-            poachable_stops[r['stop_id']] = dist
+            poachable_stops[key] = dist.km
         
     # for each ride including a poachable stop: 
     for ride in model.rail_rides:
@@ -268,7 +280,9 @@ def stop_addition(name, coords, line, neighbor_1, neighbor_2='place-xxxxx'):
             poach_granulated = granulate_station(ride.dict[poach_point + '_id'])
             # determine if N is more efficient 
             walk_time_N = distance.distance(coords, poach_granulated).km / walk_speed / 60 # convert seconds to minutes
-            walk_time_poach = distance.distance(ride.dict[poach_point + '_point'], poach_granulated).km / walk_speed / 60 
+            lat = rail_map[ride.dict[poach_point + '_id']]['lat']
+            lon = rail_map[ride.dict[poach_point + '_id']]['lon']
+            walk_time_poach = distance.distance((lat, lon), poach_granulated).km / walk_speed / 60 
             rail_time_N = rail_map[name][ride.dict[destination_point + '_id']]
             rail_time_poach = rail_map[ride.dict[poach_point + '_id']][ride.dict[destination_point + '_id']]
             if walk_time_N + rail_time_N < walk_time_poach + rail_time_poach:
@@ -279,7 +293,7 @@ def stop_addition(name, coords, line, neighbor_1, neighbor_2='place-xxxxx'):
                     log[ride.dict[poach_point + '_id']] = [delta_time]
                 # N is more efficient, replace poach_point
                 ride.dict[poach_point + '_id'] = name
-                ride.dict[poach_point + '_point'] = str(coords)
+                ride.dict[poach_point + '_point'] = f"{str(coords[0])}, {str(coords[1])}"
                 ride.dict[poach_point + '_station'] = 'User Stop N'
     return log
 
@@ -289,7 +303,7 @@ def stop_addition(name, coords, line, neighbor_1, neighbor_2='place-xxxxx'):
     "-i",
     is_flag=True,
     help="Run the simulation in interactive mode."
-) # TODO implement interactive mode
+)
 @click.option(
     "--add/--subtract",
     "-a/-s",
@@ -345,11 +359,9 @@ def cli(interactive, add, station, latitude, longitude, line, from_file, output,
         global IN_DIR 
         IN_DIR = os.getcwd() + from_file
 
-        global df_rail_stops
         global rail_map
         global dict_dict
 
-        df_rail_stops = pd.read_csv(f'{IN_DIR}MBTA_Rail_Stops.csv')
         rail_map = json.load(open(f'{IN_DIR}map.json'))
         dict_dict = {
             "blue":json.load(open(f'{IN_DIR}blue.json'))['stops'],
@@ -361,8 +373,9 @@ def cli(interactive, add, station, latitude, longitude, line, from_file, output,
             "green-c":json.load(open(f'{IN_DIR}green-c.json'))['stops'],
             "green-b":json.load(open(f'{IN_DIR}green-b.json'))['stops']
         }
-    model.from_file(f"{IN_DIR}model.json") # TODO switch to full size model in default folder
+    model.from_file(f"{IN_DIR}model.json")
 
+    manifest = ""
     if interactive:
         help_text = """
 quit, q:    Exit the program.
@@ -390,8 +403,8 @@ Press Enter to continue."""
                     print(maybe_error)
                     continue
                 else:
-                    OUT_DIR = os.getcwd() + command
-                    serialize(log)
+                    OUT_DIR = (os.getcwd() + command) if command != "" else OUT_DIR
+                    serialize(log, manifest)
             elif command == "sub" or command == "s":
                 command = input("Subtract which station? ")
                 maybe_error = validate_subtraction(command)
@@ -400,6 +413,7 @@ Press Enter to continue."""
                     continue
                 else:
                     log[str(action)] = stop_subtraction(command)
+                    manifest += f"{str(action)}. SUB: {command}\n"
                     action += 1
             elif command == "add" or command == "a":
                 line = input("Add to which line? ")
@@ -413,7 +427,8 @@ Press Enter to continue."""
                     print(maybe_error)
                     continue
                 else:
-                    log[str(action)] = stop_addition(f"place-{name}", [lat, lon], line, station1, 'place-xxxxx' if station2 == "" else station2)
+                    log[str(action)] = stop_addition(name, [lat, lon], line, station1, 'place-xxxxx' if station2 == "" else station2)
+                    manifest += f"""{str(action)}. ADD: {name} at ({str(lat)},{str(lon)}) on line {line} between {station1} and {station2 if station2 != "" else "end-of-line"}\n"""
                     action += 1
     else:
         log = {}
@@ -421,19 +436,20 @@ Press Enter to continue."""
             maybe_error = validate_addition(name, [latitude, longitude], line, station[0], station[1] if len(station) == 2 else 'place-xxxxx')
             if maybe_error == "":
                 log = stop_addition(name, [latitude, longitude], line, station[0], station[1] if len(station) == 2 else 'place-xxxxx')
+                manifest += f"""0. ADD: {name} at ({str(latitude)},{str(longitude)}) on line {line} between {station[0]} and {station[1] if len(station) == 2 else "end-of-line"}\n"""
             else:
                 raise click.BadParameter(maybe_error)
         else:
             maybe_error = validate_subtraction(station[0])
             if maybe_error == "":
                 log = stop_subtraction(station[0])
+                manifest += f"0. SUB: {station[0]}\n"
             else:
                 raise click.BadParameter(maybe_error)
-        serialize(log)
+        serialize(log, manifest)
 
 #   TODO: Specify available transfers?
 #   Behavior is likely weird for strange input coordinates far from the line, but that is on user.
-#   TODO add notes to README to guide user on lines, stop_ids, etc.
 def validate_addition(name, coords, line, neighbor_1, neighbor_2):
     # coords must be on earth
     if not (coords[0] > -180 and coords[0] < 180 and coords[1] > -90 and coords[1] < 90):
@@ -454,17 +470,17 @@ def validate_addition(name, coords, line, neighbor_1, neighbor_2):
 #   (e.g., make North Station green line exclusive?)
 def validate_subtraction(stop_id):
     # Check that stop_id is valid
-    for i, r in df_rail_stops.iterrows():
-        if r['stop_id'] == stop_id:
+    for key in rail_map.keys():
+        if key == stop_id:
             return ""
-    return f"Provided stop_id \"{stop_id}\" is not a valid stop. Please consult your MBTA_Rail_Stops.csv file for valid stop_id values and check your spelling."
+    return f"Provided stop_id \"{stop_id}\" is not a valid stop. Please consult your map.json file for valid stop_id values and check your spelling."
 
 def validate_directory(path):
     if not (os.path.exists(os.getcwd() + path) and os.path.isdir(os.getcwd() + path)):
         return f"Provided directory \"{path}\" is invalid. Make sure it exists and is a directory!"
     return ""
 
-def serialize(log):
+def serialize(log, manifest):
     with open(f"{OUT_DIR}model.json", 'w') as f:
         f.write(model.json_print())
     with open(f"{OUT_DIR}log.json", 'w') as f:
@@ -474,6 +490,8 @@ def serialize(log):
     for line, line_dict in dict_dict.items():
         with open(f"{OUT_DIR}{line}.json", 'w') as f:
             f.write(json.dumps(line_dict, indent=4))
+    with open(f"{OUT_DIR}manifest.txt", 'w') as f:
+        f.write(manifest)
 
 if __name__ == "__main__":
     cli()

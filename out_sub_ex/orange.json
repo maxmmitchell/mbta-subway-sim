@@ -14,8 +14,8 @@
         "transfer": "none"
     },
     "place-ccmnl": {
-        "inbound_neighbor": "place-haecl",
-        "inbound_time": 4.0,
+        "inbound_neighbor": "place-north",
+        "inbound_time": "3",
         "outbound_neighbor": "place-sull",
         "outbound_time": "2",
         "transfer": "none"
@@ -51,8 +51,8 @@
     "place-haecl": {
         "inbound_neighbor": "place-state",
         "inbound_time": "2",
-        "outbound_neighbor": "place-ccmnl",
-        "outbound_time": 4.0,
+        "outbound_neighbor": "place-north",
+        "outbound_time": "1",
         "transfer": "green-e"
     },
     "place-jaksn": {
@@ -82,6 +82,13 @@
         "outbound_neighbor": "place-ogmnl",
         "outbound_time": "1",
         "transfer": "none"
+    },
+    "place-north": {
+        "inbound_neighbor": "place-haecl",
+        "inbound_time": "1",
+        "outbound_neighbor": "place-ccmnl",
+        "outbound_time": "3",
+        "transfer": "green-e"
     },
     "place-ogmnl": {
         "inbound_neighbor": "place-mlmnl",

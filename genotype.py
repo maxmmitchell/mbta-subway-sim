@@ -186,9 +186,9 @@ class Genotype:
                 try: 
                     r = Ride()
                     r.dict = ride
-                    self.rail_rides.append(r)
                     self.rail_stats.add_ride(ride['start_id'], ride['start_time'], ride['direction'], True) 
                     self.rail_stats.add_ride(ride['end_id'], ride['end_time'], ride['direction'], False)
+                    self.rail_rides.append(r)
                 except:
                     continue 
             # for ride in j['bus_rides']:

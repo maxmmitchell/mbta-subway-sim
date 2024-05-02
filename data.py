@@ -11,6 +11,7 @@ import pandas as pd
 import requests
 import json
 import math
+import os
 
 df_rail = pd.read_csv('MBTA_Rail_Ridership_by_Time_Period.csv')
 df_bus = pd.read_csv('MBTA_Bus_Ridership_by_Time_Period.csv')
@@ -18,6 +19,18 @@ df_rail_stops = pd.read_csv('MBTA_Rail_Stops.csv')
 df_bus_stops = pd.read_csv('MBTA_Bus_Stops.csv')
 df_stops = pd.read_csv('stops-20190808-modified.csv')
 df_rail_all = pd.read_csv('MBTA_Rail_Ridership_All.csv')
+
+# rail_map = json.load(open(f'{os.getcwd()}/sim_in_default/map.json'))
+
+# # # # # # # # # # # # # # #
+# Moving Lat/Lon to map.json
+# # # # # # # # # # # # # # #
+# for i, r in df_rail_stops.iterrows():
+#     if r['stop_id'] in rail_map.keys():
+#         rail_map[r['stop_id']]['lat'] = r['stop_lat']
+#         rail_map[r['stop_id']]['lon'] = r['stop_lon']  
+
+# print(json.dumps(rail_map, indent=4))
 
 # # # # # # # # # # # # # # #
 # Calculating Std. Deviation

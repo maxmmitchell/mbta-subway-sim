@@ -3,7 +3,7 @@
         "inbound_neighbor": "place-sull",
         "inbound_time": "3",
         "outbound_neighbor": "place-yacht",
-        "outbound_time": 0.86131669436839,
+        "outbound_time": 0.8494068509597922,
         "transfer": "none"
     },
     "place-bbsta": {
@@ -14,8 +14,8 @@
         "transfer": "none"
     },
     "place-ccmnl": {
-        "inbound_neighbor": "place-haecl",
-        "inbound_time": 4.0,
+        "inbound_neighbor": "place-north",
+        "inbound_time": "3",
         "outbound_neighbor": "place-sull",
         "outbound_time": "2",
         "transfer": "none"
@@ -51,8 +51,8 @@
     "place-haecl": {
         "inbound_neighbor": "place-state",
         "inbound_time": "2",
-        "outbound_neighbor": "place-ccmnl",
-        "outbound_time": 4.0,
+        "outbound_neighbor": "place-north",
+        "outbound_time": "1",
         "transfer": "green-e"
     },
     "place-jaksn": {
@@ -82,6 +82,13 @@
         "outbound_neighbor": "place-ogmnl",
         "outbound_time": "1",
         "transfer": "none"
+    },
+    "place-north": {
+        "inbound_neighbor": "place-haecl",
+        "inbound_time": "1",
+        "outbound_neighbor": "place-ccmnl",
+        "outbound_time": "3",
+        "transfer": "green-e"
     },
     "place-ogmnl": {
         "inbound_neighbor": "place-mlmnl",
@@ -127,23 +134,23 @@
     },
     "place-welln": {
         "inbound_neighbor": "place-mystc",
-        "inbound_time": 1.6145467953368378,
+        "inbound_time": 1.6064555921378814,
         "outbound_neighbor": "place-mlmnl",
         "outbound_time": "4",
         "transfer": "none"
     },
     "place-mystc": {
         "outbound_neighbor": "place-welln",
-        "outbound_time": 1.6145467953368378,
+        "outbound_time": 1.6064555921378814,
         "inbound_neighbor": "place-yacht",
-        "inbound_time": 21767.29192503482,
+        "inbound_time": 0.2747572454032363,
         "transfer": "none"
     },
     "place-yacht": {
         "outbound_neighbor": "place-mystc",
-        "outbound_time": 21767.29192503482,
+        "outbound_time": 0.2747572454032363,
         "inbound_neighbor": "place-astao",
-        "inbound_time": 0.86131669436839,
+        "inbound_time": 0.8494068509597922,
         "transfer": "none"
     }
 }

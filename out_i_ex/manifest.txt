@@ -1,0 +1,2 @@
+0. ADD: mystc at (42.396747,-71.077265) on line orange between place-welln and place-astao
+1. ADD: yacht at (42.395785,-71.077265) on line orange between place-mystc and place-astao

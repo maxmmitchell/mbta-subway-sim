@@ -1,7 +1,7 @@
 {
     "place-alfcl": {
-        "inbound_neighbor": "place-davis",
-        "inbound_time": 5,
+        "inbound_neighbor": "place-portr",
+        "inbound_time": 8.0,
         "outbound_neighbor": "place-xxxxx",
         "outbound_time": -1,
         "transfer": "none"
@@ -39,13 +39,6 @@
         "inbound_time": "3",
         "outbound_neighbor": "place-harsq",
         "outbound_time": "7",
-        "transfer": "none"
-    },
-    "place-davis": {
-        "inbound_neighbor": "place-portr",
-        "inbound_time": "3",
-        "outbound_neighbor": "place-alfcl",
-        "outbound_time": "5",
         "transfer": "none"
     },
     "place-dwnxg": {
@@ -93,8 +86,8 @@
     "place-portr": {
         "inbound_neighbor": "place-harsq",
         "inbound_time": "5",
-        "outbound_neighbor": "place-davis",
-        "outbound_time": "3",
+        "outbound_neighbor": "place-alfcl",
+        "outbound_time": 8.0,
         "transfer": "none"
     },
     "place-shmnl": {
