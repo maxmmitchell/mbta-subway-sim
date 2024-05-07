@@ -35,6 +35,13 @@
             "outbound_time":-1,
             "transfer":"green-e"
         },
+        "place-lech":{
+            "inbound_neighbor":"place-xxxxx",
+            "inbound_time":-1,
+            "outbound_neighbor":"place-xxxxx",
+            "outbound_time":-1,
+            "transfer":"green-e"
+        },
         "place-eliot":{
             "inbound_neighbor":"place-waban",
             "inbound_time":3,

@@ -68,7 +68,7 @@
             "inbound_time":2,
             "outbound_neighbor":"place-xxxxx",
             "outbound_time":-1,
-            "transfer":"none"
+            "transfer":"green-u"
         },
         "place-lngmd":{
             "inbound_neighbor":"place-brmnl",

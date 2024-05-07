@@ -51,7 +51,7 @@ Most stops are on the line expected of them, e.g., Forest Hills is on orange, Wo
 - - `model.json`: 1/60th scale-model representing a day's worth of MBTA rides. scaled down for speed purposes.
 - - `map.json`: distance matrix representing the time from each station to every other station.
 - - `red-a.json, red-b.json, blue.json, orange.json, green-e.json, green-d.json, green-c.json, green-b.json`: representations of the layout of each line. branches get their own file, and to avoid duplication, common set of track is only represented once, as this representation cares only about stop-to-stop times. `red-a.json` and `green-e.json` get the bulk of it; see official write-up for more details.
-- - `/sim_in_full/`: same as `/sim_in_default/`, except contains a full-size model instead of a scale one.
+- - `/sim_in_full/`: same as `/sim_in_default/`, except contains a full-size model instead of a scale one. Note that due to storage issues, all full-size models (both in this input directory, and in the examples) are compressed using Gzip.
 - `/out_add_ex/`: example of adding a station.
 - `/out_sub_ex/`: example of subtracting a station. 
 - `/out_add_ex_full/`: example of adding a station, with the full-size model.

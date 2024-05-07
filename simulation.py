@@ -26,6 +26,7 @@ dict_dict = {
     "orange":json.load(open(f'{IN_DIR}orange.json'))['stops'],
     "green-e":json.load(open(f'{IN_DIR}green-e.json'))['stops'],
     "green-d":json.load(open(f'{IN_DIR}green-d.json'))['stops'],
+    "green-u":json.load(open(f'{IN_DIR}green-d.json'))['stops'], # Hacky as all get out, but necessary for my union square stop impl
     "green-c":json.load(open(f'{IN_DIR}green-c.json'))['stops'],
     "green-b":json.load(open(f'{IN_DIR}green-b.json'))['stops']
 }
@@ -36,6 +37,7 @@ dict_speed = { # served in kilometers/second (for consistent units), based on hi
     "orange":0.00648208,
     "green-e":0.004649216, # I mean, I know it's slow, but goodness gravy
     "green-d":0.004649216, # seeing it as a number really helps you appreciate
+    "green-u":0.004649216, # UGLY HACK TODO MAKESELFVALIDANDNORMAL
     "green-c":0.004649216, # just how abysmally slow the grean line truly is,
     "green-b":0.004649216  # even when compared to the other "slow" lines...
 }
@@ -370,6 +372,7 @@ def cli(interactive, add, station, latitude, longitude, line, from_file, output,
             "orange":json.load(open(f'{IN_DIR}orange.json'))['stops'],
             "green-e":json.load(open(f'{IN_DIR}green-e.json'))['stops'],
             "green-d":json.load(open(f'{IN_DIR}green-d.json'))['stops'],
+            "green-u":json.load(open(f'{IN_DIR}green-d.json'))['stops'],
             "green-c":json.load(open(f'{IN_DIR}green-c.json'))['stops'],
             "green-b":json.load(open(f'{IN_DIR}green-b.json'))['stops']
         }

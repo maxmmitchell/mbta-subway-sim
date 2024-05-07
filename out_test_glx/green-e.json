@@ -1,0 +1,177 @@
+{
+    "place-armnl": {
+        "inbound_neighbor": "place-coecl",
+        "inbound_time": 2,
+        "outbound_neighbor": "place-boyls",
+        "outbound_time": 3,
+        "transfer": "none"
+    },
+    "place-bckhl": {
+        "inbound_neighbor": "place-hsmnl",
+        "inbound_time": 1,
+        "outbound_neighbor": "place-rvrwy",
+        "outbound_time": 1,
+        "transfer": "none"
+    },
+    "place-boyls": {
+        "inbound_neighbor": "place-armnl",
+        "inbound_time": 3,
+        "outbound_neighbor": "place-pktrm",
+        "outbound_time": 2,
+        "transfer": "none"
+    },
+    "place-brmnl": {
+        "inbound_neighbor": "place-fenwd",
+        "inbound_time": 1,
+        "outbound_neighbor": "place-lngmd",
+        "outbound_time": 2,
+        "transfer": "none"
+    },
+    "place-coecl": {
+        "inbound_neighbor": "place-prmnl",
+        "inbound_time": 2,
+        "outbound_neighbor": "place-armnl",
+        "outbound_time": 2,
+        "transfer": "green-d"
+    },
+    "place-fenwd": {
+        "inbound_neighbor": "place-mispk",
+        "inbound_time": 1,
+        "outbound_neighbor": "place-brmnl",
+        "outbound_time": 1,
+        "transfer": "none"
+    },
+    "place-gover": {
+        "inbound_neighbor": "place-pktrm",
+        "inbound_time": 2,
+        "outbound_neighbor": "place-haecl",
+        "outbound_time": 2,
+        "transfer": "blue"
+    },
+    "place-haecl": {
+        "inbound_neighbor": "place-gover",
+        "inbound_time": 2,
+        "outbound_neighbor": "place-north",
+        "outbound_time": 2,
+        "transfer": "orange"
+    },
+    "place-hsmnl": {
+        "inbound_neighbor": "place-xxxxx",
+        "inbound_time": -1,
+        "outbound_neighbor": "place-bckhl",
+        "outbound_time": 1,
+        "transfer": "none"
+    },
+    "place-lech": {
+        "inbound_neighbor": "place-spmnl",
+        "inbound_time": 2,
+        "outbound_neighbor": "place-esomr",
+        "outbound_time": 4.3154434774177,
+        "transfer": "green-u"
+    },
+    "place-lngmd": {
+        "inbound_neighbor": "place-brmnl",
+        "inbound_time": 2,
+        "outbound_neighbor": "place-mfa",
+        "outbound_time": 2,
+        "transfer": "none"
+    },
+    "place-mfa": {
+        "inbound_neighbor": "place-lngmd",
+        "inbound_time": 2,
+        "outbound_neighbor": "place-nuniv",
+        "outbound_time": 4,
+        "transfer": "none"
+    },
+    "place-mispk": {
+        "inbound_neighbor": "place-rvrwy",
+        "inbound_time": 2,
+        "outbound_neighbor": "place-fenwd",
+        "outbound_time": 1,
+        "transfer": "none"
+    },
+    "place-north": {
+        "inbound_neighbor": "place-haecl",
+        "inbound_time": 2,
+        "outbound_neighbor": "place-spmnl",
+        "outbound_time": 3,
+        "transfer": "orange"
+    },
+    "place-nuniv": {
+        "inbound_neighbor": "place-mfa",
+        "inbound_time": 4,
+        "outbound_neighbor": "place-symcl",
+        "outbound_time": 3,
+        "transfer": "none"
+    },
+    "place-pktrm": {
+        "inbound_neighbor": "place-boyls",
+        "inbound_time": 2,
+        "outbound_neighbor": "place-gover",
+        "outbound_time": 2,
+        "transfer": "red-a"
+    },
+    "place-prmnl": {
+        "inbound_neighbor": "place-symcl",
+        "inbound_time": 1,
+        "outbound_neighbor": "place-coecl",
+        "outbound_time": 2,
+        "transfer": "none"
+    },
+    "place-rvrwy": {
+        "inbound_neighbor": "place-bckhl",
+        "inbound_time": 1,
+        "outbound_neighbor": "place-mispk",
+        "outbound_time": 2,
+        "transfer": "none"
+    },
+    "place-spmnl": {
+        "inbound_neighbor": "place-north",
+        "inbound_time": 3,
+        "outbound_neighbor": "place-lech",
+        "outbound_time": 2,
+        "transfer": "none"
+    },
+    "place-symcl": {
+        "inbound_neighbor": "place-nuniv",
+        "inbound_time": 3,
+        "outbound_neighbor": "place-prmnl",
+        "outbound_time": 1,
+        "transfer": "none"
+    },
+    "place-esomr": {
+        "outbound_neighbor": "place-gilmn",
+        "outbound_time": 4.526880715280498,
+        "inbound_neighbor": "place-lech",
+        "inbound_time": 4.3154434774177,
+        "transfer": "none"
+    },
+    "place-gilmn": {
+        "outbound_neighbor": "place-mgngl",
+        "outbound_time": 3.6355242249006325,
+        "inbound_neighbor": "place-esomr",
+        "inbound_time": 4.526880715280498,
+        "transfer": "none"
+    },
+    "place-mgngl": {
+        "outbound_neighbor": "place-balsq",
+        "outbound_time": 2.8243426623419063,
+        "inbound_neighbor": "place-gilmn",
+        "inbound_time": 3.6355242249006325,
+        "transfer": "none"
+    },
+    "place-balsq": {
+        "outbound_neighbor": "place-mdftf",
+        "outbound_time": 3.6793254023779585,
+        "inbound_neighbor": "place-mgngl",
+        "inbound_time": 2.8243426623419063,
+        "transfer": "none"
+    },
+    "place-mdftf": {
+        "outbound_neighbor": "place-xxxxx",
+        "outbound_time": -1,
+        "inbound_neighbor": "place-balsq",
+        "inbound_time": 3.6793254023779585,
+        "transfer": "none"
+    }
+}
