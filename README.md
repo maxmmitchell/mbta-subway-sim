@@ -33,6 +33,14 @@ The output can itself then be fed back into the simulation, allowing for iterati
 - `--name`
         Set a name for a newly added station. Must be five letters long, and be unique.
 
+Examples:
+
+`python3 simulation.py -i`
+
+`python3.9 simulation.py -s --station place-davis`
+
+`python3.9 simulation.py -a --station place-harsq --station place-portr --latitude 42.380869 --longitude -71.119685 --line red-a --output /out_add_ex_full/ --from-file /sim_in_full/ --name lesly`
+
 ## How do I find the `stop_id` for the station I want?
 Check `MBTA_Rail_Stops.csv`. A simple grep for the common stop name, or address, should turn up the appropriate row with the `stop_id`. Note that while `MBTA_Rail_Stops.csv` is a handy guide for finding information on stations, it is _not_ the resource used by the simulation to determine whether or not stops exist -- for that, please see `map.json`.
 
@@ -42,29 +50,28 @@ Most stops are on the line expected of them, e.g., Forest Hills is on orange, Wo
 ## What files are here?
 - `data.py`: working file for processing data. Used for intermediate phases but more or less irrelevant now.
 - `genotype.py`: class representing an individual of our model, for genetic algorithm purposes.
-- `main.py`: runs the actual simulation, and interacts with the user.
-- `simulation.py`: set of functions which act as the logic of simulating adding and removing stops.
+- `simulation.py`: contains all logic for the simulation, as well as for user-interactivity.
 - `train.py`: script to train a model based on many pre-generated models.
 - `genModels.sh`: script to generate models. Somewhat hacky.
-- `/sim_out_default`: default location for simulation output files.
+- `/sim_out_default/`: default location for simulation output files.
 - `/sim_in_default/`: default location for simulation start-up files.
 - - `model.json`: 1/60th scale-model representing a day's worth of MBTA rides. scaled down for speed purposes.
 - - `map.json`: distance matrix representing the time from each station to every other station.
 - - `red-a.json, red-b.json, blue.json, orange.json, green-e.json, green-d.json, green-c.json, green-b.json`: representations of the layout of each line. branches get their own file, and to avoid duplication, common set of track is only represented once, as this representation cares only about stop-to-stop times. `red-a.json` and `green-e.json` get the bulk of it; see official write-up for more details.
-- - `/sim_in_full/`: same as `/sim_in_default/`, except contains a full-size model instead of a scale one. Note that due to storage issues, all full-size models (both in this input directory, and in the examples) are compressed using Gzip.
+- - `/sim_in_full/`: same as `/sim_in_default/`, except contains a full-size model instead of a scale one. Note that due to their large size, all full-size models (both in this input directory, and in the examples) are compressed using Gzip.
 - `/out_add_ex/`: example of adding a station.
 - `/out_sub_ex/`: example of subtracting a station. 
+- `/out_i_ex/`: example of using the interactive mode to make multiple modifications.
 - `/out_add_ex_full/`: example of adding a station, with the full-size model.
 - `/out_sub_ex_full/`: example of subtracting a station, with the full-size model. 
+- `/out_test_glx/`: output from a test recreating the Green Line Extension project using the simulation.
+- `/model_bin/`: folder containing compressed models used in the model training process.
 
 ## How was `MBTA Subway Sim` made?
 `MBTA Subway Sim` was created by Max Mitchell for his Master's project at Tufts University across the 2023-2024 school year. It has two parts; the model, and the simulation. The model is a genetic model representing a full set a rides on a given day, inferring routes based on historical ridership traffic data available on the MBTA's open data portal. the simulation expands on this model, taking as an input a change to the subway structure, and simulating the impact on ridership for current riders. 
 
-## Future Work TODO EDIT THIS
+## Future Work
 `MBTA Subway Sim` has many exciting avenues remaining for future development and work. Please review my full write-up's Future Work section for more details.
-1. Improving the Model/Simulation
-2. Allow for outages/subtraction to be only for a set time range (e.g., AM_PEAK only, or PM-MIDNIGHT, etc.)
-3. give more riders opportunity to change at time of stop addition/subtraction based on slowdowns from new stop
 
-## Gratitude
-Special thanks to Richard Townsend, my advisor. Liping Liu and Shan Jiang, for providing advice in a field which was new to me.
+## Acknowledgments
+I'd like to express my gratitude to a number of people who helped me on this project. To Richard Townsend, my advisor, who provided lots of support, encouragement, and feedback from the beginning through the end. To Liping Liu and Shan Jiang, for providing advice in a field which was new to me. To my brother, who reviewed my design document and pushed me to try something new. And finally, to all my friends and family, for everything.
