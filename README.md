@@ -53,6 +53,7 @@ Most stops are on the line expected of them, e.g., Forest Hills is on orange, Wo
 - `simulation.py`: contains all logic for the simulation, as well as for user-interactivity.
 - `train.py`: script to train a model based on many pre-generated models.
 - `genModels.sh`: script to generate models. Somewhat hacky.
+- `MBTA_*.csv`: various files containing data from the MBTA.
 - `/sim_out_default/`: default location for simulation output files.
 - `/sim_in_default/`: default location for simulation start-up files.
 - - `model.json`: 1/60th scale-model representing a day's worth of MBTA rides. scaled down for speed purposes.
