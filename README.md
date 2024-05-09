@@ -36,10 +36,13 @@ The output can itself then be fed back into the simulation, allowing for iterati
 Examples:
 
 `python3 simulation.py -i`
+Run the simulation in interactive mode.
 
 `python3.9 simulation.py -s --station place-davis`
+Simulate the subtraction of the Davis Square station from the Red line.
 
 `python3.9 simulation.py -a --station place-harsq --station place-portr --latitude 42.380869 --longitude -71.119685 --line red-a --output /out_add_ex_full/ --from-file /sim_in_full/ --name lesly`
+Using the full-size model, simulate the addition of a station named `place-lesly` to the Red line between Harvard Square and Porter Square stations, at the coordinates `(42.380869, -71.119685)`. Send the output of this to the directory `/out_add_ex_full/`.
 
 ## How do I find the `stop_id` for the station I want?
 Check `MBTA_Rail_Stops.csv`. A simple grep for the common stop name, or address, should turn up the appropriate row with the `stop_id`. Note that while `MBTA_Rail_Stops.csv` is a handy guide for finding information on stations, it is _not_ the resource used by the simulation to determine whether or not stops exist -- for that, please see `map.json`.
@@ -60,12 +63,13 @@ Most stops are on the line expected of them, e.g., Forest Hills is on orange, Wo
 - - `map.json`: distance matrix representing the time from each station to every other station.
 - - `red-a.json, red-b.json, blue.json, orange.json, green-e.json, green-d.json, green-c.json, green-b.json`: representations of the layout of each line. branches get their own file, and to avoid duplication, common set of track is only represented once, as this representation cares only about stop-to-stop times. `red-a.json` and `green-e.json` get the bulk of it; see official write-up for more details.
 - - `/sim_in_full/`: same as `/sim_in_default/`, except contains a full-size model instead of a scale one. Note that due to their large size, all full-size models (both in this input directory, and in the examples) are compressed using Gzip.
-- `/out_add_ex/`: example of adding a station.
-- `/out_sub_ex/`: example of subtracting a station. 
-- `/out_i_ex/`: example of using the interactive mode to make multiple modifications.
-- `/out_add_ex_full/`: example of adding a station, with the full-size model.
-- `/out_sub_ex_full/`: example of subtracting a station, with the full-size model. 
-- `/out_test_glx/`: output from a test recreating the Green Line Extension project using the simulation.
+- `/examples/`: directory of examples of various outputs from different ways to use the simulation.
+- - `/out_add_ex/`: example of adding a station.
+- - `/out_sub_ex/`: example of subtracting a station. 
+- - `/out_i_ex/`: example of using the interactive mode to make multiple modifications.
+- - `/out_add_ex_full/`: example of adding a station, with the full-size model.
+- - `/out_sub_ex_full/`: example of subtracting a station, with the full-size model. 
+- - `/out_test_glx/`: output from a test recreating the Green Line Extension project using the simulation.
 - `/model_bin/`: folder containing compressed models used in the model training process.
 
 ## How was `MBTA Subway Sim` made?
