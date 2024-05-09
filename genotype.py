@@ -37,8 +37,8 @@ times = [
 
 df_rail_ridership = pd.read_csv('MBTA_Rail_Ridership_by_Time_Period.csv')
 df_rail_stops = pd.read_csv('MBTA_Rail_Stops.csv')
-df_bus_ridership = pd.read_csv('MBTA_Bus_Ridership_by_Time_Period.csv')
-df_bus_stops = pd.read_csv('stops-20190808-modified.csv')
+#df_bus_ridership = pd.read_csv('MBTA_Bus_Ridership_by_Time_Period.csv')
+#df_bus_stops = pd.read_csv('stops-20190808-modified.csv')
 rail_map = json.load(open('map.json'))
 
 class Ride:
