@@ -78,7 +78,7 @@ Most stops are on the line expected of them, e.g., Forest Hills is on orange, Wo
 `MBTA Subway Sim` was created by Max Mitchell for his Master's project at Tufts University across the 2023-2024 school year. It has two parts; the model, and the simulation. The model is a genetic model representing a full set a rides on a given day, inferring routes based on historical ridership traffic data available on the MBTA's open data portal. the simulation expands on this model, taking as an input a change to the subway structure, and simulating the impact on ridership for current riders. 
 
 ## Future Work
-`MBTA Subway Sim` has many exciting avenues remaining for future development and work. Please review `writeup.pdf`'s Future Work section for more details.
+`MBTA Subway Sim` has many exciting avenues remaining for future development and work. Please review `writeup.pdf`'s Future Work section for more details, and `CONTRIBUTING.md` for guidelines on adding code to this repo.
 
 ## Acknowledgments
 I'd like to express my gratitude to a number of people who helped me on this project. To Richard Townsend, my advisor, who provided lots of support, encouragement, and feedback from the beginning through the end. To Liping Liu and Shan Jiang, for providing advice in a field which was new to me. To my brother, who reviewed my design document and pushed me to try something new. And finally, to all my friends and family, for everything.
